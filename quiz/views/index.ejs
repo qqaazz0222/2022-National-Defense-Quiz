@@ -2,90 +2,11 @@
 <html>
   <% include ./head.ejs %>
   <body>
-    <div class="page" style="background-color: #3A7959;">
-      <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <div class="row" style="margin-top: 25vh;">
-            <div class="col">
-              <div class="card" style="height: 50vh; margin-bottom: 16px;">
-                <h3 class="card-title">Notice</h3><br>
-                <div class="notice important">
-                  <span>중요 공지입니다.</span>
-                  <span style="vertical-align: middle; float: right;">
-                    <span class="material-icons-round" style="vertical-align: middle;">visibility</span> 1000&nbsp;&nbsp;
-                    <span class="material-icons-round" style="vertical-align: middle;">calendar_today</span> 2022-07-28
-                  </span>
-                </div>
-                <% for(var i = 0; i < 5; i++ ) {%>
-                <div class="notice">
-                  <span>공지입니다.</span>
-                  <span style="vertical-align: middle; float: right;">
-                    <span class="material-icons-round" style="vertical-align: middle;">visibility</span> 1000&nbsp;&nbsp;
-                    <span class="material-icons-round" style="vertical-align: middle;">calendar_today</span> 2022-07-28
-                  </span>
-                </div>
-                <% } %>
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="card" style="height: 50vh; margin-bottom: 16px;">
-                <h3 class="card-title">Login</h3><br>
-                <p class="card-subtitle" style="text-align: start;">아이디</p>
-                <input class="card-input-text" type="text" placeholder="아이디를 입력하세요."><br>
-                <p class="card-subtitle" style="text-align: start;">비밀번호</p>
-                <input class="card-input-text" type="text" placeholder="비밀번호를 입력하세요."><br>
-                <button class="card-btn-signin">로그인</button><br>
-                <p class="card-subtitle" style="text-align: start;">아이디가 없으신가요? <span ></span></p>
-                <button class="card-btn-signin">회원가입하기</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-2"></div>
-      </div>
-    </div>
-    <div class="page" style="background-color: #EBC044;"></div>
-    <div class="main">
-      <% include ./nav.ejs %>
-      <div class="row" style="margin-top: 64px; margin-bottom: 64px;">
-        <div class="col-3">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">오늘의 퀴즈</h2>
-              <h6 class="card-subtitle">오늘의 퀴즈를<br>풀어보세요!</h6>
-
-            </div>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">경쟁전</h2>
-              <h6 class="card-subtitle">경쟁전에 참가하여<br>부대 랭킹을 올려보세요!</h6>
-            </div>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">부대 랭킹</h2>
-              <h6 class="card-subtitle">본인이 속한 부대 랭킹을<br>확인해 보세요!</h6>
-            </div>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">마이페이지</h2>
-              <h6 class="card-subtitle">본인의 전적 등 다양한<br>정보를 확인해 보세요!</h6>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <h1>test</h1>
-      </div>
-    </div>
+    <% if(signinStatus) { %>
+      <% include ./home.ejs %>
+    <% } else { %>
+      <% include ./welcome.ejs %>
+    <% } %>
   </body>
+  <script src="/javascripts/scroll.js"></script>
 </html>

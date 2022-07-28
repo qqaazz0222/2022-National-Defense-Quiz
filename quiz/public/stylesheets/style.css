@@ -1,3 +1,8 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 body {
   font-family: 'Noto Sans KR', sans-serif;
   background-color: white;
@@ -35,8 +40,22 @@ a {
 }
 
 .page {
+  margin: 0;
   height: 100vh;
   position: relative;
+}
+
+.page-content {
+  width: 100%; 
+  max-width: 960px; 
+  margin: 0 auto; 
+  padding: 128px 16px;
+}
+
+.page .page-content .row .col .card {
+  padding: 16px;
+  margin-bottom: 64px; 
+  height: 256px;
 }
 
 .main {
@@ -49,6 +68,16 @@ a {
   margin: 0;
   color: #307672;
   font-family: 'Jua', sans-serif;
+}
+
+.logo-welcome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  color: white;
 }
 
 .card {
@@ -92,9 +121,9 @@ a {
   border-bottom: 8px solid black; 
 }
 
-.card-btn-signin {
+.card-btn-c1 {
   padding: 8px 16px;
-  margin: 0 4px;
+  margin: 8px 0;
   color: white;
   background-color: #307672;
   border: 2px solid black; 
@@ -102,8 +131,30 @@ a {
   border-radius: 16px;
 }
 
-.card-btn-signin:active {
-  margin-top: 2px;
+.card-btn-c2 {
+  padding: 8px 16px;
+  margin: 8px 0;
+  color: black;
+  background-color: white;
+  border: 2px solid black; 
+  border-bottom: 4px solid black; 
+  border-radius: 16px;
+  text-align: center;
+}
+
+.card-btn-signin {
+  padding: 8px 16px;
+  margin: 8px 0;
+  color: white;
+  background-color: #307672;
+  border: 2px solid black; 
+  border-bottom: 4px solid black; 
+  border-radius: 16px;
+}
+
+.card-btn-c1:active, .card-btn-c2:active, .card-btn-signin:active {
+  margin-top: 10px;
+  margin-bottom: 8px;
   border-bottom: 2px solid black; 
 }
 
@@ -121,4 +172,39 @@ a {
   color: white;
   background-color: #CD4935;
   border-bottom: 5px solid black; 
+}
+
+.scroll-downs {
+  position: absolute;
+  top: 80%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  width :34px;
+  height: 55px;
+}
+.mousey {
+  width: 3px;
+  padding: 10px 15px;
+  height: 35px;
+  border: 2px solid #fff;
+  border-radius: 25px;
+  opacity: 0.75;
+  box-sizing: content-box;
+}
+.scroller {
+  width: 3px;
+  height: 10px;
+  border-radius: 25%;
+  background-color: #fff;
+  animation-name: scroll;
+  animation-duration: 2.2s;
+  animation-timing-function: cubic-bezier(.15,.41,.69,.94);
+  animation-iteration-count: infinite;
+}
+@keyframes scroll {
+  0% { opacity: 0; }
+  10% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(15px); opacity: 0;}
 }
