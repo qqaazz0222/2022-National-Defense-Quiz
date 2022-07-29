@@ -2,6 +2,7 @@
 <html>
   <% include ./head.ejs %>
   <body style="background-color: #3A7959;">
+    <% include ./dev.ejs %>
     <div class="page" style="height: auto;">
       <div class="row">
         <div class="col"></div>
@@ -10,7 +11,12 @@
             <div class="col">
               <form action="signup" method="post">
                 <div class="card" style="margin-bottom: 16px;">
-                  <h3 class="card-title">SignUp</h3><br>
+                  <h3 class="card-title">SignUp</h3>
+                  <% if(uidErrStatus) { %>
+                  <div class="alert alert-danger" role="alert">
+                    <%= uidErrMsg %>
+                  </div>
+                  <% } %>
                   <p class="card-subtitle" style="text-align: start;">아이디</p>
                   <input class="card-input-text" type="text" name="uid" placeholder="아이디를 입력하세요."><br>
                   <p class="card-subtitle" style="text-align: start;">비밀번호</p>
