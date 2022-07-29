@@ -5,11 +5,7 @@
 
 body {
   font-family: 'Noto Sans KR', sans-serif;
-  background-color: white;
-}
-
-a {
-  color: #00B7FF;
+  background-color: #3A7959;
 }
 
 .navbar {
@@ -40,14 +36,15 @@ a {
 }
 
 .page {
+  background-color: #3A7959;
   margin: 0;
   height: 100vh;
   position: relative;
 }
 
 .page-content {
-  width: 100%; 
-  max-width: 960px; 
+  width: 1280px; 
+  max-width: 1280px; 
   margin: 0 auto; 
   padding: 128px 16px;
 }
@@ -81,6 +78,8 @@ a {
 }
 
 .card {
+  text-decoration: none;
+  margin-top: 16px;
   padding: 32px;
   text-align: center; 
   border: 2px solid black; 
@@ -89,16 +88,21 @@ a {
 }
 
 .card-body {
-  margin: 48px auto;
+  margin: auto auto;
   vertical-align: middle;
 }
 
 .card-title {
-  margin-bottom: 16px;
   color: #fff;
   font-family: 'yg-jalnan', normal;
   -webkit-text-stroke: 2px black;
   text-shadow : 0 3px 0 black;
+}
+
+.card-title strong {
+  padding: 4px;
+  margin: 4px;
+  background-color: #CD4935;
 }
 
 .card-subtitle {
@@ -145,7 +149,7 @@ a {
 
 .card-btn-c1 {
   padding: 8px 16px;
-  margin: 8px 0;
+  margin-top: 8px;
   color: white;
   background-color: #307672;
   border: 2px solid black; 
@@ -155,7 +159,7 @@ a {
 
 .card-btn-c2 {
   padding: 8px 16px;
-  margin: 8px 0;
+  margin-top: 8px;
   color: black;
   background-color: white;
   border: 2px solid black; 
@@ -166,7 +170,7 @@ a {
 
 .card-btn-signin {
   padding: 8px 16px;
-  margin: 8px 0;
+  margin-top: 8px;
   color: white;
   background-color: #307672;
   border: 2px solid black; 
@@ -176,8 +180,63 @@ a {
 
 .card-btn-c1:active, .card-btn-c2:active, .card-btn-signin:active {
   margin-top: 10px;
-  margin-bottom: 8px;
   border-bottom: 2px solid black; 
+}
+
+.cart-q {
+  padding: 16px;
+}
+
+.card-a {
+  padding: 16px;
+  text-align: start;
+}
+
+.popup-1 {
+  height: 250px;
+  margin-top: 16px;
+  border: 2px solid black; 
+  border-bottom: 4px solid black; 
+  border-radius: 16px;
+}
+
+.popup-1:hover {
+  margin-top: 8px;
+  border: 2px solid black; 
+  border-bottom: 12px solid black; 
+}
+
+.popup-2 {
+  margin-top: 12px;
+  border: 2px solid black; 
+  border-bottom: 8px solid black; 
+  border-radius: 16px;
+}
+
+.popup-2:hover {
+  background-color: #F3D8DA;
+  margin-top: 8px;
+  border-bottom: 12px solid black; 
+  font-weight: bold;
+}
+
+.popup-2:active {
+  background-color: #F3D8DA;
+  font-weight: bold;
+  margin-top: 16px;
+  border: 2px solid black; 
+  border-bottom: 4px solid black; 
+}
+
+.answer {
+  display: none;
+}
+.answer:checked + label {
+  background-color: #F3D8DA;
+  font-weight: bold;
+  margin-top: 16px;
+  border: 2px solid black; 
+  border-bottom: 4px solid black; 
 }
 
 .alert {
@@ -249,4 +308,62 @@ a {
   0% { opacity: 0; }
   10% { transform: translateY(0); opacity: 1; }
   100% { transform: translateY(15px); opacity: 0;}
+}
+
+.txt-color-white {
+  color: white;
+}
+.txt-color-black {
+  color: black;
+}
+.txt-color-red {
+  color: #CD4935;
+}
+.txt-color-yellow {
+  color: #EBC044;
+}
+.txt-color-green {
+  color: #3A7959;
+}
+.txt-color-sky {
+  color: #4690BF;
+}
+.txt-color-blue {
+  color: #3C4997;
+}
+
+.bg-color-white {
+  color: black;
+  background-color: white;
+}
+.bg-color-black {
+  color: white;
+  background-color: black;
+}
+.bg-color-red {
+  background-color: #CD4935;
+}
+.bg-color-yellow {
+  background-color: #EBC044;
+}
+.bg-color-green {
+  background-color: #3A7959;
+}
+.bg-color-sky {
+  background-color: #4690BF;
+}
+.bg-color-blue {
+  background-color: #3C4997;
+}
+.margin-bottom-8 {
+  margin-bottom: 8px;
+}
+.margin-bottom-16 {
+  margin-bottom: 16px;
+}
+.margin-bottom-24 {
+  margin-bottom: 24px;
+}
+.margin-bottom-48 {
+  margin-bottom: 48px;
 }

@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
 <% include ./head.ejs %>
-  <body style="background-color: #3A7959;">
+  <body class="bg-color-red">
     <% include ./dev.ejs %>
-    <div class="page" style="height: auto;">
+    <div class="page bg-color-red" style="height: auto;">
       <div class="page-content">
         <div class="row">
           <div class="col">
             <div class="card" style="width: 400px; height: auto; margin: auto; margin-bottom: 16px;">
-              <h3 class="card-title">Success!</h3><br>
+              <h3 class="card-title">+X건빵</h3><br>
               <h5 class="card-subtitle">
-                <%= uname %>님, 회원가입을 축하합니다.
+                총 X문제를 맞췄습니다.
               </h5><br>
-              <h6 class="card-subtitle">가입하신 아이디 : <span style="color: #CD4935;">
-                <%= uid %>
               </span></h6><br>
               <button class="card-btn-c2" type="button" onclick="location.href='signin'">로그인하기</button>
               <button class="card-btn-c1" type="button" onclick="location.href='/'">홈으로</button>

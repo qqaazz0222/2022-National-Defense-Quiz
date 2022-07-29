@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <% include ./head.ejs %>
+  <body class="bg-color-red">
+    <div class="page bg-color-red">
+      <div class="page-content">
+        <form action="<% if(quizStates.qid == 5) {'/complete'} else {quizStates.qid} %>" method="post">
+          <div class="col">
+            <div class="row">
+              <div class="card card-q">
+                <h1 class="card-title"><%= quizStates.qid %>. 가나다라마<strong>바사아자</strong>차카타파하</h1>
+              </div>
+            </div>
+            <div class="row">
+              <input type="radio" name="quiz" id="answer<%= quizStates.qid %>-1" class="answer" value="1">
+              <label for="answer<%= quizStates.qid %>-1" class="card card-a popup-2">
+                1. This is some text within a card body.
+              </label>
+            </div>
+            <div class="row">
+              <input type="radio" name="quiz" id="answer<%= quizStates.qid %>-2" class="answer" value="2">
+              <label for="answer<%= quizStates.qid %>-2" class="card card-a popup-2">
+                2. This is some text within a card body.
+              </label>
+            </div>
+            <div class="row">
+              <input type="radio" name="quiz" id="answer<%= quizStates.qid %>-3" class="answer" value="3">
+              <label for="answer<%= quizStates.qid %>-3" class="card card-a popup-2">
+                3. This is some text within a card body.
+              </label>
+            </div>
+            <div class="row">
+              <input type="radio" name="quiz" id="answer<%= quizStates.qid %>-4" class="answer" value="4">
+              <label for="answer<%= quizStates.qid %>-4" class="card card-a popup-2">
+                4. This is some text within a card body.
+              </label>
+            </div>
+            <div class="row">
+              <div class="col">
+                <% if(quizStates.qid != 1) { %>
+                <button type="button" class="card-btn-c1 bg-color-black" onclick="location.href='/quiz/today/<%= quizStates.qid-1 %>'" style="float: right;">
+                  이전 문제
+                </button>
+                <% } %>
+              </div>
+              <div class="col">
+                <% if(quizStates.qid != 5) { %>
+                <button type="submit" class="card-btn-c1 bg-color-black" style="float: left;">
+                  다음 문제
+                </button>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <% if(quizStates.qid == 5) { %>
+          <button type="submit" class="card-btn-c1 bg-color-black" style="float: right;">
+            제출
+          </button>
+          <% } %>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script>
+  </script>
+  <script src="/javascripts/scroll.js"></script>
+</html>

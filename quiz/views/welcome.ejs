@@ -3,7 +3,7 @@
   <%- include ./head %>
   <body style="background-color: #3A7959;">
     <%- include ./dev %>
-    <div class="page" style="background-color: #3A7959;">
+    <div class="page">
       <div class="page" style="height: 100%; background-image: url('/images/main.jpg'); background-size: cover; filter: brightness(40%); opacity: 0.8;">
       </div>
       <div class="scroll-downs">
@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <div class="page" style="background-color: #3A7959; height: auto;">
+    <div class="page" style="height: auto;">
       <div class="page-content">
         <div class="row">
           <div class="col">
@@ -60,12 +60,9 @@
         </div>
       </div>
     </div>
-    <%- include("./signin_comp",{
-      uidState: true,
-      upwState: true,
-      valueState: true
-      }); %>
-    <div class="page" style="background-color: yellow; height: 100vh;"></div>
+    <div class="page">
+      <h1 style="color: white;">로그인 넣을 자리</h1>
+    </div>
   </body>
   <script src="/javascripts/scroll.js"></script>
 </html>

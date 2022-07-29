@@ -37,7 +37,7 @@ router.post('/', function(req, res, next) {
               { uid: uid, upw: upw, uname: uname, uunitcode: uunitcode, title: '회원가입 성공', signinState: false }
             );
           }
-        } catch { // Mysql 에러처리
+        } catch (err1) { // Mysql 에러처리
           throw err1;
         }
       }
