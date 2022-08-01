@@ -12,6 +12,16 @@ var rankRouter = require('./routes/rank');
 var mypageRouter = require('./routes/mypage');
 
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+    socket.emit('usercount', io.engine.clientsCount);
+    socket.on('message', (msg) => {
+        console.log('Message received: ' + msg);
+        io.emit('message', msg);
+    });
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
