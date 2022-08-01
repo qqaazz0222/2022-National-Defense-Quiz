@@ -10,7 +10,7 @@ router.get('/today', function(req, res, next) {
   var date = year + "-" + month + "-" + day;
   if(req.session.uid) {
     connection.query(
-      "SELECT date FROM resqt WHERE uid = ? AND date = ?;",
+      "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
       [ req.session.uid, date ],
       (err1, res1, fld1) => {
         try {
@@ -67,8 +67,8 @@ router.get('/today-complete', function(req, res, next) {
   var aid = req.session.aid;
   if(req.session.uid) {
     connection.query(
-      "INSERT INTO resqt VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
-      [ uid, date, qid[0], aid[0], qid[1], aid[1], qid[2], aid[2], qid[3], aid[3], qid[4], aid[4] ],
+      "INSERT INTO res_quiz_today VALUES (null, ?, ?, 0);",
+      [ uid, date ],
       (err1, res1, fld1) => {
         try {
           res.render('quiz-today-complete', { title: '오늘의 퀴즈 완료', signinState: true });

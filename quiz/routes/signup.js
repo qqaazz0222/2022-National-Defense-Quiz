@@ -15,7 +15,7 @@ router.post('/', function(req, res, next) {
     );
   } else {
     connection.query(
-      "INSERT INTO users(uid, upw, uname, uunitcode) VALUES (?, ?, ?, ?);",
+      "INSERT INTO users(uid, upw, uname, uunitcode, ) VALUES (?, ?, ?, ?);",
       [ uid, upw, uname, uunitcode ],
       (err1, res1, fld1) => {
         try {

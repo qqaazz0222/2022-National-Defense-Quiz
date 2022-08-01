@@ -35,7 +35,7 @@ router.get('/', function (req, res, next) {
   var date = year + "-" + month + "-" + day;
   if(req.session.uid) {
     connection.query(
-      "SELECT date FROM resqt WHERE uid = ? AND date = ?;",
+      "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
       [ req.session.uid, date ],
       (err1, res1, fld1) => {
         try {
