@@ -1,0 +1,62 @@
+:root {
+    --red: #CD4935;
+    --yellow: #EBC044;
+    --green: #3A7959; 
+    --blue: #3C4997;
+    --sky: #4690BF;
+  }  
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #eee;
+}
+
+.navbar {
+    height: 100px;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+}
+
+.title {
+    color: var(--green);
+    font-size: 200px;
+    font-weight: bolder;
+    font-family: SANGJUGyeongcheonIsland;
+}
+
+.grid-bg {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+}
+
+.grid-bg::before {
+    z-index: -100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    content: " ";
+    background-image: url("../images/grid-bg.png");
+    background-size: 60px 60px, 60px 60px;
+    background-position: -2px -2px, -2px -2px;
+    animation: gridWipe 2.5s ease-in;
+}
+
+.shadow {
+    filter: drop-shadow(16px 16px 0px #000);
+}
+.txt-shadow {
+    text-shadow: 8px 8px 0px #000;
+}
+
+
+::-webkit-scrollbar {
+    width: 0;
+}
