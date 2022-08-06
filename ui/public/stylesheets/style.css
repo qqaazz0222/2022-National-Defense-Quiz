@@ -6,22 +6,43 @@
     --sky: #4690BF;
   }  
 
-body {
-    padding: 0;
-    margin: 0;
-    background-color: #eee;
+::-webkit-scrollbar {
+    width: 0;
 }
 
+
 .navbar {
-    height: 100px;
+    display: flex;
+    column-span: all;
+}
+.navbar .logo {
+    float: left;
+}
+.navbar .logo p{
+    float: left;
+}
+.navbar .services {
+    width: auto;
+    align-items: flex-start;
+}
+.navbar .services p{
+    float: left;
+}
+.navbar .user {
+    display: flex;
+    float: right;
+}
+.navbar .user p{
+    float: right;
 }
 
 .page {
-    width: 100vw;
+    column-span: all;
     height: 100vh;
 }
 
 .title {
+    text-align: center;
     color: var(--green);
     font-size: 200px;
     font-weight: bolder;
@@ -52,11 +73,17 @@ body {
 .shadow {
     filter: drop-shadow(16px 16px 0px #000);
 }
+
 .txt-shadow {
     text-shadow: 8px 8px 0px #000;
 }
 
-
-::-webkit-scrollbar {
-    width: 0;
+/* 데스크톱 스타일 */
+body {
+    width: 100%;
+    max-width: 1280px;
+    padding: 0;
+    margin: 0 auto;
+    background-color: #eee;
 }
+
