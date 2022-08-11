@@ -10,7 +10,6 @@
     width: 0;
 }
 
-
 .navbar {
     display: flex;
     column-span: all;
@@ -87,3 +86,14 @@ body {
     background-color: #eee;
 }
 
+@media (max-width:992px) { /* 태블릿 스타일 */
+    body {
+        padding: 20px;
+    }
+}
+
+@media (max-width:768px) { /* 모바일 스타일 */
+    body {
+        padding: 0 20px;
+    }
+}
