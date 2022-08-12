@@ -4,9 +4,11 @@ var connection = require('../db/db');
 var session = require("express-session");
 var MySQLStore = require("express-mysql-session")(session);
 var { upload } = require('./multer');
+var pool = require('../db/db')
+
 var options = {
-  host: "localhost",
-  port: 3306,
+  host     : '15.165.221.104',
+  port     : '54573',
   user: "root",
   password: "11111111",
   database: "quiz",
@@ -57,9 +59,15 @@ router.get('/', function (req, res, next) {
   
 });
 
-router.get('/test', function (req, res, next) {
-  res.render('test', { title: '테스트' });
-});
+router.get('/test22', async (req, res) => {
+
+  const a = await pool.query("select * from quiz.users")
+
+  console.log("ㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗ", a);
+  
+  res.render('test', { title: a[0]});
+  }
+);
 
 router.post("/test", upload.single("img"), async (req, res) => {
   const imgfile = req.file;
