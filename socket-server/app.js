@@ -49,6 +49,21 @@ io.on('connection', function(socket) {
     // io.to(id).emit('chat', data);
   });
 
+  // 클라이언트로부터의 버튼클릭이 수신되면
+  socket.on('quiz', function(data) {
+
+    var answer = {
+      from: {
+        name: socket.name,
+        userid: socket.userid
+      },
+      answer: data.answer
+    };
+
+    // 접속된 모든 클라이언트에게 메시지를 전송한다
+    io.emit('quiz', answer);
+  });
+
   // force client disconnect from server
   socket.on('forceDisconnect', function() {
     socket.disconnect();
