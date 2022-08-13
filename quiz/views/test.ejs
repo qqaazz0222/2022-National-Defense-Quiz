@@ -1,11 +1,68 @@
-<!DOCTYPE html>
 <html>
-<% include ./head.ejs %>
-  <body>
-    <form action="test" method="post" enctype="multipart/form-data">
-      <input type="file" name="img" />
-      <input type="submit">
+
+<head>
+    <% include ./head.ejs %>
+    <link rel='stylesheet' href='/stylesheets/test.css' />
+</head>
+<body>
+    <% include ./dev.ejs %>
+    <div class="page-header">
+        <h3>경쟁전입니다.</h3>
+    </div>
+    <div class="page-body">
+        <div class="room-info">
+            <h1>테스트 게임방</h1>
+        </div>
+        <div class="timer">
+            남은 시간 : 0 초
+        </div>
+        <div class="notice">
+            공지사항입니다.
+        </div>
+        <div class="quiz">
+            <h1>퀴즈 1 : 1 + 1 = ?</h1>
+        </div>
+        <div class="answer">
+            <form action="">
+                <input class="user-answer" type="button" value="1">
+                <input class="user-answer" type="button" value="2">
+                <input class="user-answer" type="button" value="3">
+                <input class="user-answer" type="button" value="4">
+            </form>
+        </div>
+        <div class="chat">
+            <div id="chatLogs"></div>
+        </div>
+    </div>
+    <form class="chat-form">
+        <div class="form-group">
+            <label for="msgForm">Message: </label>
+            <input type="text" class="form-control" id="msgForm">
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
     </form>
-  </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        $(() => {
+            const name = "테스트계정"
+
+            const socket = io();
+
+            $('.chat.form').submit(() => {
+                let msg = { name: name, messege: $('#msgFrom').val() }
+                socket.emit('chat-msg', msg);
+                $('#m').val('');
+                return false;
+            });
+
+            socket.on('chat-msg', (msg) => {
+                $('#chat').append($('<div>').text(msg.name + '  :  ' +
+                    msg.messege));
+            });
+
+        });
+    </script>
+</body>
 
 </html>

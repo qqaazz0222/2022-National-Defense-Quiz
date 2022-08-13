@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+app.io = require('socket.io')();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -21,6 +22,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.io.on('connection',(socket) => {
+  console.log('유저가 들어왔다');
+
+  socket.on('disconnect', () => {
+      console.log('유저 나갔다');
+  });
+
+  socket.on('chat-msg', (msg) => {
+    app.io.emit('chat-msg', msg);
+  });
+
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

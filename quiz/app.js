@@ -13,14 +13,20 @@ var mypageRouter = require('./routes/mypage');
 
 var app = express();
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
 
-io.on('connection', (socket) => {
-    socket.emit('usercount', io.engine.clientsCount);
-    socket.on('message', (msg) => {
-        console.log('Message received: ' + msg);
-        io.emit('message', msg);
-    });
+app.io = require('socket.io')();
+
+app.io.on('connection',(socket) => {
+  console.log('유저가 들어왔다');
+
+  socket.on('disconnect', () => {
+      console.log('유저 나갔다');
+  });
+
+  socket.on('chat-msg', (msg) => {
+    app.io.emit('chat-msg', msg);
+  });
+
 });
 
 // view engine setup

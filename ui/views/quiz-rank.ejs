@@ -1,0 +1,72 @@
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+  
+    #messages li {
+      padding: 5px 10px;
+    }
+
+    form {
+      padding: 3px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    form input {
+      border: 1px solid black;
+      padding: 10px;
+      width: 90%;
+      margin-right: .5%;
+    }
+
+    form button {
+      width: 9%;
+      background: skyblue;
+      color: white;
+      border: none;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+<ul id="messages"></ul>
+<form action="">
+    <input id="m" autocomplete="off"/>
+    <button>보내기</button>
+</form>
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  $(() => {
+    const name = prompt('이름을 입력해주세요');
+
+    const socket = io();
+
+    $('form').submit(() => {
+      let msg = {name: name, messege:$('#m').val()} 
+      socket.emit('chat-msg', msg);
+      $('#m').val('');
+      return false;
+    });
+
+    socket.on('chat-msg', (msg) => {
+      $('#messages').append($('<li>').text(msg.name + '  :  ' +
+        msg.messege));
+    });
+
+  });
+</script>
+</body>
+</html>
