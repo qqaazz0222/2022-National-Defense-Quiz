@@ -12,7 +12,6 @@ var rankRouter = require('./routes/rank');
 var mypageRouter = require('./routes/mypage');
 
 var app = express();
-var server = require('http').createServer(app);
 
 app.io = require('socket.io')();
 
@@ -23,8 +22,13 @@ app.io.on('connection',(socket) => {
       console.log('유저 나갔다');
   });
 
-  socket.on('chat-msg', (msg) => {
-    app.io.emit('chat-msg', msg);
+  socket.on('chat', (msg) => {
+    app.io.emit('chat', msg);
+  });
+
+  socket.on('quiz', (ans) => {
+    app.io.emit('quiz', ans);
+    console.log(ans);
   });
 
 });

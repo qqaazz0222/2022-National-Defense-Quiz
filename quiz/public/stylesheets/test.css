@@ -1,0 +1,46 @@
+* {
+    font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+}
+
+body {
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div {
+    border: 1px solid red;
+    padding: 20px;
+}
+
+.page-header {
+    width: 100%;
+    max-width: 768px;
+}
+
+.page-body {
+    width: 100%;
+    max-width: 768px;
+}
+
+.chat-form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.form-group > label {
+    flex: 1;
+}
+
+.form-group > input {
+    flex: 6;
+}

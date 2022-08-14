@@ -23,42 +23,94 @@
             <h1>퀴즈 1 : 1 + 1 = ?</h1>
         </div>
         <div class="answer">
-            <form action="">
-                <input class="user-answer" type="button" value="1">
-                <input class="user-answer" type="button" value="2">
-                <input class="user-answer" type="button" value="3">
-                <input class="user-answer" type="button" value="4">
+            <form class="quiz-form-1">
+                <input type="submit" value="1">
+            </form>
+            <form class="quiz-form-2">
+                <input type="submit" value="2">   
+            </form>
+            <form class="quiz-form-3">
+                <input type="submit" value="3">
+            </form>
+            <form class="quiz-form-4">
+                <input type="submit" value="4">
             </form>
         </div>
         <div class="chat">
-            <div id="chatLogs"></div>
+            <ul id="chatLogs"></ul>
+            <form class="chat-form">
+                <div class="form-group">
+                    <label for="msgForm">Message: </label>
+                    <input type="text" id="m">
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
         </div>
     </div>
-    <form class="chat-form">
-        <div class="form-group">
-            <label for="msgForm">Message: </label>
-            <input type="text" class="form-control" id="msgForm">
-        </div>
-        <button type="submit" class="btn btn-primary">Send</button>
-    </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         $(() => {
-            const name = "테스트계정"
+            const name = "테스트계정";
+            const dap = 2;
 
             const socket = io();
 
-            $('.chat.form').submit(() => {
-                let msg = { name: name, messege: $('#msgFrom').val() }
-                socket.emit('chat-msg', msg);
+            $('.ans-1').click(() => {
+                $('.user-ans').val(1);
+            })
+
+            $('.chat-form').submit(() => {
+                let msg = { name: name, messege: $('#m').val() }
+                socket.emit('chat', msg);
                 $('#m').val('');
                 return false;
             });
 
-            socket.on('chat-msg', (msg) => {
-                $('#chat').append($('<div>').text(msg.name + '  :  ' +
+            socket.on('chat', (msg) => {
+                $('#chatLogs').append($('<li>').text(msg.name + '  :  ' +
                     msg.messege));
+            });
+
+            $('.quiz-form-1').submit(() => {
+                if(dap == 1) {
+                    let ans = { name: name, answer: "정답!" }
+                } else {
+                    let ans = { name: name, answer: "1" }
+                }
+                socket.emit('quiz', ans);
+                return false;
+            });
+            $('.quiz-form-2').submit(() => {
+                if(dap == 2) {
+                    let ans = { name: name, answer: "정답!" }
+                } else {
+                    let ans = { name: name, answer: "2" }
+                }
+                socket.emit('quiz', ans);
+                return false;
+            });
+            $('.quiz-form-3').submit(() => {
+                if(dap == 3) {
+                    let ans = { name: name, answer: "정답!" }
+                } else {
+                    let ans = { name: name, answer: "3" }
+                }
+                socket.emit('quiz', ans);
+                return false;
+            });
+            $('.quiz-form-4').submit(() => {
+                if(dap == 4) {
+                    let ans = { name: name, answer: "정답!" }
+                } else {
+                    let ans = { name: name, answer: "4" }
+                }
+                socket.emit('quiz', ans);
+                return false;
+            });
+
+            socket.on('quiz', (ans) => {
+                $('.notice').text(ans.name + "님이 " + ans.answer + "번을 눌렀습니다.");
             });
 
         });
