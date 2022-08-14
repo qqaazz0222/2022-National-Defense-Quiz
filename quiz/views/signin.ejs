@@ -1,39 +1,23 @@
 <!DOCTYPE html>
 <html>
   <% include ./head.ejs %>
-  <body style="background-color: #3A7959;" class="modal-open">
+  <body>
     <% include ./dev.ejs %>
-    <div class="page" style="height: auto;">
-      <div class="page-content">
-        <div class="row">
-          <div class="col">
-            <%- include('comp-notice')%>
-          </div>
-          <div class="col-4">
-            <form action="signin" method="post">
-              <div class="card" style="height: 460px; margin-bottom: 16px;">
-                <h3 class="card-title">Login</h3><br>
-                <p class="card-subtitle" style="text-align: start;">아이디</p>
-                <% if(!signinStates.uidState) { %>
-                  <input class="card-input-text-err" name="uid" type="text" placeholder="<%= signinStates.returnUid %>"><br>
-                <% } else { %>
-                  <input class="card-input-text" name="uid" type="text" placeholder="<%= signinStates.returnUid %>"><br>
-                <% } %>
-                <p class="card-subtitle" style="text-align: start;">비밀번호</p>
-                <% if(!signinStates.upwState) { %>
-                  <input class="card-input-text-err" name="upw" type="password" placeholder="<%= signinStates.returnUpw %>"><br>
-                <% } else { %>
-                  <input class="card-input-text" name="upw" type="password" placeholder="<%= signinStates.returnUid %>"><br>
-                <% } %>
-                <input class="card-btn-signin" type="submit" value="로그인">
-                <p class="card-subtitle" style="text-align: start;">아이디가 없으신가요? <span ></span></p>
-                <button class="card-btn-signin" type="button" onclick="location.href='signup'">회원가입하기</button>
-              </div>
-            </form>
-          </div>
+    <a class="goHome" href="/">
+        <span></span>
+        <span></span>
+    </a>
+    <div class="page login">
+        <div class="logo">국방퀴즈</div>
+        <div class="title">
+            로그인
         </div>
-      </div>
+        <form class="input" action="signin" method="post">
+            <input class="data" name="uid" type="text" placeholder="아이디를 입력해주세요.">
+            <input class="data" name="upw" type="password" placeholder="비밀번호를 입력해주세요.">
+            <input class="func btn btn-blue" type="submit" value="로그인">
+        </form>
+        <p>아직 아이디가 없으신가요? <a href="signup">회원가입</a></p>
     </div>
   </body>
-  <script src="/javascripts/scroll.js"></script>
 </html>

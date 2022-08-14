@@ -35,9 +35,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: var(--semi-black);
+    color: var(--white);
 }
 
-/* NAV.ejs CSS */
+/* nav.ejs css */
 .navbar {
     display: flex;
     position: fixed;
@@ -52,47 +54,65 @@ body {
     color: white;
     transition: background-color .3s;
 }
-
 .navbar-bg {
     background-color: rgba( 21, 21, 22, 0.5 );
     border-bottom: 1px solid var(--gray);
 }
-
 .navbar > .logo {
     margin-left: 20px;
+    color: var(--white);
     font-size: 24px;
     font-family: 'establishRetrosansOTF';
 }
-
+.navbar > .logo:hover {
+    color: var(--gray-light);
+}
 .navbar > .menu {
     display: flex;
     flex-direction: row;
 }
-
 .navbar > .menu > .tab {
+    position: relative;
     padding: 8px 12px;
+    text-align: center;
     font-size: 14px;
 }
-
+.navbar > .menu > .tab > span {
+    width: 0px;
+    transition: width .3s;
+}
+.navbar > .menu > .tab:hover > span {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 2px;
+    background-color: var(--white);
+    border-radius: 1px;
+    transition: width .3s;
+}
 .navbar > .user-menu {
     margin-right: 20px;
     font-size: 14px;
 }
 
+/* 구분자 css */
 .page {
     height: 100vh;
 }
 
+/* welcome.ejs css */
 .welcome {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 80vh;
+    height: 100vh;
     max-width: 960px;
 }
-
 .welcome > .title {
     margin-bottom: 24px;
     color: var(--white);
@@ -101,7 +121,6 @@ body {
     text-align: center;
     line-height: 120%;
 }
-
 .welcome > .subTitle {
     margin-bottom: 36px;
     color: var(--gray-semi-light);
@@ -111,6 +130,7 @@ body {
     line-height: 160%;
 }
 
+/* welcome.ejs 소개 css */
 .intro {
     display: flex;
     justify-content: center;
@@ -119,7 +139,6 @@ body {
     max-width: 960px;
     height: 30vh;
 }
-
 .intro > .content {
     display: flex;
     position: relative;
@@ -133,7 +152,6 @@ body {
     border-radius: 8px;
     overflow: hidden;
 }
-
 .intro > .content > img {
     position: absolute;
     top: 0;
@@ -155,6 +173,7 @@ body {
 }
 .intro > .content > .desc {
     margin: 0 20px;
+    height: 64px;
     font-size: 16px;
     color: var(--gray-semi-light);
     text-align: center;
@@ -169,17 +188,19 @@ body {
     transform: translateY(0%);
 }
 
+/* welcome.ejs 공지사항 css */
 .board {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     padding-top: 64px;
     width: 100%;
     max-width: 960px;
+    height: 90vh;
 }
 .board > .title {
-    margin-bottom: 20px;
+    margin-bottom: 48px;
     color: var(--white);
     font-size: 32px;
     font-weight: bold;
@@ -200,7 +221,7 @@ body {
     height: auto;
     background-color: var(--white);
     border-radius: 8px;
-    transition: height .3s;
+    overflow: hidden;
 }
 .post > .title {
     display: flex;
@@ -220,20 +241,129 @@ body {
     font-weight: bold;
 }
 .post > .desc {
-    padding: 24px;
-    height: auto;
+    padding: 0 24px;
+    height: 0px;
     background-color: var(--gray-light);
     border-radius: 0 0 8px 8px;
     color: var(--gray-dark);
     font-size: 16px;
+    overflow: hidden;
     transition: all .3s;
+}
+.desc.show {
+    padding: 24px;
+    height: 100px;
 }
 
-.hidden {
+.about {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    height: 70vh;
+}
+.about > .title {
+    color: var(--white);
+    font-size: 96px;
+    font-weight: bold;
+}
+.about > .subTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    color: var(--white);
+    font-size: 36px;
+    font-weight: bold;
+}
+.about > .subTitle > p {
+    position: relative;
+    margin: 8px;
+}
+.about > .subTitle > p:hover {
+    color: var(--gray-dark);
+}
+.about > .subTitle > p > span{
     display: none;
-    height: 0;
+}
+.about > .subTitle > p:hover > span{
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 4px 8px;
+    background-color: var(--white);
+    border: 1px solid var(--gray-semi-light);
+    border-radius: 8px;
+    text-align: center;
+    color: var(--black);
+    font-size: 16px;
+}
+.about > .license {
+    margin-top: 32px;
+    color: var(--gray-semi-light);
+    font-weight: 300;
+}
+.about > .license > strong {
+    color: var(--white);
+    font-weight: 500;
+}
+
+/* singin.ejs css */
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.login > .logo {
+    font-size: 24px;
+    font-family: 'establishRetrosansOTF'; 
+}
+.login > .title {
+    margin-bottom: 12px;
+    font-size: 56px;
+    font-weight: bold;
+}
+.login > .input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login > .input > .data {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    width: 200px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--gray-light);
+    color: var(--gray-light);
+    font-size: 16px;
+    outline: none;
     transition: all .3s;
 }
+.login > .input > .data:focus {
+    width: 220px;
+    background-color: rgba(255, 255, 255, .6);
+    border-bottom: 2px solid var(--white);
+    color: var(--white);
+    font-weight: bold;
+}
+.login > .input > .func {
+    width: 240px;
+    margin-right: 0;
+}
+.login > p {
+    color: var(--gray-light);
+    font-size: 14px;
+}
+.login > p > a {
+    color: var(--white);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 
 .btn {
     margin-right: 8px;
@@ -242,7 +372,6 @@ body {
     font-size: 16px;
     font-weight: bold;
 }
-
 .btn-sm {
     margin-right: 8px;
     padding: 8px;
@@ -250,27 +379,59 @@ body {
     font-size: 14px;
     font-weight: bold;
 }
-
 .btn-blue {
     background-color: var(--blue);
     border: 1px solid var(--blue-light);
     color: var(--white);
 }
-
 .btn-light-blue {
     background-color: var(--blue-white);
     border: 1px solid var(--blue-light);
     color: var(--blue);
 }
-
 .btn-light-gray {
     background-color: var(--gray-dark);
     border: 1px solid var(--gray);
     color: var(--white);
 }
-
-.btn-blue:hover, .btn-light-blue:hover {
+.btn-blue:hover, 
+.btn-light-blue:hover, 
+.btn-light-gray:hover {
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid var(--white);
     color: var(--white);
+}
+.goHome {
+    display: block;
+    position: fixed;
+    top: 64px;
+    right: 64px;
+    width: 64px;
+    height: 64px;
+}
+.goHome:hover {
+    background-color: var(--white);
+    opacity: .5;
+}
+.goHome > span:nth-child(1) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 2px;
+    background-color: var(--white);
+    transform: translate(-50%, -50%) rotate(45deg) ;
+}
+.goHome > span:nth-child(2) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 2px;
+    background-color: var(--white);
+    transform: translate(-50%, -50%) rotate(-45deg) ;
+}
+.goHome:hover > span {
+    background-color: var(--black);
+    opacity: 1;
 }
