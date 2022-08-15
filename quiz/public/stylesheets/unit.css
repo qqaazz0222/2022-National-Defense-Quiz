@@ -1,0 +1,81 @@
+
+.btn {
+    margin-right: 8px;
+    padding: 12px 24px;
+    border-radius: 29px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn-sm {
+    margin-right: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-blue {
+    background-color: var(--blue);
+    border: 1px solid var(--blue-light);
+    color: var(--white);
+}
+
+.btn-light-blue {
+    background-color: var(--blue-white);
+    border: 1px solid var(--blue-light);
+    color: var(--blue);
+}
+
+.btn-light-gray {
+    background-color: var(--gray-dark);
+    border: 1px solid var(--gray);
+    color: var(--white);
+}
+
+.btn-blue:hover,
+.btn-light-blue:hover,
+.btn-light-gray:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid var(--white);
+    color: var(--white);
+}
+
+.goHome {
+    display: block;
+    position: fixed;
+    top: 64px;
+    right: 64px;
+    width: 64px;
+    height: 64px;
+}
+
+.goHome:hover {
+    background-color: var(--white);
+    opacity: .5;
+}
+
+.goHome>span:nth-child(1) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 2px;
+    background-color: var(--white);
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.goHome>span:nth-child(2) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 2px;
+    background-color: var(--white);
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.goHome:hover>span {
+    background-color: var(--black);
+    opacity: 1;
+}
