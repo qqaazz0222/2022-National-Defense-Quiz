@@ -4,9 +4,7 @@ const path = require("path");
 const fileFilter = (req, file, cb) => {
   // 확장자 필터링
   if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"
+    file.mimetype === "image/png"
   ) {
     cb(null, true); // 해당 mimetype만 받겠다는 의미
   } else {
@@ -24,8 +22,7 @@ const upload = multer({
     },
     filename: (req, file, done) => {
       const ext = path.extname(file.originalname);
-      // aaa.txt => aaa+&&+129371271654.txt
-      const fileName = path.basename(file.originalname, ext) + Date.now() + ext;
+      const fileName = req.session.uid + ext;
       done(null, fileName);
     },
   }),

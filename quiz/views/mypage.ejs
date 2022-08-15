@@ -7,7 +7,7 @@
     <div class="page uinfo">
         <div class="row">
             <div class="upic">
-                <img src="images/sample.jpeg" alt="">
+                <img src="uploads/<%=udata.uid%>.png" onerror="this.src='images/user.png'">
                 <form class="filebox" action="upload" method="post" enctype="multipart/form-data">
                     <label class="btn-sm btn-light-gray" for="ex_filename">파일선택</label> 
                     <input type="file" id="ex_filename" name="img" class="upload-hidden"> 

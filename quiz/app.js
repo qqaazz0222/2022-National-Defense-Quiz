@@ -10,15 +10,16 @@ var app = express();
 
 app.io = require('socket.io')();
 
-app.io.on("connection", (socket, msg) => {
-  app.io.emit("login", msg);
+app.io.on("connection", (socket) => {
+  app.io.emit("login");
 
   socket.on("disconnect", (msg) => {
     app.io.emit("logout", msg);
   });
 
-  socket.on("chat", (msg) => {
-    app.io.emit("chat", msg);
+  socket.on("quiz", (msg) => {
+    app.io.emit("quiz", msg);
+    console.log(msg);
   });
 });
 

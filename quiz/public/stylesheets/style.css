@@ -120,7 +120,8 @@ body {
     margin: 0 8px;
     width: 36px;
     height: 36px;
-    background-color: var(--blue-white);
+    background-color: var(--gray);
+    border: 1px solid var(--gray-light);
     border-radius: 50%;
     overflow: hidden;
 }
@@ -445,6 +446,8 @@ body {
 .uinfo {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     max-width: 960px;
 }
@@ -483,6 +486,10 @@ body {
     color: var(--white);
     font-size: 28px;
 }
+.uinfo>.row>.col>.data>p {
+    margin: 0;
+    padding: 0;
+}
 
 .ranking {
     display: flex;
@@ -517,50 +524,36 @@ body {
     font-weight: bold;
 }
 .ranking>.answer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     width: 100%;
 }
 .ranking>.answer>div {
-    width: 100%;
-    margin: 8px;
-}
-.ranking>.chat {
-    width: 100%;
-}
-.ranking>.chat>.log {
-    width: 460px;
-    height: 200px;
-    padding: 20px;
-    border: 1px solid var(--white);
-    border-radius: 8px 8px 0 0;
-    overflow: auto;
-}
-.ranking>.chat>.chatinput{
     display: flex;
-    width: 500px;
-    background-color: var(--gray-light);
-    border: 1px solid var(--white);
-    border-radius: 0 0 8px 8px;
-    overflow: hidden;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 200px;
+    margin: 4px;
 }
-.ranking>.chat>.chatinput>input[type="text"]{
-    flex: 9;
-    padding: 8px 12px;
-    background: none;
-    border: none;
-    outline: none;
-    
-}
-.ranking>.chat>.chatinput>input[type="submit"]{
-    flex: 1;
-    padding: 8px 12px;
-    background-color: var(--blue);
-    border: none;
-    color: var(--white);
-    font-size: 14px;
+.ranking>.answer>div>.title {
+    font-size: 24px;
     font-weight: bold;
 }
-
-
+.ranking>.answer>div>.count {
+    color: var(--gray-semi-light);
+    font-size: 16px;
+    font-weight: normal;
+}
+.ranking>.answer>div>.count>.num {
+    margin: 0 4px;
+    color: var(--gray-light);
+    font-weight: bold;
+}
 
 .btn {
     margin-right: 8px;

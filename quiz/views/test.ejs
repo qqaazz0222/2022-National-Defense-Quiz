@@ -6,49 +6,103 @@
 <body>
     <% include ./dev.ejs %>
     <div class="page ranking">
-        <div class="notice">x님이 문제를 맞췄습니다.</div>
+        <div class="notice">님이 문제를 맞췄습니다.</div>
         <div class="title">경쟁전 #0000</div>
         <div class="quiz">
             1 + 1 = ?
         </div>
-        <div class="answer">
-            <div class="btn btn-blue">1번</div>
-            <div class="btn btn-blue">2번</div>
-            <div class="btn btn-blue">3번</div>
-            <div class="btn btn-blue">4번</div>
-        </div>
-        <div class="chat">
-            <div id="chatLogs" class="log"></div>
-            <form class="chatinput" action="">
-                <input id="m" type="text">
-                <input type="submit">
-            </form>
-        </div>
+        <form class="answer" method="post">
+            <div class="ans1 btn-sm btn-light-gray">
+                <p class="title">1</p>
+                <p class="count"><span class="num">0</span>명이 선택했습니다.</p>
+            </div>
+            <div class="ans2 btn-sm btn-light-gray">
+                <p class="title">2</p>
+                <p class="count"><span class="num">0</span>명이 선택했습니다.</p>
+            </div>
+            <div class="ans3 btn-sm btn-light-gray">
+                <p class="title">3</p>
+                <p class="count"><span class="num">0</span>명이 선택했습니다.</p>
+            </div>
+            <div class="ans4 btn-sm btn-light-gray">
+                <p class="title">4</p>
+                <p class="count"><span class="num">0</span>명이 선택했습니다.</p>
+            </div>
+        </form>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         $(() => {
+            let count1 = [];
+            let count2 = [];
+            let count3 = [];
+            let count4 = [];
+            $('.ans').click(()=>{
+                console.log("k");
+                $(this).toggleClass('sel');
+            })
             const socket = io();
             const name = `<%=udata.uid%>`;
-            let msg = { name: name, messege: "" }
-            socket.emit('login', msg);
-            $('.chatinput').submit(() => {
-                let msg = { name: name, messege: $('#m').val() }
-                socket.emit('chat', msg);
-                $('#m').val('');
+            $('.ans1').click(() => {
+                let msg = { name: name, msg: 1 }
+                socket.emit('quiz', msg);
                 return false;
             });
-            socket.on('chat', (msg) => {
-                $('#chatLogs').append($('<p>').text(msg.name + '  :  ' +
-                    msg.messege));
+            $('.ans2').click(() => {
+                let msg = { name: name, msg: 2 }
+                socket.emit('quiz', msg);
+                return false;
             });
-            socket.on('login', (msg) => {
-                $('#chatLogs').append($('<p>').text(msg.name + "유저가 들어왔습니다."));
+            $('.ans3').click(() => {
+                let msg = { name: name, msg: 3 }
+                socket.emit('quiz', msg);
+                return false;
             });
-            socket.on('logout', (msg) => {
-                $('#chatLogs').append($('<p>').text("유저가 나갔습니다."));
+            $('.ans4').click(() => {
+                let msg = { name: name, msg: 4 }
+                socket.emit('quiz', msg);
+                return false;
+            });
+            socket.on("quiz", function(data) {
+                if(data.msg == 1){
+                    count1.push(data.name);
+                    count2 = count2.filter((element) => element !== data.name);
+                    count3 = count3.filter((element) => element !== data.name);
+                    count4 = count4.filter((element) => element !== data.name);
+                } else if(data.msg == 2){
+                    count2.push(data.name);
+                    count1 = count1.filter((element) => element !== data.name);
+                    count3 = count3.filter((element) => element !== data.name);
+                    count4 = count4.filter((element) => element !== data.name);
+                } else if(data.msg == 3){
+                    count3.push(data.name);
+                    count1 = count1.filter((element) => element !== data.name);
+                    count2 = count2.filter((element) => element !== data.name);
+                    count4 = count4.filter((element) => element !== data.name);
+                } else if(data.msg == 4){
+                    count4.push(data.name);
+                    count1 = count1.filter((element) => element !== data.name);
+                    count2 = count2.filter((element) => element !== data.name);
+                    count3 = count3.filter((element) => element !== data.name);
+                }
+                $('.ans1>.count>.num').text(count1.length);
+                $('.ans2>.count>.num').text(count2.length);
+                $('.ans3>.count>.num').text(count3.length);
+                $('.ans4>.count>.num').text(count4.length);
+                console.log(count1, count2, count3, count4);
+            });
+            socket.on("logout", function(data) {
+                console.log(data);
             });
         });
+        function NotReload() {
+            if ((event.ctrlKey == true && (event.keyCode == 78 || event.keyCode == 82)) || (event.keyCode == 116)) {
+                event.keyCode = 0;
+                event.cancelBubble = true;
+                event.returnValue = false;
+            }
+        }
+        document.onkeydown = NotReload;
     </script>
 </body>
 
