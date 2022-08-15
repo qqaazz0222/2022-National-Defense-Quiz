@@ -484,6 +484,84 @@ body {
     font-size: 28px;
 }
 
+.ranking {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 960px;
+    height: 100vh;
+}
+.ranking>.notice {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 16px 20px;
+    background-color: var(--white);
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    color: var(--semi-black);
+    font-size: 16px;
+    font-weight: bold;
+}
+.ranking>.title {
+    font-family: 'establishRetrosansOTF';
+    font-size: 32px;
+    font-weight: bold;
+}
+.ranking>.quiz {
+    margin: 20px;
+    font-size: 96px;
+    font-weight: bold;
+}
+.ranking>.answer {
+    width: 100%;
+}
+.ranking>.answer>div {
+    width: 100%;
+    margin: 8px;
+}
+.ranking>.chat {
+    width: 100%;
+}
+.ranking>.chat>.log {
+    width: 460px;
+    height: 200px;
+    padding: 20px;
+    border: 1px solid var(--white);
+    border-radius: 8px 8px 0 0;
+    overflow: auto;
+}
+.ranking>.chat>.chatinput{
+    display: flex;
+    width: 500px;
+    background-color: var(--gray-light);
+    border: 1px solid var(--white);
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+}
+.ranking>.chat>.chatinput>input[type="text"]{
+    flex: 9;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    outline: none;
+    
+}
+.ranking>.chat>.chatinput>input[type="submit"]{
+    flex: 1;
+    padding: 8px 12px;
+    background-color: var(--blue);
+    border: none;
+    color: var(--white);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+
 .btn {
     margin-right: 8px;
     padding: 12px 24px;

@@ -57,11 +57,6 @@ router.post("/signin", async function (req, res, next) {
     "select * from users where uid = ? AND upw = ?;",
     [uid, upw]
   );
-  const uimg = await pool.query(
-    "select img from uploads where uid = ?",
-    [uid]
-  );
-  const uimgname = uimg[0][0].img;
   if (user[0][0]) {
     req.session.uid = uid;
     req.session.udata = user[0][0];
@@ -111,8 +106,9 @@ router.get("/signup-complete", function (req, res, next) {
 });
 
 router.get("/test", async function (req, res, next) {
-  return res.render("error", {
+  return res.render("test", {
     title: "테스트",
+    udata: req.session.udata,
     signinState: req.session.isLogined,
   });
 });

@@ -2,117 +2,52 @@
 
 <head>
     <% include ./head.ejs %>
-    <link rel='stylesheet' href='/stylesheets/test.css' />
 </head>
 <body>
     <% include ./dev.ejs %>
-    <div class="page-header">
-        <h3>경쟁전입니다.</h3>
-    </div>
-    <div class="page-body">
-        <div class="room-info">
-            <h1>테스트 게임방</h1>
-        </div>
-        <div class="timer">
-            남은 시간 : 0 초
-        </div>
-        <div class="notice">
-            공지사항입니다.
-        </div>
+    <div class="page ranking">
+        <div class="notice">x님이 문제를 맞췄습니다.</div>
+        <div class="title">경쟁전 #0000</div>
         <div class="quiz">
-            <h1>퀴즈 1 : 1 + 1 = ?</h1>
+            1 + 1 = ?
         </div>
         <div class="answer">
-            <form class="quiz-form-1">
-                <input type="submit" value="1">
-            </form>
-            <form class="quiz-form-2">
-                <input type="submit" value="2">   
-            </form>
-            <form class="quiz-form-3">
-                <input type="submit" value="3">
-            </form>
-            <form class="quiz-form-4">
-                <input type="submit" value="4">
-            </form>
+            <div class="btn btn-blue">1번</div>
+            <div class="btn btn-blue">2번</div>
+            <div class="btn btn-blue">3번</div>
+            <div class="btn btn-blue">4번</div>
         </div>
         <div class="chat">
-            <ul id="chatLogs"></ul>
-            <form class="chat-form">
-                <div class="form-group">
-                    <label for="msgForm">Message: </label>
-                    <input type="text" id="m">
-                </div>
-                <button type="submit" class="btn btn-primary">Send</button>
+            <div id="chatLogs" class="log"></div>
+            <form class="chatinput" action="">
+                <input id="m" type="text">
+                <input type="submit">
             </form>
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         $(() => {
-            const name = "테스트계정";
-            const dap = 2;
-
             const socket = io();
-
-            $('.ans-1').click(() => {
-                $('.user-ans').val(1);
-            })
-
-            $('.chat-form').submit(() => {
+            const name = `<%=udata.uid%>`;
+            let msg = { name: name, messege: "" }
+            socket.emit('login', msg);
+            $('.chatinput').submit(() => {
                 let msg = { name: name, messege: $('#m').val() }
                 socket.emit('chat', msg);
                 $('#m').val('');
                 return false;
             });
-
             socket.on('chat', (msg) => {
-                $('#chatLogs').append($('<li>').text(msg.name + '  :  ' +
+                $('#chatLogs').append($('<p>').text(msg.name + '  :  ' +
                     msg.messege));
             });
-
-            $('.quiz-form-1').submit(() => {
-                if(dap == 1) {
-                    let ans = { name: name, answer: "정답!" }
-                } else {
-                    let ans = { name: name, answer: "1" }
-                }
-                socket.emit('quiz', ans);
-                return false;
+            socket.on('login', (msg) => {
+                $('#chatLogs').append($('<p>').text(msg.name + "유저가 들어왔습니다."));
             });
-            $('.quiz-form-2').submit(() => {
-                if(dap == 2) {
-                    let ans = { name: name, answer: "정답!" }
-                } else {
-                    let ans = { name: name, answer: "2" }
-                }
-                socket.emit('quiz', ans);
-                return false;
+            socket.on('logout', (msg) => {
+                $('#chatLogs').append($('<p>').text("유저가 나갔습니다."));
             });
-            $('.quiz-form-3').submit(() => {
-                if(dap == 3) {
-                    let ans = { name: name, answer: "정답!" }
-                } else {
-                    let ans = { name: name, answer: "3" }
-                }
-                socket.emit('quiz', ans);
-                return false;
-            });
-            $('.quiz-form-4').submit(() => {
-                if(dap == 4) {
-                    let ans = { name: name, answer: "정답!" }
-                } else {
-                    let ans = { name: name, answer: "4" }
-                }
-                socket.emit('quiz', ans);
-                return false;
-            });
-
-            socket.on('quiz', (ans) => {
-                $('.notice').text(ans.name + "님이 " + ans.answer + "번을 눌렀습니다.");
-            });
-
         });
     </script>
 </body>

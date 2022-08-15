@@ -10,22 +10,16 @@ var app = express();
 
 app.io = require('socket.io')();
 
-app.io.on('connection',(socket) => {
-  console.log('유저가 들어왔다');
+app.io.on("connection", (socket, msg) => {
+  app.io.emit("login", msg);
 
-  socket.on('disconnect', () => {
-      console.log('유저 나갔다');
+  socket.on("disconnect", (msg) => {
+    app.io.emit("logout", msg);
   });
 
-  socket.on('chat', (msg) => {
-    app.io.emit('chat', msg);
+  socket.on("chat", (msg) => {
+    app.io.emit("chat", msg);
   });
-
-  socket.on('quiz', (ans) => {
-    app.io.emit('quiz', ans);
-    console.log(ans);
-  });
-
 });
 
 // view engine setup
