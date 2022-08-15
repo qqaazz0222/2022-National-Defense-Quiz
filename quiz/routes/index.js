@@ -135,8 +135,31 @@ router.get("/testproblem", async (req, res) => {
         "select * from quiz.mil where type= '사건' order by RAND() limit 4 ;"
     );
 
-    console.log(tactics[0]);
-    console.log(concept[0]);
+    // console.log(tactics[0]);
+    // console.log(concept[0]);
+
+    // quiz_today Table에 ques: row , a : random(i).indexOf(1) + 1
+
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    var date = year + "-" + month + "-" + day;
+
+    const today_quiz = await pool.query(
+        "INSERT INTO quiz_today VALUES (null,?,?,?,?,?,?,?,?,? ); ",
+        [
+            date,
+            tactics[0][0].rowno,
+            concept[0][0].rowno,
+            weapon[0][0].rowno,
+            accident[0][0].rowno,
+            random1.indexOf(1) + 1,
+            random2.indexOf(1) + 1,
+            random3.indexOf(1) + 1,
+            random4.indexOf(1) + 1,
+        ]
+    );
 
     res.render("problem", {
         tactics: tactics[0], //전술

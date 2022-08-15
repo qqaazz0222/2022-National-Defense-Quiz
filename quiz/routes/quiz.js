@@ -51,8 +51,8 @@ router.get("/today", async (req, res) => {
         );
         try {
             if (res1.length - 2 == 0) {
-                req.session.qid = [0, 0, 0, 0, 0, 0]; //문제를 6개 만들고
-                req.session.aid = [0, 0, 0, 0, 0, 0]; //답도 6개 만든다.
+                req.session.qid = [0, 0, 0, 0]; //문제를 6개 만들고
+                req.session.aid = [0, 0, 0, 0]; //답도 6개 만든다.
                 res.redirect("today/1");
             } else {
                 res.send(
@@ -97,7 +97,7 @@ router.post("/today/:id", function (req, res, next) {
     console.log(req.session.qid[req.params.id - 1]); // q_id
     req.session.aid[req.params.id - 1] = req.body.quiz;
     console.log(req.session.aid[req.params.id - 1]); // a_id
-    if (req.params.id == 6) {
+    if (req.params.id == 4) {
         res.redirect("/quiz/today-complete");
     } else {
         res.redirect("/quiz/today/" + (parseInt(req.params.id) + 1));
@@ -116,8 +116,8 @@ router.get("/today-complete", async (req, res) => {
     console.log(aid);
     if (req.session.uid) {
         const user_res = await pool.query(
-            "INSERT INTO res_quiz_today VALUES (null, ?, ?, ?, ?, ?, ? , ?, ?);",
-            [uid, date, aid[0], aid[1], aid[2], aid[3], aid[4], aid[5]]
+            "INSERT INTO res_quiz_today VALUES (null, ?, ?, ?, ?, ?, ? );",
+            [uid, date, aid[0], aid[1], aid[2], aid[3]]
         );
         try {
             res.render("quiz-today-complete", {
