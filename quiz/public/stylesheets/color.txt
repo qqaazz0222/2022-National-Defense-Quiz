@@ -1,5 +1,0 @@
-CD4935 //red
-EBC044 //yellow
-3A7959 //green
-3C4997 //blue
-4690BF //sky

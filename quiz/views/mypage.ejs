@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<%- include ./head %>
+    <body style>
+    <%- include ./dev %>
+    <%- include ./nav %>
+    <div class="page uinfo">
+        <div class="row">
+            <div class="upic">
+                <img src="images/sample.jpeg" alt="">
+                <form class="filebox" action="upload" method="post" enctype="multipart/form-data">
+                    <label class="btn-sm btn-light-gray" for="ex_filename">파일선택</label> 
+                    <input type="file" id="ex_filename" name="img" class="upload-hidden"> 
+                    <input class="btn-sm btn-light-gray" type="submit" 업로드>
+                </form>
+            </div>
+            <div class="col">
+                <div class="data">
+                    <p><%=udata.uname%></p>
+                    <p><%=udata.uid%></p>
+                    <p><%=udata.uunitcode%></p>
+                </div>
+                <div class="uedit">
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+    <script>
+        document.addEventListener('scroll', () => {
+            let y = window.scrollY;
+            if (y > 120) {
+                $('.navbar').addClass('navbar-bg');
+            } else {
+                $('.navbar').removeClass('navbar-bg');
+            }
+        });
+        $('.post').click(function () {
+            $('.post').find('.desc').removeClass('show');
+            $(this).find('.desc').toggleClass('show');
+        })
+    </script>
+</html>

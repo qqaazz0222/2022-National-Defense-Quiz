@@ -5,11 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var signinRouter = require('./routes/signin');
-var signupRouter = require('./routes/signup');
-var quizRouter = require('./routes/quiz');
-var rankRouter = require('./routes/rank');
-var mypageRouter = require('./routes/mypage');
 
 var app = express();
 
@@ -44,11 +39,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/signin', signinRouter);
-app.use('/signup', signupRouter);
-app.use('/quiz', quizRouter);
-app.use('/rank', rankRouter);
-app.use('/mypage', mypageRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -63,7 +53,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {title: "에러", signinState: true});
 });
 
 module.exports = app;

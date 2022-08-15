@@ -7,7 +7,12 @@
         <a class="tab" href="mypage">마이페이지<span></span></a>
     </div>
     <div class="user-menu">
-        <a class="btn-sm btn-light-gray" href="/signin">로그인</a>
-        <a class="btn-sm btn-blue" href="/signup">회원가입</a>
+        <%if(signinState){%>
+            <a href="/mypage"><%=udata.uname%> <img src="images/sample.jpeg" alt=""></a>
+            <a class="btn-sm btn-blue" href="/signin">로그아웃</a>
+        <%}else{%>
+            <a class="btn-sm btn-light-gray" href="/signin">로그인</a>
+            <a class="btn-sm btn-blue" href="/signup">회원가입</a>
+        <%}%>
     </div>
 </div>
