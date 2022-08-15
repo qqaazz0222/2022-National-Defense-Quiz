@@ -72,6 +72,7 @@ router.get("/today", async (req, res) => {
 });
 
 router.get("/today/:id", function (req, res, next) {
+    console.log(req.session);
     var quizStates = {
         qid: parseInt(req.params.id),
     };
@@ -93,7 +94,9 @@ router.get("/today/:id", function (req, res, next) {
 
 router.post("/today/:id", function (req, res, next) {
     req.session.qid[req.params.id - 1] = req.params.id;
+    console.log(req.session.qid[req.params.id - 1]); // q_id
     req.session.aid[req.params.id - 1] = req.body.quiz;
+    console.log(req.session.aid[req.params.id - 1]); // a_id
     if (req.params.id == 6) {
         res.redirect("/quiz/today-complete");
     } else {
