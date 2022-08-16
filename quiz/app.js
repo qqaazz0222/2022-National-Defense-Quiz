@@ -4,7 +4,6 @@ var server = require('http').createServer(app);
 var createError = require('http-errors');
 var io = require('socket.io')(server);
 var fs = require('fs');
-const pool = require("./db/db");
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
