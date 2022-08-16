@@ -4,6 +4,7 @@ var server = require('http').createServer(app);
 var createError = require('http-errors');
 var io = require('socket.io')(server);
 var fs = require('fs');
+const pool = require("./db/db");
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -45,13 +46,12 @@ app.use(function(err, req, res, next) {
 });
 
 io.sockets.on('connection', function(socket){
-	console.log("New Client Arrived!");
+	console.log("새로운 클라이언트 접속");
 	socket.on('addClient', function(username){
 		socket.username = username;
 		usernames[username] = username;
 		scores[socket.username] = 0;
 		varCounter = 0
-		//var id = Math.round((Math.random() * 1000000));
 		pairCount++;
 		if(pairCount === 1 || pairCount >=3){
 			id = Math.round((Math.random() * 1000000));
@@ -65,30 +65,25 @@ io.sockets.on('connection', function(socket){
         	socket.join(id);
         	pgmstart = 2;
     	}
-		console.log(username + " joined to "+ id);
+		console.log(username + "님이 "+ id + "방에 접속하셨습니다.");
 		socket.emit('updatechat', 'SERVER', '대결 상대를 찾는 중입니다. <br> 잠시만 기다려주세요...',id);
-		socket.broadcast.to(id).emit('updatechat', 'SERVER', username + ' has joined to this game !',id);
+		socket.broadcast.to(id).emit('updatechat', 'SERVER', username + '님이 게임에 참가하셨습니다.',id);
 		if(pgmstart ==2){
+            // const content = await pool.query("select * from mil order by RAND() limit 4");
+            console.log(content);
 			fs.readFile(__dirname + "/lib/questions.json", "Utf-8", function(err, data){
 				jsoncontent = JSON.parse(data);
+                console.log(jsoncontent);
 				io.sockets.in(id).emit('sendQuestions',jsoncontent);
 			});
-		console.log("Player2");
-			//io.sockets.in(id).emit('game', "haaaaai");
-		} else {
-			console.log("Player1");
-		}
+		} 
 	});
 	socket.on('result', function (usr,rst) {
-				io.sockets.in(rst).emit('viewresult',usr);
-				//io.in(id).emit('viewresult',usr);
-				//console.log("Mark = "+usr);
-				//console.log(id);	
+        io.sockets.in(rst).emit('viewresult',usr);
 	});
 	socket.on('disconnect', function(){
 		delete usernames[socket.username];
 		io.sockets.emit('updateusers', usernames);
-		//io.sockets.in(id).emit('updatechat', 'SERVER', socket.username + ' has disconnected',id);
 		socket.leave(socket.room);
 	});
 });

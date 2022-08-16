@@ -7,35 +7,26 @@
     <script>
         var socket = io.connect();
         var i, username, j = 0, myscore = 0, otherscore = 0, finalresults, ti, user_id;
-
         socket.on('updatechat', function (username, data, id) {
-            $("#conversation").fadeIn();
+            $("#conversation").delay(400).fadeIn();
             $('#conversation').append('<br>' + data + '<br>');
             user_id = id;
-
         });
-
         socket.on('game', function (data) {
             $('#realtime').append('<b>' + data + '<br>');
         });
-
         function doFunction() {
-            $(".rules").fadeIn();
+            $(".rules").delay(600).fadeIn();
         }
-
         socket.on('sendQuestions', function (data) {
             $(".intermediate").fadeOut('slow');
-
             doFunction();
-
             i = 0;
-
             ti = setInterval(function () {
                 $(".rules").fadeOut();
-                $(".started").fadeIn('slow');
-                $(".loading-page").fadeIn('slow');
-                $("#realresults").fadeIn('slow');
-
+                $(".started").delay(400).fadeIn('slow');
+                $(".loading-page").delay(400).fadeIn('slow');
+                $("#realresults").delay(400).fadeIn('slow');
                 if (i < 4) {
                     j = 0; j++;
                     $('#qst').text(data.questions[i].question);
@@ -43,28 +34,19 @@
                     $('#btn2').attr('value', 1).text(data.questions[i].choices[1]);
                     $('#btn3').attr('value', 2).text(data.questions[i].choices[2]);
                     $('#btn4').attr('value', 3).text(data.questions[i].choices[3]);
-
-
-                    //timer
                     $(document).ready(function () {
-
                         var counter = 0;
                         var c = 1;
                         var k = setInterval(function () {
                             $(".loading-page .counter h3").html(c + "sec");
                             $(".loading-page .counter hr").css("width", (c * 10) + "%");
-
                             counter++;
                             c++;
-
                             if (counter == 10) {
                                 clearInterval(k);
-
                             }
                         }, 1000);
                     });
-                    //timer
-
                     $("#realtime button").removeClass("btn disabled");
                     $("#realtime button").prop('disabled', false);
                     $("#realtime button").click(function () {
@@ -81,58 +63,46 @@
                                 console.log("value of inner j: " + j)
                                 $('.current_res_c').fadeIn().delay(800).fadeOut(); j++;
                             }
-
                         } else {
                             if (j == 1) {
                                 $('.current_res_w').fadeIn().delay(800).fadeOut(); j++;
                             }
                         }
                     });
-
-
                 } i++;
-
                 if (i == 5) {
                     clearInterval(ti);
                     $(".started").fadeOut('slow');
                     $(".loading-page").fadeOut();
-                    $("#finalresult_show").fadeIn('slow');
+                    $("#finalresult_show").delay(800).fadeIn('slow');
                 }
-
-
-            }, 5000);
-
-
-
+            }, 10000);
         });
-
         socket.on('viewresult', function (usr) {
             if (usr == username) {
                 myscore += 1;
                 $("#myresult").text(myscore);
-
             }
             else {
                 otherscore += 1;
                 $("#otherresult").text(otherscore);
             }
-
             if (myscore > otherscore) {
-                $("#finalresult").text("You Win!");
+                $("#finalresult").text("승리");
+                $("#finalresult").css("color", "rgb(207, 221, 252)")
                 //finalresults=0;
                 //console.log("final winner");
             } else if (myscore < otherscore) {
-                $("#finalresult").text("You Lose..");
+                $("#finalresult").text("패배");
+                $("#finalresult").css("color", "rgb(252, 207, 207)")
                 //finalresults=1;
                 //console.log("final loser");
             } else {
                 //finalresults=2;
-                $("#finalresult").text("Tie!");
+                $("#finalresult").text("무승부");
+                $("#finalresult").css("color", "rgb(238, 242, 246)")
             }
-
         });
-
-
         $(document).ready(function () {
             $('#btnJoin').click(function () {
                 $(".just_start").fadeOut();
@@ -151,15 +121,22 @@
 
     </script>
 </head>
-<body>
+<body class="game">
+    <!-- 게임 결과 -->
+    <div id="finalresult_show" style="display: none;">
+        <div id="finalresult"></div>
+        <a class="btn btn-blue" href="/quiz-rank">Play Again</a>
+    </div>
+    <!-- 점수창 -->
     <div id="realresults" style="display: none;">
-        <div>My Score<div id="myresult">0</div></div>
-        <div>My Score<div id="otherresult">0</div></div>
-            <div class="col-md-6" style="text-align:right;">
-                <h4>Opponent Score<b>
-                        <div id="otherresult">0</div>
-                    </b></h4>
-            </div>
+        <div>
+            내 점수
+            <div class="score" id="myresult">0</div>
+        </div>
+        <div class="vs">VS</div>
+        <div>
+            상대 점수
+            <div id="otherresult">0</div>
         </div>
     </div>
     <!-- 매칭후 대기화면 -->
@@ -169,7 +146,7 @@
             대결 상대를 찾았습니다!
         </div>
         <div class="subTitle">
-            게임이 5초 후에 시작됩니다...
+            게임이 3초 후에 시작됩니다...
         </div>
         <div class="panel">
             <h3 class="title">규칙</h3>
@@ -180,44 +157,36 @@
             </div>
         </div>
     </div>
-    <div class="row started" id="realtime" style="display: none;">
-        <div class="question">
-            <div class="row text-center">
-                <div class="col-md-12">
-                    <h2>
-                        <br>
-                        <p id="qst"></p>
-                    </h2>
-                </div>
-            </div>
+    <!-- 타이머 -->
+    <div class="loading-page" style="display: none;">
+        <div class="counter">
+            <h3>0sec</h3>
+            <hr>
         </div>
-
+    </div>
+    <!-- 선택창 -->
+    <div class="started" id="realtime" style="display: none;">
+        <div class="question">
+            <p id="qst"></p>
+        </div>
         <div class="choices">
             <div class="row">
-                <div class="col-md-4 col-sm-6 col-md-offset-3">
-                    <button id="btn1" value=""></button>
-                </div>
-                <div class="col-md-3  col-sm-6">
-                    <button id="btn2" value=""></button>
-                </div>
+                <button id="btn1" class="btn-sm btn-light-gray" value=""></button>
+                <button id="btn2" class="btn-sm btn-light-gray" value=""></button>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-6 col-md-offset-3">
-                    <button id="btn3" value=""></button>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <button id="btn4" value=""></button>
-                </div>
+                <button id="btn3" class="btn-sm btn-light-gray" value=""></button>
+                <button id="btn4" class="btn-sm btn-light-gray" value=""></button>
             </div>
         </div>
     </div>
     <!-- 문제 맞췄을 때 팝업 -->
-    <div class="current_res_c text-center" style="display: none;">
-        <div class='alert' role='alert'>정답입니다.</div>
+    <div class="current_res_c" style="display: none;">
+        <div class='alert' role='alert'><span class="ec ec-plus1"></span>정답입니다.</div>
     </div>
     <!-- 문제 틀렸을 때 팝업 -->
-    <div class="current_res_w text-center" style="display: none;">
-        <div class='alert' role='alert'>오답입니다.</div>
+    <div class="current_res_w" style="display: none;">
+        <div class='alert' role='alert'><span class="ec ec-cry"></span>오답입니다.</div>
     </div>
 
     <div class="intermediate">
@@ -247,17 +216,6 @@
         </div>
     </div>
     <div id="view_result" style="display: none;"></div>
-    <div class="loading-page" style="display: none;">
-        <div class="counter">
-            <h3>0sec</h3>
-            <hr>
-        </div>
-    </div>
-    <!--Timer-->
-    <div id="finalresult_show" style="display: none;">
-        <div id="finalresult"></div>
-        <a class="btn btn-blue" href="/quiz-rank">Play Again</a>
-    </div>
 </body>
 <script>
     document.addEventListener('scroll', () => {
