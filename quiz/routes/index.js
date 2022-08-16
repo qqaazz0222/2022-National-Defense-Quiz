@@ -14,10 +14,13 @@ router.use(
     })
 );
 
-router.get("/", function (req, res, next) {
+router.get("/", async function (req, res, next) {
+    const notice = await pool.query(
+        "select * from notice order by nid desc limit 0,5;")
     return res.render("welcome.ejs", {
         title: "국방퀴즈",
         udata: req.session.udata,
+        ndata: notice[0],
         signinState: req.session.isLogined,
     });
 });
@@ -98,6 +101,14 @@ router.get("/signup-complete", function (req, res, next) {
     return res.render("signup-complete", {
         title: "회원가입성공",
         signinState: true,
+    });
+});
+
+router.get("/quiz-rank", async function (req, res, next) {
+    return res.render("quiz-rank", {
+        title: "경쟁전 로비",
+        udata: req.session.udata,
+        signinState: req.session.isLogined,
     });
 });
 

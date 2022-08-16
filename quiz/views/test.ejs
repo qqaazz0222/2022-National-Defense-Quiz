@@ -1,109 +1,134 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <% include ./head.ejs %>
+    <%-include head.ejs%>
 </head>
+
 <body>
-    <% include ./dev.ejs %>
-    <div class="page ranking">
-        <div class="notice">님이 문제를 맞췄습니다.</div>
-        <div class="title">경쟁전 #0000</div>
-        <div class="quiz">
-            1 + 1 = ?
+    <div id="realresults">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <h4>My Score <b>
+                        <div id="myresult">0</div>
+                    </b></h4>
+            </div>
+            <div class="col-md-6" style="text-align:right;">
+                <h4>Opponent Score<b>
+                        <div id="otherresult">0</div>
+                    </b></h4>
+            </div>
         </div>
-        <form class="answer" method="post">
-            <div class="ans1 btn-sm btn-light-gray">
-                <p class="title">1</p>
-                <p class="count"><span class="num">0</span>명이 선택했습니다.</p>
-            </div>
-            <div class="ans2 btn-sm btn-light-gray">
-                <p class="title">2</p>
-                <p class="count"><span class="num">0</span>명이 선택했습니다.</p>
-            </div>
-            <div class="ans3 btn-sm btn-light-gray">
-                <p class="title">3</p>
-                <p class="count"><span class="num">0</span>명이 선택했습니다.</p>
-            </div>
-            <div class="ans4 btn-sm btn-light-gray">
-                <p class="title">4</p>
-                <p class="count"><span class="num">0</span>명이 선택했습니다.</p>
-            </div>
-        </form>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        $(() => {
-            let count1 = [];
-            let count2 = [];
-            let count3 = [];
-            let count4 = [];
-            $('.ans').click(()=>{
-                console.log("k");
-                $(this).toggleClass('sel');
-            })
-            const socket = io();
-            const name = `<%=udata.uid%>`;
-            $('.ans1').click(() => {
-                let msg = { name: name, msg: 1 }
-                socket.emit('quiz', msg);
-                return false;
-            });
-            $('.ans2').click(() => {
-                let msg = { name: name, msg: 2 }
-                socket.emit('quiz', msg);
-                return false;
-            });
-            $('.ans3').click(() => {
-                let msg = { name: name, msg: 3 }
-                socket.emit('quiz', msg);
-                return false;
-            });
-            $('.ans4').click(() => {
-                let msg = { name: name, msg: 4 }
-                socket.emit('quiz', msg);
-                return false;
-            });
-            socket.on("quiz", function(data) {
-                if(data.msg == 1){
-                    count1.push(data.name);
-                    count2 = count2.filter((element) => element !== data.name);
-                    count3 = count3.filter((element) => element !== data.name);
-                    count4 = count4.filter((element) => element !== data.name);
-                } else if(data.msg == 2){
-                    count2.push(data.name);
-                    count1 = count1.filter((element) => element !== data.name);
-                    count3 = count3.filter((element) => element !== data.name);
-                    count4 = count4.filter((element) => element !== data.name);
-                } else if(data.msg == 3){
-                    count3.push(data.name);
-                    count1 = count1.filter((element) => element !== data.name);
-                    count2 = count2.filter((element) => element !== data.name);
-                    count4 = count4.filter((element) => element !== data.name);
-                } else if(data.msg == 4){
-                    count4.push(data.name);
-                    count1 = count1.filter((element) => element !== data.name);
-                    count2 = count2.filter((element) => element !== data.name);
-                    count3 = count3.filter((element) => element !== data.name);
-                }
-                $('.ans1>.count>.num').text(count1.length);
-                $('.ans2>.count>.num').text(count2.length);
-                $('.ans3>.count>.num').text(count3.length);
-                $('.ans4>.count>.num').text(count4.length);
-                console.log(count1, count2, count3, count4);
-            });
-            socket.on("logout", function(data) {
-                console.log(data);
-            });
-        });
-        function NotReload() {
-            if ((event.ctrlKey == true && (event.keyCode == 78 || event.keyCode == 82)) || (event.keyCode == 116)) {
-                event.keyCode = 0;
-                event.cancelBubble = true;
-                event.returnValue = false;
-            }
-        }
-        document.onkeydown = NotReload;
-    </script>
+
+    <!-- 매칭후 대기화면 -->
+    <div class="rules">
+        <div class="logo">국방퀴즈</div>
+        <div class="title">
+            대결 상대를 찾았습니다!
+        </div>
+        <div class="loading">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="subTitle">
+            게임이 10초 후에 시작됩니다...
+        </div>
+        <div class="panel">
+            <h3 class="title">규칙</h3>
+            <div class="desc">
+                <p>1. 각 퀴즈는 <strong>10초</strong>간 진행됩니다.</p>
+                <p>2. 답을 누르신 후, 변경이 불가능합니다.</p>
+                <p>3. 총 10개의 퀴즈로 구성되었으며, 하나의 퀴즈에 4개의 답변이 제공됩니다.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row started" id="realtime">
+        <div class="question">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h2>
+                        <br>
+                        <p id="qst"></p>
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="choices">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-md-offset-3">
+                    <button id="btn1" value=""></button>
+                </div>
+                <div class="col-md-3  col-sm-6">
+                    <button id="btn2" value=""></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-md-offset-3">
+                    <button id="btn3" value=""></button>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <button id="btn4" value=""></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 문제 맞췄을 때 팝업 -->
+    <div class="current_res_c text-center">
+        <div class='alert' role='alert'>정답입니다.</div>
+    </div>
+    <!-- 문제 틀렸을 때 팝업 -->
+    <div class="current_res_w text-center">
+        <div class='alert' role='alert'>오답입니다.</div>
+    </div>
+
+    <div class="intermediate">
+        <div id="conversation"> </div>
+    </div>
+
+
+    <!-- 시작전, 화면 -->
+    <div class="just_start">
+        <a class="goHome" href="/" title="홈으로">
+            <span></span>
+            <span></span>
+        </a>
+        <div class="mainContent">
+            <div class="logo">국방퀴즈</div>
+            <div class="title">경쟁전</div>
+            <div class="subTitle">경쟁전에 참여하고 포인트를 모아보세요!</div>
+            <input type="hidden" id="input_user" value="<%=udata.uid%>"><br>
+            <button class="btn btn-lg btn-start" id='btnJoin'>게임 시작</button>
+        </div>
+        <div class="subContent">
+            <div class="title">경쟁전 랭킹</div>
+        </div>
+    </div>
+
+
+    <div id="view_result"></div>
+
+
+    <div class="loading-page">
+        <div class="counter">
+            <h3>0sec</h3>
+            <hr>
+        </div>
+    </div>
+
+    <!--Timer-->
+
+    <div id="finalresult_show">
+        <div id="finalresult"></div>
+        <a class="btn btn-blue" href="/quiz-rank">Play Again</a>
+    </div>
 </body>
 
 </html>
