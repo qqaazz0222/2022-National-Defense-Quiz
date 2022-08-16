@@ -174,23 +174,37 @@ router.get("/testproblem", async (req, res) => {
 });
 
 router.get("/test222", async (req, res) => {
-    let lotto = [];
-    let i = 0;
-    while (i < 6) {
-        let n = Math.floor(Math.random() * 5) + 1;
-        if (notSame(n)) {
-            lotto.push(n);
-            i++;
-        }
-    }
-    function notSame(n) {
-        lotto.every((e) => n !== e);
-    }
-    return lotto;
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = "0" + (today.getMonth() + 1)
+    var day = today.getDate();
+    var date = year + "-" + month + "-" + day;
+    console.log(date);
+    // quiz_today에서 question하고 answer 정보를 가져온다.
+    const que_ans = await pool.query("SELECT * from quiz_today where date = ?",[date])
+    // 가지고 온 정보를 토대로 문제 title 하고 정답을 가져온다.
+    console.log(que_ans[0]);
+    const q1 = (que_ans[0][0].q1);
+    const q2 = (que_ans[0][0].q2);
+    const q3 = (que_ans[0][0].q3);
+    const q4 = (que_ans[0][0].q4);
 
-    console.log(lottoNum());
+    //답
+    const a1 = (que_ans[0][0].a1);
+    const a2 = (que_ans[0][0].a2);
+    const a3 = (que_ans[0][0].a3);
+    const a4 = (que_ans[0][0].a4);
 
-    res.render("problemtest");
+    req.session.quiz_info = que_ans[0]
+
+    console.log(req.session.quiz_info);
+
+
+    // req session 에 저장한다.
+    
+    req.session.save(function() {
+      res.redirect("test");
+    })
 });
 
 module.exports = router;
