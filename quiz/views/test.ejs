@@ -1,7 +1,49 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <h1>test</h1>
-  </body>
-  <h2><%=quiz_info%></h2>
+
+<body>
+  <h1>test</h1>
+</body>
+<h2>
+</h2>
+
 </html>
+
+<!-- const quiz_state = await pool.query("select uid from res_quiz_today where date = ? and uid = ?", [date, req.session.uid])
+
+    console.log(quiz_state[0].length);
+    // 퀴즈 풀었는지 확인
+    if (quiz_state[0].length == 0) {
+        indexStates.quizTodayState = true
+
+        // 몇개 맞추었는지 확인
+        // 문제 답 가져오기, 사용자 응답가져오기
+        const answer = await pool.query("select a1, a2, a3, a4 from quiz_today where date = ? ", [date])
+        const user_response = await pool.query("select r1, r2, r3, r4 from res_quiz_today where date = ? and uid = ?", [date, req.session.uid])
+
+        let answer2 = []
+        let user_response2 = []
+
+        answer2.push(answer[0][0].a1);
+        answer2.push(answer[0][0].a2);
+        answer2.push(answer[0][0].a3);
+        answer2.push(answer[0][0].a4);
+        user_response2.push(parseInt(user_response[0][0].r1))
+        user_response2.push(parseInt(user_response[0][0].r2))
+        user_response2.push(parseInt(user_response[0][0].r3))
+        user_response2.push(parseInt(user_response[0][0].r4))
+
+
+        console.log(answer2);
+        console.log(user_response2);
+
+        cnt = 0
+
+        for (i = 0; i < 4; i++) {
+            if (answer2[i] == user_response2[i]) {
+                cnt += 1
+            }
+        }
+        indexStates.quizTodayCorrect = cnt
+        console.log(indexStates.quizTodayCorrect);
+    } -->

@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-var connection = require("../db/db");
 var session = require("express-session");
 var MySQLStore = require("express-mysql-session")(session);
 var { upload } = require("./multer");
@@ -25,7 +24,7 @@ router.use(
 );
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
+router.get("/", async (req, res) => {
     var indexStates = {
         quizTodayState: false,
         quizTodayCorrect: 0,
@@ -35,43 +34,149 @@ router.get("/", function (req, res, next) {
     var month = today.getMonth() + 1;
     var day = today.getDate();
     var date = year + "-" + month + "-" + day;
-    if (req.session.uid) {
-        connection.query(
+
+
+
+    if (req.session.uid) { // 아이디 있는지 로그인했는지
+        const res1 = await pool.query(
             "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
-            [req.session.uid, date],
-            (err1, res1, fld1) => {
-                try {
-                    if (res1.length == 0) {
-                        res.render("index", {
-                            indexStates: indexStates,
-                            title: "신박하군",
-                            signinState: true,
-                        });
-                    } else {
-                        indexStates.quizTodayState = true;
-                        indexStates.quizTodayCorrect = 5;
-                        res.render("index", {
-                            indexStates: indexStates,
-                            title: "신박하군",
-                            signinState: true,
-                        });
-                    }
-                } catch (err1) {
-                    throw err1;
-                }
-            }
+            [req.session.uid, date]
         );
+        console.log(res1);
+
+        console.log(indexStates);
+
+        try {
+            if (res1[0].length == 0) {
+                console.log("hello1"); // 문제를 푼적없는지
+                res.render("index", {
+                    indexStates: indexStates,
+                    title: "신박하군",
+                    signinState: true,
+                });
+
+            } else { // 문제를 푼적 있다면
+                console.log('hello1');
+                const quiz_state = await pool.query("select uid from res_quiz_today where date = ? and uid = ?", [date, req.session.uid])
+
+                console.log(quiz_state[0].length);
+                // 퀴즈 풀었는지 확인
+                if (quiz_state[0].length != 0) {
+                    console.log('hello2');
+                    indexStates.quizTodayState = true
+
+                    // 몇개 맞추었는지 확인
+                    // 문제 답 가져오기, 사용자 응답가져오기
+                    const answer = await pool.query("select a1, a2, a3, a4 from quiz_today where date = ? ", [date])
+                    const user_response = await pool.query("select r1, r2, r3, r4 from res_quiz_today where date = ? and uid = ?", [date, req.session.uid])
+
+                    let answer2 = []
+                    let user_response2 = []
+
+                    answer2.push(answer[0][0].a1);
+                    answer2.push(answer[0][0].a2);
+                    answer2.push(answer[0][0].a3);
+                    answer2.push(answer[0][0].a4);
+                    user_response2.push(parseInt(user_response[0][0].r1))
+                    user_response2.push(parseInt(user_response[0][0].r2))
+                    user_response2.push(parseInt(user_response[0][0].r3))
+                    user_response2.push(parseInt(user_response[0][0].r4))
+
+
+                    console.log(answer2);
+                    console.log(user_response2);
+
+                    cnt = 0
+
+                    for (i = 0; i < 4; i++) {
+                        if (answer2[i] == user_response2[i]) {
+                            cnt += 1
+                        }
+                    }
+                    indexStates.quizTodayCorrect = cnt
+                    console.log(indexStates);
+
+                    res.render("index", {
+                        indexStates: indexStates,
+                        title: "신박하군",
+                        signinState: true,
+                    });
+                }
+
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
     } else {
+        console.log("hello3");
         res.render("index", { title: "신박하군", signinState: false });
     }
-});
+
+
+}
+
+);
+
+// router.get("/", function (req, res, next) {
+//   var indexStates = {
+//     quizTodayState: false,
+//     quizTodayCorrect: 0,
+//   };
+//   var today = new Date();
+//   var year = today.getFullYear();
+//   var month = today.getMonth() + 1;
+//   var day = today.getDate();
+//   var date = year + "-" + month + "-" + day;
+//   if (req.session.uid) {
+//     connection.query(
+//       "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
+//       [req.session.uid, date],
+//       (err1, res1, fld1) => {
+//         try {
+//           if (res1.length == 0) {
+//             res.render("index", {
+//               indexStates: indexStates,
+//               title: "신박하군",
+//               signinState: true,
+//             });
+//           } else {
+//             indexStates.quizTodayState = true;
+//             indexStates.quizTodayCorrect = 4;
+//             res.render("index", {
+//               indexStates: indexStates,
+//               title: "신박하군",
+//               signinState: true,
+//             });
+//           }
+//         } catch (err1) {
+//           throw err1;
+//         }
+//       }
+//     );
+//   } else {
+//     res.render("index", { title: "신박하군", signinState: false });
+//   }
+// });
 
 router.get("/test22", async (req, res) => {
-    const a = await pool.query("select * from quiz.users");
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    var date = year + "-" + month + "-" + day;
 
-    console.log("ㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗ", a);
+    console.log(date);
+    console.log(req.session.uid);
+    const res1 = await pool.query(
+        "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
+        [req.session.uid, date]
+    );
+    console.log(res1[0].length);
 
-    res.render("test", { title: a[0] });
+
+    res.render("test");
 });
 
 router.post("/test", upload.single("img"), async (req, res) => {
@@ -181,7 +286,7 @@ router.get("/test222", async (req, res) => {
     var date = year + "-" + month + "-" + day;
     console.log(date);
     // quiz_today에서 question하고 answer 정보를 가져온다.
-    const que_ans = await pool.query("SELECT * from quiz_today where date = ?",[date])
+    const que_ans = await pool.query("SELECT * from quiz_today where date = ?", [date])
     // 가지고 온 정보를 토대로 문제 title 하고 정답을 가져온다.
     console.log(que_ans[0]);
     const q1 = (que_ans[0][0].q1);
@@ -201,9 +306,9 @@ router.get("/test222", async (req, res) => {
 
 
     // req session 에 저장한다.
-    
-    req.session.save(function() {
-      res.redirect("test");
+
+    req.session.save(function () {
+        res.redirect("test");
     })
 });
 
