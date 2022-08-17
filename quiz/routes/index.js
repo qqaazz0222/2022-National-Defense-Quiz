@@ -75,6 +75,42 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/ranking", async(req, res)=> {
+    //개인랭킹 sql
+    // const res2= await pool.query("select uid, uscore from users order by uscore desc;")
+    //부대랭킹 sql
+    const res3 = await pool.query("select  uunitcode, sum(uscore) as score, count(uid) as num from users group by uunitcode order by sum(uscore) desc, num desc;")
+    // return res.render("rankpage");
+        try {
+            console.log(res3[0]);
+            res.render("rankpage", {
+            //   res2: res2[0], // 개인랭킹 파라미터
+              res3: res3[0] // 부대별 점수 파라미터
+            });
+        } catch (error) {
+          console.log(error);
+        }
+});
+router.post("/ranking", async(req, res)=> {
+    const {unitcode} = req.body;
+    console.log(unitcode);
+    //개인랭킹 sql
+    // const res2= await pool.query("select uid, uscore from users order by uscore desc;")
+    //부대랭킹 sql
+    const res3 = await pool.query("select uunitcode, sum(uscore) as score, count(uid) as num from quiz.users where uunitcode = ? group by uunitcode;", [unitcode])
+    // return res.render("rankpage");
+        try {
+            res.render("rankpage", {
+            //   res2: res2[0], // 개인랭킹 파라미터
+              res3: res3[0] // 부대별 점수 파라미터
+            });
+        } catch (error) {
+          console.log(error);
+        }
+});
+
+
+
 
 
 
