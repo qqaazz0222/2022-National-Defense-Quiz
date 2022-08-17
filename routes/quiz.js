@@ -197,6 +197,14 @@ router.get("/today-complete", async (req, res) => {
                 }
             }
             indexStates.quizTodayCorrect = cnt
+
+            let score = 2 * cnt
+            let user_score = await pool.query("select uscore from users where uid = ? ", [uid])
+
+            let userscore = score + user_score[0][0].uscore
+            console.log(userscore);
+            const user_score2 = await pool.query("update users set uscore = ? where uid = ?", [userscore, uid])
+
             console.log(indexStates);
 
             res.render("quiz-today-complete", {
