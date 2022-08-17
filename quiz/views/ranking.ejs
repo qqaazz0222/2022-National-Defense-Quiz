@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<%- include ./head %>
+<body>
+    <%- include ./nav %>
+    <div class="page unitrank">
+        <div class="logo">국방퀴즈</div>
+        <div class="title">부대랭킹</div>
+        <form class="search" action="/ranking" method="post">
+            <input class="btn-sm" name="unitcode" type="text" placeholder="부대코드">
+            <input class="btn-sm btn-blue" type="submit" value="검색">
+        </form>
+        <div class="hof">
+            <div class="2nd">
+
+            </div>
+            <div class="1st">
+                
+            </div>
+            <div class="3rd">
+
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>등수</th>
+                    <th>부대코드</th>
+                    <th>부대 점수</th>
+                    <th>가입자 수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < res3.length; i++){ %>
+                    <tr class="ranklist">
+                        <td>
+                            <%= i+1%>
+                        </td>
+                        <td>
+                            <%= res3[i].uunitcode%>
+                        </td>
+                        <td>
+                            <%= res3[i].score%>
+                        </td>
+                        <td>
+                            <%= res3[i].num%>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>

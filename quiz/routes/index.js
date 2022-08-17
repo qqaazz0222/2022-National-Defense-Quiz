@@ -121,9 +121,12 @@ router.get("/ranking", async(req, res)=> {
     // return res.render("rankpage");
         try {
             console.log(res3[0]);
-            res.render("rankpage", {
+            res.render("ranking", {
             //   res2: res2[0], // 개인랭킹 파라미터
-              res3: res3[0] // 부대별 점수 파라미터
+              res3: res3[0], // 부대별 점수 파라미터
+              udata: req.session.udata,
+              signinState: req.session.isLogined,
+              title: "부대랭킹"
             });
         } catch (error) {
           console.log(error);
@@ -138,30 +141,20 @@ router.post("/ranking", async(req, res)=> {
     const res3 = await pool.query("select uunitcode, sum(uscore) as score, count(uid) as num from quiz.users where uunitcode = ? group by uunitcode;", [unitcode])
     // return res.render("rankpage");
         try {
-            res.render("rankpage", {
+            res.render("ranking", {
             //   res2: res2[0], // 개인랭킹 파라미터
-              res3: res3[0] // 부대별 점수 파라미터
+              res3: res3[0], // 부대별 점수 파라미터
+              udata: req.session.udata,
+              signinState: req.session.isLogined,
+              title: "부대랭킹"
             });
         } catch (error) {
           console.log(error);
         }
 });
 
-router.get("/test", async function (req, res, next) {
-    const qIndex = await pool.query("SELECT * FROM `quiz-rank` ORDER BY RAND() LIMIT 10;");
-    let content = {"questions":[]}
-    for(let i=0; i<10; i++) {
-        let question = qIndex[0][i].question;
-        let {choices1, choices2, choices3} = qIndex[0][i];
-        let num = parseInt(Math.random()*4);
-        let qData = await pool.query("SELECT title, exp FROM mil2 WHERE rowno IN (?, ?, ?, ?)",[question, choices1, choices2, choices3]);
-        let choices = [qData[0][1].title.split('(')[0], qData[0][2].title.split('(')[0], qData[0][3].title.split('(')[0]];
-        choices.splice(num, 0, qData[0][0].title.split('(')[0]);
-        let data = {"question": qData[0][0].exp.split('.')[0]+".", "choices": choices, "correctAnswer":num};
-        console.log(qData[0][0].exp.split(',')[0]);
-        content.questions.push(data);
-    }
-    res.json(content);
+router.get("/test", (req, res, next) => {
+    return res.render("ranking", );
 });
 
 module.exports = router;
