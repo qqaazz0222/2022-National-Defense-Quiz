@@ -7,5 +7,5 @@ const pool = mysql2.createPool({
   database: "quiz",
 });
 module.exports = pool;
-
+ 
 // 2022-08-16
