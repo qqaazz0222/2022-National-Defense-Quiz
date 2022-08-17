@@ -27,7 +27,7 @@
                 $(".started").delay(400).fadeIn('slow');
                 $(".loading-page").delay(400).fadeIn('slow');
                 $("#realresults").delay(400).fadeIn('slow');
-                if (i < 4) {
+                if (i < 10) {
                     j = 0; j++;
                     $('#qst').text(data.questions[i].question);
                     $('#btn1').attr('value', 0).text(data.questions[i].choices[0]);
@@ -70,7 +70,7 @@
                         }
                     });
                 } i++;
-                if (i == 5) {
+                if (i == 2) {
                     clearInterval(ti);
                     $(".started").fadeOut('slow');
                     $(".loading-page").fadeOut();
@@ -90,17 +90,16 @@
             if (myscore > otherscore) {
                 $("#finalresult").text("승리");
                 $("#finalresult").css("color", "rgb(207, 221, 252)")
-                //finalresults=0;
-                //console.log("final winner");
+                socket.emit('addPoint', username, myscore + 5);
             } else if (myscore < otherscore) {
                 $("#finalresult").text("패배");
                 $("#finalresult").css("color", "rgb(252, 207, 207)")
-                //finalresults=1;
-                //console.log("final loser");
+                socket.emit('addClient', username);
             } else {
-                //finalresults=2;
                 $("#finalresult").text("무승부");
                 $("#finalresult").css("color", "rgb(238, 242, 246)")
+                socket.emit('addClient', username);
+                socket.emit('addPoint', username, myscore);
             }
         });
         $(document).ready(function () {
