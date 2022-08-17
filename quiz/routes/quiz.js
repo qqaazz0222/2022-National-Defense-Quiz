@@ -1,8 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var connection = require("../db/db");
-const { query } = require("../db/db2");
-var pool = require("../db/db2");
+var pool = require("../db/db");
 
 // router.get("/today", function (req, res, next) {
 //     var today = new Date();
