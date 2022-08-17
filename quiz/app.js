@@ -44,9 +44,9 @@ app.use(function(err, req, res, next) {
   res.render('error', {title: "에러", signinState: true});
 });
 
-io.sockets.on('connection', function(socket){
+io.sockets.on('connection', (socket) => {
 	console.log("새로운 클라이언트 접속");
-	socket.on('addClient', function(username){
+	socket.on('addClient', (username) => {
 		socket.username = username;
 		usernames[username] = username;
 		scores[socket.username] = 0;
@@ -77,10 +77,10 @@ io.sockets.on('connection', function(socket){
 			});
 		} 
 	});
-	socket.on('result', function (usr,rst) {
+	socket.on('result', (usr,rst) => {
         io.sockets.in(rst).emit('viewresult',usr);
 	});
-	socket.on('disconnect', function(){
+	socket.on('disconnect', () => {
 		delete usernames[socket.username];
 		io.sockets.emit('updateusers', usernames);
 		socket.leave(socket.room);
