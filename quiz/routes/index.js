@@ -113,12 +113,42 @@ router.get("/quiz-rank", async function (req, res, next) {
 });
 
 router.get("/test", async function (req, res, next) {
-    return res.render("test", {
-        title: "테스트",
-        udata: req.session.udata,
-        signinState: req.session.isLogined,
-    });
+    const qIndex = await pool.query("SELECT * FROM `quiz-rank` ORDER BY RAND() LIMIT 10;");
+    let content = {"questions":[]}
+    for(let i=0; i<10; i++) {
+        let question = qIndex[0][i].question;
+        let {choices1, choices2, choices3} = qIndex[0][i];
+        let num = parseInt(Math.random()*4);
+        let qData = await pool.query("SELECT title, exp FROM mil2 WHERE rowno IN (?, ?, ?, ?)",[question, choices1, choices2, choices3]);
+        let choices = [qData[0][1].title.split('(')[0], qData[0][2].title.split('(')[0], qData[0][3].title.split('(')[0]];
+        choices.splice(num, 0, qData[0][0].title.split('(')[0]);
+        let data = {"question": qData[0][0].exp.split('.')[0]+".", "choices": choices, "correctAnswer":num};
+        console.log(qData[0][0].exp.split(',')[0]);
+        content.questions.push(data);
+    }
+    res.json(content);
 });
+
+    // connection.query("SELECT * FROM `quiz-rank` ORDER BY RAND() LIMIT 10;", (error, res) => {
+    //     let content = {"questions":[]}
+    //     if (error) throw error;ss
+    //     for(let i=0; i<10; i++) {
+    //         let question = res[i].question;
+    //         let {choices1, choices2, choices3} = res[i];
+    //         let num = parseInt(Math.random()*4);
+    //         connection.query("SELECT title, exp FROM mil WHERE rowno IN (?, ?, ?, ?)",[question, choices1, choices2, choices3], (error, qData) => {
+    //             if (error) throw error;
+    //             let choices = [qData[1].exp, qData[2].exp, qData[3].exp];
+    //             choices.splice(num, 0, qData[0].exp);
+    //             let data = {"question": qData[0].title, "choices": choices, "correctAnswer":num};
+    //             content.questions.push(data);
+    //             console.log(i , "PASS"), content;
+    //         });
+    //     } 
+    //     console.log("last", content);
+    //     // io.sockets.in(id).emit("sendQuestions", content);
+    //     return res.json(content);
+    // });
 // =======
 // /* GET home page. */
 // router.get("/", async (req, res) => {
