@@ -1,0 +1,7 @@
+{"questions":[
+	{"question": "정답은 1번입니다.", "choices": ["1", "2", "3", "4"], "correctAnswer":0},
+	{"question": "정답은 2번입니다.", "choices": ["1", "2", "3", "4"], "correctAnswer":1},
+	{"question": "정답은 3번입니다.", "choices": ["1", "2", "3", "4"], "correctAnswer":2},
+	{"question": "정답은 4번입니다.", "choices": ["1", "2", "3", "4"], "correctAnswer":3}
+]}
+
