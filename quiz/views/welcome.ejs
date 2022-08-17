@@ -1,141 +1,124 @@
 <!DOCTYPE html>
 <html>
-  <%- include ./head %>
+<%- include ./head %>
+
   <body style="background-color: #3A7959;">
     <%- include ./dev %>
-    <div class="page">
-      <div class="page" style="height: 100%; background-image: url('/images/main.jpg'); background-size: cover; filter: brightness(40%); opacity: 0.8;">
-      </div>
-      <div class="scroll-downs">
-        <div class="mousey">
-          <div class="scroller"></div>
+      <div class="page">
+        <div class="page"
+          style="height: 100%; background-image: url('/images/main.jpg'); background-size: cover; filter: brightness(40%); opacity: 0.8;">
+        </div>
+        <div class="scroll-downs">
+          <div class="mousey">
+            <div class="scroller"></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="page" style="height: auto;">
-      <div class="page-content">
-        <div class="row">
-          <div class="col">
-            <div class="card" data-aos="fade-right" data-aos-anchor-placement="top-center">
-              <div class="card-body">
-                <h3 class="card-title">오늘의 퀴즈</h3>
-                <p class="card-text">오늘의 퀴즈를 풀고 부대 랭킹을 올려보세요.</p>
+      <div class="page" style="height: auto;">
+        <div class="page-content">
+          <div class="row">
+            <div class="col">
+              <div class="card" data-aos="fade-right" data-aos-anchor-placement="top-center">
+                <div class="card-body">
+                  <h3 class="card-title">오늘의 퀴즈</h3>
+                  <p class="card-text">오늘의 퀴즈를 풀고 부대 랭킹을 올려보세요.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-4"></div>
+            <div class="col">
+              <div class="card" data-aos="fade-left" data-aos-anchor-placement="top-center">
+                <div class="card-body">
+                  <h3 class="card-title">대전 모드</h3>
+                  <p class="card-text">유저들과 대결을 통해 부대 랭킹을 올려보세요.</p>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-4"></div>
-        </div>
-        <div class="row">
-          <div class="col-4"></div>
-          <div class="col">
-            <div class="card" data-aos="fade-left" data-aos-anchor-placement="top-center">
-              <div class="card-body">
-                <h3 class="card-title">대전 모드</h3>
-                <p class="card-text">유저들과 대결을 통해 부대 랭킹을 올려보세요.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
+
+          <!-- 개인랭킹 -->
+          <div class="row">
           <div class="col">
             <div class="card" data-aos="fade-right" data-aos-anchor-placement="top-center">
               <div class="card-body">
                 <h3 class="card-title">랭킹</h3>
                 <p class="card-text">
-<!--  -->
-
-  <!-- <hr class="mt-5">
-  <hr class="mb-5"> -->
-
         <div class="table-wrapper-scroll-y my-custom-scrollbar">
-
           <table class="table table-bordered table-striped mb-0">
             <thead>
               <tr>
                 <th scope="col">순위</th>
-                <th scope="col">부대이름</th>
-                <th scope="col">점수</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td><%= personal_rank[0].uid%></td>
-                
-                <td>Otto</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-              </tr>
-            </tbody>
-          </table>
-
-        </div>
-
-        <!-- <div class="table-wrapper-scroll-y my-custom-scrollbar", style="width:85%; float:right">
-
-          <table class="table table-bordered table-striped mb-0">
-            <thead>
-              <tr>
-                <th scope="col">순위</th>
-                <th scope="col">부대이름</th>
                 <th scope="col">아이디</th>
                 <th scope="col">점수</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              <% for(var i = 0; i < 3; i++){ %>
+                <tr>
+                  <th scope="row"><%= i+1%></th>
+                  <td><%= res2[i].uid%></td>          
+                  <td><%= res2[i].uscore%></td>
+                </tr>
+                <% } %>      
             </tbody>
           </table>
-        </div> -->
-
-<!--  -->
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-4"></div>
         </div>
-        <div class="row">
-          <div class="col-4"></div>
+
+        <!-- 부대랭킹 -->
+          <div class="row">
           <div class="col">
-            <div class="card" data-aos="fade-left" data-aos-anchor-placement="top-center">
+            <div class="card" data-aos="fade-right" data-aos-anchor-placement="top-center">
               <div class="card-body">
-                <h3 class="card-title">마이페이지</h3>
-                <p class="card-text">오답 노트를 통해 틀렸던 퀴즈를 복습하고 개인 전적을 확인해보세요.</p>
-              </div>
+                <h3 class="card-title">랭킹</h3>
+                <p class="card-text">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <table class="table table-bordered table-striped mb-0">
+            <thead>
+              <tr>
+                <th scope="col">순위</th>
+                <th scope="col">부대코드</th>
+                <th scope="col">점수</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(var i = 0; i < 3; i++){ %>
+                <tr>
+                  <th scope="row"><%= i+1%></th>
+                  <td><%= res3[i].uunitcode%></td>          
+                  <td><%= res3[i].score%></td>
+                </tr>
+                <% } %>      
+            </tbody>
+          </table>
+        </div>
+
+
+          </p>
+        </div>
+      </div>
+      </div>
+      <div class="col-4"></div>
+      </div>
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col">
+          <div class="card" data-aos="fade-left" data-aos-anchor-placement="top-center">
+            <div class="card-body">
+              <h3 class="card-title">마이페이지</h3>
+              <p class="card-text">오답 노트를 통해 틀렸던 퀴즈를 복습하고 개인 전적을 확인해보세요.</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="page">
-      <h1 style="color: white;">로그인 넣을 자리</h1>
-    </div>
+      </div>
+      </div>
+      <div class="page">
+        <h1 style="color: white;">로그인 넣을 자리</h1>
+      </div>
   </body>
   <script src="/javascripts/scroll.js"></script>
+
 </html>

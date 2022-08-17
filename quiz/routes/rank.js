@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var connection = require('../db/db');
+var connection = require('../db/db2');
+
 
 
 router.get('/', function(req, res, next) {
@@ -21,4 +22,8 @@ router.get('/', function(req, res, next) {
 
 
 
+
+
 module.exports = router;
+
+
