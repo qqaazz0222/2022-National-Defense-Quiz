@@ -84,11 +84,23 @@ router.get("/signup", function (req, res, next) {
 });
 router.post("/signup", async function (req, res, next) {
     const { uid, upw, uname, uunitcode } = req.body;
-    const user = await pool.query("insert into users values (?, ?, ?, ?, 0);", [
+    let miltable = {
+        0 : "사령부", 100 : "100부대"
+    }
+    let milname = "";
+    try{    
+        milname = miltable[uunitcode];
+    } catch(err1){
+        milname = "undefined";
+        throw err1;
+    }
+
+    const user = await pool.query("insert into users values (?, ?, ?, ?, 0, 'user', ?);", [
         uid,
         upw,
         uname,
         uunitcode,
+        milname,
     ]);
     return res.render("signup-complete", {
         title: "회원가입 성공",
@@ -119,5 +131,51 @@ router.get("/test", async function (req, res, next) {
         signinState: req.session.isLogined,
     });
 });
+
+router.get("/admin", async function (req, res, next){
+    const ranking = await pool.query(
+        "select uunitname, sum(uscore) as score from users group by uunitname order by sum(uscore) desc;"
+    );
+    const members = await pool.query(
+        "select uunitname, count(uunitcode) as members from users group by uunitcode order by count(uunitcode) desc;"
+    );
+    // console.log(ranking[0]);
+    console.log(members[0]);
+    return res.render("admin", {
+        title: "관리자 페이지",
+        udata: req.session.udata,
+        signinState: req.session.isLogined,
+        ranking: ranking[0],
+        members: members[0]
+    })
+})
+
+router.get("/notice", async function (req, res, next){
+    const ranking = await pool.query(
+        "select uunitname, sum(uscore) as score from users group by uunitname order by sum(uscore) DESC;"
+    );
+    // console.log(ranking[0]);
+    return res.render("ap_notice", {
+        title: "관리자 페이지",
+        udata: req.session.udata,
+        signinState: req.session.isLogined,
+        ranking: ranking[0],
+    })
+})
+
+router.get("/userpg", async function (req, res, next){
+    const ranking = await pool.query(
+        "select uunitname, sum(uscore) as score from users group by uunitname order by sum(uscore) DESC;"
+    );
+    // console.log(ranking[0]);
+    return res.render("ap_user", {
+        title: "관리자 페이지",
+        udata: req.session.udata,
+        signinState: req.session.isLogined,
+        ranking: ranking[0],
+    })
+})
+
+
 
 module.exports = router;

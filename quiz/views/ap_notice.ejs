@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<%- include ./head %>
+    <body>
+    <%- include ./dev %>
+    <%- include ./nav %>
+    <div class="page uinfo2">
+      <div class="adminPage">
+        <%# 메뉴 바 %>
+        <div class="menu">
+          <div class="col" style="height: 50px; display: flex; align-content: center;">
+            <div class="logo">국방퀴즈 관리자</div>
+          </div>
+          <hr>
+          <div class="col">
+            <center class="centerMenu">
+              <div class="logo"><%= udata.uname %>님, 접속 중...</div><div style="height: 10px;"></div>
+              <div class="logo">관리</div>
+              <div class="menubox">
+                <div class="col">
+                  <a href="/admin" id="aMain" class="logo menulist" onclick="menuClick(this)" onmousemove="mouseOver(this)" onmouseout="mouseOut(this)">
+                    <img src="images/menuhome.png" onerror="this.src='images/user.png'" width="30" height="30">&nbsp
+                    <input type="hidden" name="mainpage">
+                    메인
+                  </a>
+                  <a href="/notice" id="aNotice" class="logo menulist" onclick="menuClick(this)" onmousemove="mouseOver(this)" onmouseout="mouseOut(this)">
+                    <img src="images/menunotice.png" onerror="this.src='images/user.png'" width="30" height="30">&nbsp
+                    공지사항
+                  </a>
+                  <a href=/userpg id="aUser" class="logo menulist" onclick="menuClick(this)" onmousemove="mouseOver(this)" onmouseout="mouseOut(this)">
+                    <img src="images/menuuser.png" onerror="this.src='images/user.png'" width="30" height="30">&nbsp
+                    유저
+                  </a>
+                </div>
+              </div>
+            </center>
+          </div>
+        </div>
+        <%# 콘텐츠 notice %>
+        <div class="contentwrapper">
+          <div class="contentrow1">
+            <div class="contentcol1">
+              Main #1
+            </div>
+            <div class="contentcol1">
+              Main #2
+            </div>
+          </div>
+          <div>
+            <div class="contentrow2">
+              <div class="contentcol2">
+                Main #3
+              </div>
+              <div class="contentcol2">
+                Main #4
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </body>
+    <script>
+      function mouseOver(target){
+        target.style.color = 'green';
+        target.style.cursor= 'pointer';
+      }
+
+      function mouseOut(target){
+        target.style.color = 'white';
+      }
+
+      document.addEventListener('scroll', () => {
+          let y = window.scrollY;
+          if (y > 120) {
+              $('.navbar').addClass('navbar-bg');
+          } else {
+              $('.navbar').removeClass('navbar-bg');
+          }
+      });
+      $('.post').click(function () {
+          $('.post').find('.desc').removeClass('show');
+          $(this).find('.desc').toggleClass('show');
+      })
+    </script>
+</html>

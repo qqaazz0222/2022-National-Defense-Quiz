@@ -22,7 +22,12 @@
                     <span>포인트</span>
                 </div>
                 <div class="body">
-                    <span><%=udata.uname%></span>
+                    <span>
+                        <%=udata.uname%>
+                        <% if (udata.utype === 'admin'){ %>
+                            <p style="display: inline; color:brown"><strong>🗣[관리자]</strong></p>
+                        <% } %>
+                    </span>
                     <span><%=udata.uid%></span>
                     <span><%=udata.uunitcode%></span>
                     <span><%=udata.uscore%></span>

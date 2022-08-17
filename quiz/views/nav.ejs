@@ -5,6 +5,9 @@
         <a class="tab" href="quiz-rank">경쟁전 참가<span></span></a>
         <a class="tab" href="ranking">부대 랭킹<span></span></a>
         <a class="tab" href="mypage">마이페이지<span></span></a>
+        <% if(signinState && udata.utype === "admin") { %>
+            <a class="tab" href="admin">관리자페이지<span></span></a>
+        <% } %>
     </div>
     <div class="user-menu">
         <%if(signinState){%>
