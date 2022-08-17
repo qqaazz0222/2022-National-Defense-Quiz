@@ -1,58 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <% include ./head.ejs %>
-  <body>
-    <% include ./dev.ejs %>
-    <div class="page">
-      <div class="page-content">
-        <div class="row" style="margin-top: 64px; margin-bottom: 64px;">
-          <div class="col-3" data-aos="fade-right">
-            <a href="/quiz/today" class="card popup-1 bg-color-red">
-              <div class="card-body">
-                <h2 class="card-title margin-bottom-48">오늘의 퀴즈</h2>
-                <h6 class="card-subtitle txt-color-black">
-                  <% if(indexStates.quizTodayState) { %>
-                    이미 완료하였어요.
-                  <% } else { %>
-                    오늘의 퀴즈를<br>풀어보세요!
-                  <% } %>
-                </h6>
-                <% if(indexStates.quizTodayState) { %>
-                  <h2 class="card-subtitle txt-color-black"><%= indexStates.quizTodayCorrect %>/5</h2>
-                <% } %>
-                
-              </div>
-            </a>
-          </div>
-          <div class="col-3" data-aos="fade-up">
-            <a class="card popup-1 bg-color-yellow" href="/quiz/battle">
-              <div class="card-body">
-                <h2 class="card-title margin-bottom-48">경쟁전</h2>
-                <h6 class="card-subtitle txt-color-black">경쟁전에 참가하여<br>부대 랭킹을 올려보세요!</h6>
-              </div>
-            </a>
-          </div>
-          <div class="col-3" data-aos="fade-down">
-            <a class="card popup-1 bg-color-sky" href="/unit/ranking">
-              <div class="card-body">
-                <h2 class="card-title margin-bottom-48">부대 랭킹</h2>
-                <h6 class="card-subtitle txt-color-black">본인이 속한 부대 랭킹을<br>확인해 보세요!</h6>
-              </div>
-            </a>
-          </div>
-          <div class="col-3" data-aos="fade-left">
-            <a class="card popup-1 bg-color-blue" href="/mypage">
-              <div class="card-body">
-                <h2 class="card-title margin-bottom-48">마이페이지</h2>
-                <h6 class="card-subtitle txt-color-black">본인의 전적 등 다양한<br>정보를 확인해 보세요!</h6>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="row">
-        </div>
-      </div>
-    </div>
-  </body>
-  <script src="/javascripts/scroll.js"></script>
+<% include ./head.ejs %>
+
+    <body>
+        <% include ./dev.ejs %>
+            <div class="page">
+                <div class="page-content">
+                    <div class="row" style="margin-top: 64px; margin-bottom: 64px">
+                        <div class="col-3" data-aos="fade-right">
+                            <a href="/quiz/today" class="card popup-1 bg-color-red">
+                                <div class="card-body">
+                                    <h2 class="card-title margin-bottom-48">
+                                        오늘의 퀴즈
+                                    </h2>
+                                    <h6 class="card-subtitle txt-color-black">
+                                        <% if(indexStates.quizTodayState) { %> 이미
+                                            완료하였어요. <% } else { %> 오늘의
+                                                퀴즈를<br />풀어보세요! <% } %>
+                                    </h6>
+                                    <% if(indexStates.quizTodayState) { %>
+                                        <h2 class="card-subtitle txt-color-black">
+                                            <h3>맞은 개수 : </h3>
+                                            <%= indexStates.quizTodayCorrect %>/4
+                                        </h2>
+                                        <% } %>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3" data-aos="fade-up">
+                            <a class="card popup-1 bg-color-yellow" href="/quiz/battle">
+                                <div class="card-body">
+                                    <h2 class="card-title margin-bottom-48">
+                                        경쟁전
+                                    </h2>
+                                    <h6 class="card-subtitle txt-color-black">
+                                        경쟁전에 참가하여<br />부대 랭킹을
+                                        올려보세요!
+                                    </h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3" data-aos="fade-down">
+                            <a class="card popup-1 bg-color-sky" href="/unit/ranking">
+                                <div class="card-body">
+                                    <h2 class="card-title margin-bottom-48">
+                                        부대 랭킹
+                                    </h2>
+                                    <h6 class="card-subtitle txt-color-black">
+                                        본인이 속한 부대 랭킹을<br />확인해 보세요!
+                                    </h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3" data-aos="fade-left">
+                            <a class="card popup-1 bg-color-blue" href="/mypage">
+                                <div class="card-body">
+                                    <h2 class="card-title margin-bottom-48">
+                                        마이페이지
+                                    </h2>
+                                    <h6 class="card-subtitle txt-color-black">
+                                        본인의 전적 등 다양한<br />정보를 확인해
+                                        보세요!
+                                    </h6>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row"></div>
+                </div>
+            </div>
+    </body>
+    <script src="/javascripts/scroll.js"></script>
+
 </html>
