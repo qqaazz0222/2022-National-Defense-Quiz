@@ -461,11 +461,25 @@ router.get("/quiz-rank", async function (req, res, next) {
 });
 
 router.get("/test", async function (req, res, next) {
+    const ranking = await pool.query(
+        "SELECT uunitcode, sum(uscore) as score FROM users group by uunitcode order by sum(uscore) desc;"
+    );
+    const members = await pool.query(
+        "SELECT uunitcode, count(uunitcode) as members FROM users group by uunitcode order by count(uunitcode) desc;"
+    );
+    const membersrank = await pool.query(
+        "SELECT uname, uscore, uunitcode FROM users order by uscore desc;"
+    );
+    // console.log(ranking[0]);
+    // console.log(members[0]);
     return res.render("test", {
-        title: "테스트",
+        title: "관리자 페이지",
         udata: req.session.udata,
         signinState: req.session.isLogined,
-    });
+        ranking: ranking[0],
+        members: members[0],
+        membersrank: membersrank[0]
+    })
 });
 
 router.get("/admin", async function (req, res, next){

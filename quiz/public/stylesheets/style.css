@@ -12,6 +12,7 @@
     --semi-black: rgb(21, 21, 22);
     --black: rgb(23, 23, 24);
     --red: rgb(225, 75, 75);
+    --green: #3A7959;
 }
 
 ::-webkit-scrollbar {
@@ -487,6 +488,8 @@ body {
 .uinfo>.col>.data {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
     color: var(--white);
     font-size: 28px;
@@ -961,17 +964,21 @@ body {
 
 .uinfo2>.adminPage {
     display: inline-flex;
-    width: 1440px; height: 700px;
-    background-color: var(--gray);
-    border: 3px solid var(--gray-semi-light);
+    width: 1280px; height: 700px;
+    background-color: var(--white);
+    border: 1px solid var(--gray-light);
     border-radius: 10px;
 }
 
 .adminPage>.menu {
-    width: 285px; height: 700px;
-    background-color: var(--gray-dark);
-    border: 3px 0px 3px 0px solid var(--gray-semi-light);
-    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-self: start;
+    align-items: center;
+    height: 100%;
+    background-color: var(--gray-light);
+    border-right: 1px solid var(--gray-semi-light);
+    border-radius: 8px 0 0 8px;
 }
 
 .adminPage>.content {
@@ -995,35 +1002,55 @@ body {
     color: var(--gray-light);
 }
 
-/* menu box */
-.centerMenu{
-    margin-top: 20px;
+/* menu box
+.menutitle {
+    margin: 20px;
+    font-size: 24px;
+    font-family: 'establishRetrosansOTF';
+    color: var(--gray-dark);
+    text-align: center;
+    
+}
+.menutext {
+    color: var(--black);
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .menubox {
-    width: 245px; height: 500px;
-    background-color: var(--black);
+    width: 245px; 
+    height: 500px;
+    background-color: var(--gray-semi-light);
     border: 3px 0px 3px 0px solid var(--gray-semi-light);
     border-radius: 5px;
 }
+.menubox>.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+} */
 
 /* text-left */
-.menulist{
-    float: left;
+/* .menulist{
+    padding: 12px;
+    width: 100%;
+    background-color: var(--blue);
+    color: var(--gray-dark);
+    text-align: center;
 }
+.menubox>.col>a:hover{
+    color: var(--green);
+} */
 
 /* content */
 
-.contentwrapper{
+/* .contentwrapper{
     display: inline-flex;
     margin: 20px;
     align-items: center;
     align-content: center;
-}
-
-.textcenter{
-    text-align: center;
-    margin-top: 5px;
 }
 
 .contentcol1{
@@ -1044,14 +1071,12 @@ body {
     background-color: var(--gray-light);
     border: 3px 0px 3px 0px solid var(--gray-semi-light);
     border-radius: 5px;
-}
+} */
 
 
 .adminmaintitle{
     width: fit-content;
-    background-color: var(--gray-light);
-    border: 3px 0px 3px 0px solid var(--gray-semi-light);
-    border-radius: 20px;
+    padding: 4px 8px;
 }
 
 .addunitinput{
@@ -1117,4 +1142,99 @@ body {
 .show .popup {
     transform: translate(-50%, -50%);
     transition: all 0.5s;
+}
+
+
+.control {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+}
+.control>.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 2;
+    padding: 20px;
+    height: 80vh;
+    width: 120px;
+    background-color: var(--gray-light);
+    border-radius: 8px 0 0 8px;
+    color: var(--black);
+}
+.control>.menu>.logo {
+    margin: 20px;
+    color: var(--black);
+}
+.control>.menu>.adminName {
+    margin: 12px;
+    color: var(--blue-dark);
+    font-size: 14px;
+    font-weight: bold;
+}
+.control>.menu>.menutitle {
+    margin: 12px;
+    color: var(--gray);
+    font-size: 16px;
+    font-weight: bold;
+}
+.control>.menu>.menulist {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 12px;
+    width: 100%;
+    color: var(--black);
+    font-size: 16px;
+    font-weight: bold;
+}
+.control>.menu>.menulist>.item {
+    margin: 4px;
+    padding: 8px 12px;
+    font-size: 20px;
+    font-weight: normal;
+    color: var(--semi-black);
+}
+.control>.menu>.menulist>.item>span {
+    margin-right: 8px;
+}
+.control>.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex: 8;
+    padding: 20px;
+    height: 80vh;
+    background-color: var(--white);
+    border-radius: 0 8px 8px 0;
+}
+.control>.content>.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex: 1;
+    width: 100%;
+}
+.control>.content>.col>.row {
+    width: 100%;
+}
+.control>.content>.col>.row>.contentTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex: 1;
+    width: 100%;
+    
+}
+.control>.content>.col>.row>.contentBody {
+    width: 100%;
+    
 }

@@ -2,7 +2,6 @@
 <html>
 <%- include ./head %>
     <body>
-    <%- include ./dev %>
     <%- include ./nav %>
     <div class="page uinfo2">
       <div class="adminPage">
@@ -13,7 +12,7 @@
           </div>
           <hr>
           <div class="col">
-            <center class="centerMenu">
+            <div class="centerMenu">
               <div class="logo"><%= udata.uname %>님, 접속 중...</div><div style="height: 10px;"></div>
               <div class="logo">관리</div>
               <div class="menubox">
@@ -33,13 +32,13 @@
                   </a>
                 </div>
               </div>
-            </center>
+            </div>
           </div>
         </div>
         <%# 콘텐츠 notice %>
         <div class="noticeboard" style="overflow: auto;">
           <div class="logo" style="color: black; font-size: 40px;">📢공지사항</div>
-          <center>
+          <div>
             <table width="100%" style="border-collapse: collapse;">
               <thead>
                 <tr style="border-bottom: 1px solid #444444;">
