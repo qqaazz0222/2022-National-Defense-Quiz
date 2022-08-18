@@ -3,16 +3,14 @@
 <html>
   <% include ./head.ejs %>
   <body>
-    <% include ./dev.ejs %>
     <a class="goHome" href="/">
         <span></span>
         <span></span>
     </a>
-    <div class="page sign">
+    <div class="page errorPage">
         <div class="logo">국방퀴즈</div>
-        <div class="title">
-            404
-        </div>
+        <div class="title"><%= error.status %></div>
+        <div class="subTitle"><%= message %></div>
         <a class="btn btn-blue" href="/">홈으로</a>
     </div>
   </body>
