@@ -1,0 +1,28 @@
+<!-- 회원가입 성공 ejs -->
+<!DOCTYPE html>
+<html>
+<% include ./head.ejs %>
+    <body>
+        <a class="goHome" href="/" title="홈으로">
+            <span></span>
+            <span></span>
+        </a>
+        <div class="page sign">
+            <div class="logo">국방퀴즈</div>
+            <div class="title">
+                가입성공
+            </div>
+            <div class="subTitle">
+                <p>ID <strong>
+                        <%=uid%>
+                    </strong></p>
+                <p><strong>
+                        <%=uname%>
+                    </strong>님 가입을 진심으로 축하드립니다.<br>다양한 퀴즈를 풀어보세요!</p>
+                <a class="btn btn-blue" href="/">홈으로</a>
+            </div>
+        </div>
+    </body>
+    <script src="/javascripts/scroll.js"></script>
+
+</html>

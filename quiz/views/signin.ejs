@@ -1,0 +1,28 @@
+<!-- 로그인 ejs -->
+<!DOCTYPE html>
+<html>
+<% include ./head.ejs %>
+
+    <body>
+        <a class="goHome" href="/" title="홈으로">
+            <span></span>
+            <span></span>
+        </a>
+        <div class="page sign">
+            <div class="logo">국방퀴즈</div>
+            <div class="title">
+                로그인
+            </div>
+            <%if(errorData.id != ""){%>
+                <div class="error"><%=errorData.msg%></div>
+            <%}%>
+            <form class="input" action="signin" method="post">
+                <input class="data" name="uid" type="text" placeholder="아이디를 입력해주세요.">
+                <input class="data" name="upw" type="password" placeholder="비밀번호를 입력해주세요.">
+                <input class="func btn btn-blue" type="submit" value="로그인">
+            </form>
+            <p>아직 아이디가 없으신가요? <a href="signup">회원가입</a></p>
+        </div>
+    </body>
+
+</html>
