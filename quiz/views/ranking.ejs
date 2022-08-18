@@ -1,67 +1,112 @@
+<!-- 부대랭킹 ejs -->
 <!DOCTYPE html>
 <html>
 <%- include ./head %>
-<body>
-    <%- include ./nav %>
-    <div class="page unitrank">
-        <div class="logo">국방퀴즈</div>
-        <div class="title">부대랭킹</div>
-        <form class="search" action="/ranking" method="post">
-            <input class="btn-sm" name="unitcode" type="text" placeholder="부대코드">
-            <input class="btn-sm btn-blue" type="submit" value="검색">
-        </form>
-        <div class="hof">
-            <div class="row">
-                <span><%= res3[1].score%>점</span>
-                <span><%= res3[1].uunitcode%>부대</span>
-                <div class="r2">
-                    2<span>nd</span>
-                </div>
-            </div>
-            <div class="row">
-                <span><%= res3[0].score%>점</span>
-                <span><%= res3[0].uunitcode%>부대</span>
-                <div class="r1">
-                    1<span>st</span>
-                </div>
-            </div>
-            <div class="row">
-                <span><%= res3[2].score%>점</span>
-                <span><%= res3[2].uunitcode%>부대</span>
-                <div class="r3">
-                    3<span>rd</span>
-                </div>
-            </div>
-        </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>등수</th>
-                    <th>부대코드</th>
-                    <th>부대 점수</th>
-                    <th>가입자 수</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for(var i=0; i < res3.length; i++){ %>
-                    <tr class="ranklist">
-                        <td>
-                            <%= i+1%>
-                        </td>
-                        <td>
-                            <%= res3[i].uunitcode%>
-                        </td>
-                        <td>
-                            <%= res3[i].score%>
-                        </td>
-                        <td>
-                            <%= res3[i].num%>
-                        </td>
-                    </tr>
-                    <% } %>
-            </tbody>
-        </table>
 
-    </div>
-</body>
+    <body>
+        <%- include ./nav %>
+            <div class="page unitrank">
+                <div class="logo">국방퀴즈</div>
+                <div class="title">부대랭킹</div>
+                <form class="search" action="/ranking" method="post">
+                    <input class="btn-sm" name="unitcode" type="text" placeholder="부대코드">
+                    <input class="btn-sm btn-blue" type="submit" value="검색">
+                </form>
+            </div>
+            <%if(res3.length>1) {%>
+                <div class="page unitranklist">
+                    <div class="hof">
+                        <div class="row">
+                            <span>
+                                <%= res3[1].score%>점
+                            </span>
+                            <span>
+                                <%= res3[1].uunitcode%>부대
+                            </span>
+                            <div class="r2">
+                                <img src="images/2nd.png" alt="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span>
+                                <%= res3[0].score%>점
+                            </span>
+                            <span>
+                                <%= res3[0].uunitcode%>부대
+                            </span>
+                            <div class="r1">
+                                <img src="images/1st.png" alt="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span>
+                                <%= res3[2].score%>점
+                            </span>
+                            <span>
+                                <%= res3[2].uunitcode%>부대
+                            </span>
+                            <div class="r3">
+                                <img src="images/3rd.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>등수</th>
+                                <th>부대코드</th>
+                                <th>부대 점수</th>
+                                <th>가입자 수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i=3; i < res3.length; i++){ %>
+                                <tr class="ranklist">
+                                    <td>
+                                        <%= i+1%>
+                                    </td>
+                                    <td>
+                                        <%= res3[i].uunitcode%>
+                                    </td>
+                                    <td>
+                                        <%= res3[i].score%>
+                                    </td>
+                                    <td>
+                                        <%= res3[i].num%>
+                                    </td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <%} else {%>
+                    <div class="page unitranklist">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>부대코드</th>
+                                    <th>부대 점수</th>
+                                    <th>가입자 수</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(var i=0; i < res3.length; i++){ %>
+                                    <tr class="ranklist">
+                                        <td>
+                                            <%= res3[i].uunitcode%>
+                                        </td>
+                                        <td>
+                                            <%= res3[i].score%>
+                                        </td>
+                                        <td>
+                                            <%= res3[i].num%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <%}%>
+    </body>
+
 </html>
