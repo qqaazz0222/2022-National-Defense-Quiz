@@ -286,138 +286,120 @@ router.post("/ranking", async(req, res)=> {
 });
 // 오늘의퀴즈페이지 접속
 router.get("/quiz-today", async (req, res) => {
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth() + 1;
-    var day = today.getDate();
-    var date = year + "-" + month + "-" + day;
-    const que_ans = await pool.query("SELECT * from quiz.quiz_today where date= ?", [date])
-    // quiz_today에서 question하고 answer 정보를 가져온다.
-    // 가지고 온 정보를 토대로 문제 title 하고 정답을 가져온다.
-
-    // req session 에 저장한다.
-
-    if (req.session.uid) {
-        const res1 = await pool.query(
-            "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
-            [req.session.uid, date]
-        );
-
-
-        try {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+    let date = year + "-" + month + "-" + day;
+    try {
+        const que_ans = await pool.query("SELECT * from quiz.quiz_today where date= ?", [date])
+        // quiz_today에서 [question, answer] 정보 조회
+        // 정보 > 문제 제목, 정답 받음
+        if (req.session.uid) {
+            const res1 = await pool.query("SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",[req.session.uid, date]);
             if (res1[0].length == 0) {
-                req.session.qid = [0, 0, 0, 0]; //문제를 4개 만들고
-                req.session.aid = [0, 0, 0, 0]; //답도 4개 만든다.
+                req.session.qid = [0, 0, 0, 0]; // 문제 생성 (4)
+                req.session.aid = [0, 0, 0, 0]; // 답 생성 (4)
                 req.session.qid[0] = que_ans[0][0].q1
                 req.session.qid[1] = que_ans[0][0].q2
                 req.session.qid[2] = que_ans[0][0].q3
                 req.session.qid[3] = que_ans[0][0].q4
                 res.redirect("quiz-today/1");
             } else {
-                res.send(
-                    "<script>location.href='/'; alert('이미 오늘의 퀴즈를 푸셨습니다..');</script>"
-                );
+                res.send("<script>location.href='/'; alert('이미 오늘의 퀴즈를 푸셨습니다..');</script>");
             }
-        } catch (error) {
-            console.log(error);
+        } else {
+            res.redirect('/signin');
         }
-    } else {
-        res.render("signin", {
-            quizStates: quizStates,
-            title: "로그인",
-            signinState: false,
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
         });
     }
-});
 
+});
+// 오늘의퀴즈페이지 문제
 router.get("/quiz-today/:id", async (req, res) => {
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = "0" + (today.getMonth() + 1)
-    var day = today.getDate();
-    var date = year + "-" + month + "-" + day;
-    console.log(req.session.qid);
-    var quizStates = {
-        qid: parseInt(req.params.id),
-    };
-
-    const problem_number = req.session.qid[parseInt(req.params.id) - 1]
-
-    //세션의 정보를 불러와서 정보 조회
-    const correct_problem = await pool.query('select * from mil2 where rowno= ?', [problem_number])
-
-    // 문제와 정답 뿌려주고
-    const rowno = correct_problem[0][0].rowno
-    const type = correct_problem[0][0].type
-
-    // 나머지 정답 뿌려주고  (제목으로)
-    const incorrect_problem = await pool.query('select title from mil2 where rowno!= ? and type = ? limit  4', [rowno, type])
-    console.log(incorrect_problem[0][0]);
-
-    console.log(incorrect_problem[0][0].title);
-    // ques, answr값 불러와서 정보 조회
-    const quiz_today = await pool.query('select * from quiz_today where date = ?', [date]);
-
-    // .split('.')[0]
-    let ans = []
-    ans.push(quiz_today[0][0].a1)
-    ans.push(quiz_today[0][0].a2)
-    ans.push(quiz_today[0][0].a3)
-    ans.push(quiz_today[0][0].a4)
-
-
-    if (req.session.uid) {
-        res.render("quiz-today", {
-            req: req.session.qid,
-            correct_problem: correct_problem[0][0],
-            incorrect_problem: incorrect_problem[0],
-            quiz_today: quiz_today[0][0],
-            quizStates: quizStates,
-            ans: ans,
-            title: "오늘의 퀴즈",
-            signinState: true,
-        });
-    } else {
-        res.render("signin", {
-            quizStates: quizStates,
-            title: "로그인",
-            signinState: false,
+    try {
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = "0" + (today.getMonth() + 1)
+        let day = today.getDate();
+        let date = year + "-" + month + "-" + day;
+        let quizStates = {
+            qid: parseInt(req.params.id),
+        };
+        const problem_number = req.session.qid[parseInt(req.params.id) - 1]
+        // 세션의 정보를 불러와서 정보 조회
+        const correct_problem = await pool.query('select * from mil where rowno= ?', [problem_number])
+        // 문제와 정답 출력
+        const rowno = correct_problem[0][0].rowno
+        const type = correct_problem[0][0].type
+        // 나머지 정답 출력 
+        const incorrect_problem = await pool.query('select exp from mil where rowno!= ? and type = ? limit  4', [rowno, type])
+        // ques, answr값 불러와서 정보 조회
+        const quiz_today = await pool.query('select * from quiz_today where date = ?', [date]);
+        let ans = []
+        ans.push(quiz_today[0][0].a1)
+        ans.push(quiz_today[0][0].a2)
+        ans.push(quiz_today[0][0].a3)
+        ans.push(quiz_today[0][0].a4)
+        if (req.session.uid) {
+            res.render("quiz-today", {
+                req: req.session.qid,
+                correct_problem: correct_problem[0][0],
+                incorrect_problem: incorrect_problem[0],
+                quiz_today: quiz_today[0][0],
+                quizStates: quizStates,
+                ans: ans,
+                title: "오늘의 퀴즈",
+                signinState: true,
+            });
+        } else {
+            res.redirect('/signin');
+        }
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
         });
     }
 });
-
+// 오늘의퀴즈페이지 문제 제출
 router.post("/quiz-today/:id", async (req, res) => {
-    // req.session.qid[req.params.id - 1] = req.params.id;
-    // console.log(req.session.qid[req.params.id - 1]); // q_id
-    req.session.aid[req.params.id - 1] = req.body.quiz;
-    // console.log(req.session.aid[req.params.id - 1]); // a_id
-    if (req.params.id == 4) {
-        res.redirect("/quiz-today-complete");
-    } else {
-        res.redirect("/quiz-today/" + (parseInt(req.params.id) + 1));
+    try {
+        req.session.aid[req.params.id - 1] = req.body.quiz;
+        if (req.params.id == 4) {
+            res.redirect("/quiz-today-complete");
+        } else {
+            res.redirect("/quiz-today/" + (parseInt(req.params.id) + 1));
+        }
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
     }
 });
-
+// 오늘의퀴즈 완료 페이지
 router.get("/quiz-today-complete", async (req, res) => {
-    var indexStates = {
-        quizTodayState: false,
-        quizTodayCorrect: 0,
-    };
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth() + 1;
-    var day = today.getDate();
-    var date = year + "-" + month + "-" + day;
-    var uid = req.session.uid;
-    var qid = req.session.qid; // 문제 번호
-    var aid = req.session.aid; // 사용자 답
-    console.log(aid);
-    if (req.session.uid) {
-        const user_res = await pool.query(
-            "INSERT INTO res_quiz_today VALUES (null, ?, ?, ?, ?, ?, ? );",
-            [uid, date, aid[0], aid[1], aid[2], aid[3]]
-        );
-        try {
+    try {
+        let indexStates = {
+            quizTodayState: false,
+            quizTodayCorrect: 0,
+        };
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        let day = today.getDate();
+        let date = year + "-" + month + "-" + day;
+        let uid = req.session.uid;
+        let qid = req.session.qid; // 문제 번호
+        let aid = req.session.aid; // 사용자 답
+
+        if (req.session.uid) {
+            const user_res = await pool.query("INSERT INTO res_quiz_today VALUES (null, ?, ?, ?, ?, ?, ? );",[uid, date, aid[0], aid[1], aid[2], aid[3]]);
             const answer = await pool.query("select a1, a2, a3, a4 from quiz_today where date = ? ", [date])
             const user_response = await pool.query("select r1, r2, r3, r4 from res_quiz_today where date = ? and uid = ?", [date, req.session.uid])
 
@@ -428,17 +410,13 @@ router.get("/quiz-today-complete", async (req, res) => {
             answer2.push(answer[0][0].a2);
             answer2.push(answer[0][0].a3);
             answer2.push(answer[0][0].a4);
+
             user_response2.push(parseInt(user_response[0][0].r1))
             user_response2.push(parseInt(user_response[0][0].r2))
             user_response2.push(parseInt(user_response[0][0].r3))
             user_response2.push(parseInt(user_response[0][0].r4))
 
-
-            console.log(answer2);
-            console.log(user_response2);
-
             cnt = 0
-
             for (i = 0; i < 4; i++) {
                 if (answer2[i] == user_response2[i]) {
                     cnt += 1
@@ -446,25 +424,19 @@ router.get("/quiz-today-complete", async (req, res) => {
             }
             indexStates.quizTodayCorrect = cnt
 
-            let score = 2 * cnt
-            let user_score = await pool.query("select uscore from users where uid = ? ", [uid])
-
-            let userscore = score + user_score[0][0].uscore
-            console.log(userscore);
-            const user_score2 = await pool.query("update users set uscore = ? where uid = ?", [userscore, uid])
-
-            console.log(indexStates);
-
             res.render("quiz-today-complete", {
                 title: "오늘의 퀴즈 완료",
                 signinState: true,
                 indexStates: indexStates
             });
-        } catch (error) {
-            console.log(error);
+        } else {
+            res.redirect("/signin");
         }
-    } else {
-        res.redirect("/signin");
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
     }
 });
 
@@ -488,27 +460,17 @@ router.get("/quiz-rank", async function (req, res, next) {
     }
 });
 
-router.get("/test", async function (req, res, next) {
-    const ranking = await pool.query(
-        "SELECT uunitcode, sum(uscore) as score FROM users group by uunitcode order by sum(uscore) desc;"
-    );
-    const members = await pool.query(
-        "SELECT uunitcode, count(uunitcode) as members FROM users group by uunitcode order by count(uunitcode) desc;"
-    );
-    const membersrank = await pool.query(
-        "SELECT uname, uscore, uunitcode FROM users order by uscore desc;"
-    );
-    // console.log(ranking[0]);
-    // console.log(members[0]);
-    return res.render("test", {
-        title: "관리자 페이지",
-        udata: req.session.udata,
-        signinState: req.session.isLogined,
-        ranking: ranking[0],
-        members: members[0],
-        membersrank: membersrank[0]
-    })
-});
+// router.get("/test", async function (req, res, next) {
+//     const users = await pool.query(
+//         "select * from users;"
+//     );
+//     return res.render("test", {
+//         title: "관리자 페이지",
+//         udata: req.session.udata,
+//         signinState: req.session.isLogined,
+//         users: users[0]
+//     })
+// });
 
 router.get("/admin", async function (req, res, next){
     const ranking = await pool.query(
@@ -608,18 +570,20 @@ router.post("/adminuserdel", async function(req, res, next){
 router.post("/adminuseredit", async function(req, res, next){
     const uname = req.body.uname;
     const uunitcode = req.body.uunitcode;
+    const uscore = req.body.uscore;
     const uid = req.body.uid;
     const upw = req.body.upw;
     const users = await pool.query(
         "select * from users;"
     );
+    console.log(users[0].length);
     for(var i = 0; i < users[0].length; i++){
         const editall = await pool.query(
-            "update users set uid = ?, upw = ?, uname = ?, uunitcode = ? where uid = ?;",[
-                uid[i],
+            "update users set upw = ?, uname = ?, uunitcode = ?, uscore = ? where uid = ?;",[
                 upw[i],
                 uname[i],
                 uunitcode[i],
+                uscore[i],
                 uid[i]
             ]);
         }

@@ -2,17 +2,25 @@
 <!DOCTYPE html>
 <html>
 <% include ./head.ejs %>
-    <body>
-        <div class="page today">
-            <div class="result">
-                <div class="logo">국방퀴즈</div>
-                <div class="title">+<%=indexStates.quizTodayCorrect*2%>포인트</div>
-                <div class="subTitle">
-                    총 <%=indexStates.quizTodayCorrect%> 문제를 맞췄습니다.
-                </div><br>
-                </span></h6><br>
-                <button class="btn btn-blue" type="button"
-                    onclick="location.href='/'">홈으로</button>
+    <body class="bg-color-red">
+        <div class="page bg-color-red" style="height: auto;">
+            <div class="page-content">
+                <div class="row">
+                    <div class="col">
+                        <div class="card" style="width: 400px; height: auto; margin: auto; margin-bottom: 16px;">
+                            <h3 class="card-title">+<%=indexStates.quizTodayCorrect%>건빵</h3>
+                            <img src="/images/point.jpg" style="height: 256px; object-fit:contain ">
+                            <h5 class="card-subtitle">
+                                총 <%=indexStates.quizTodayCorrect%> 문제를 맞췄습니다.
+                            </h5><br>
+                            </span></h6><br>
+                            <button class="card-btn-c2" type="button"
+                                onclick="location.href='signin'">로그인하기</button>
+                            <button class="card-btn-c1 bg-color-red" type="button"
+                                onclick="location.href='/'">홈으로</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
