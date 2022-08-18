@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<%- include ./head %>
+    <body>
+    <%- include ./dev %>
+    <%- include ./nav %>
+    <div class="page uinfo2">
+      <div class="adminPage">
+        <%# 메뉴 바 %>
+        <div class="menu">
+          <div class="col" style="height: 50px; display: flex; align-content: center;">
+            <div class="logo">국방퀴즈 관리자</div>
+          </div>
+          <hr>
+          <div class="col">
+            <center class="centerMenu">
+              <div class="logo"><%= udata.uname %>님, 접속 중...</div><div style="height: 10px;"></div>
+              <div class="logo">관리</div>
+              <div class="menubox">
+                <div class="col">
+                  <a href="/admin" id="aMain" class="logo menulist" onclick="menuClick(this)" onmousemove="mouseOver(this)" onmouseout="mouseOut(this)">
+                    <img src="images/menuhome.png" onerror="this.src='images/user.png'" width="30" height="30">&nbsp
+                    <input type="hidden" name="mainpage">
+                    메인
+                  </a>
+                  <a href="/notice" id="aNotice" class="logo menulist" onclick="menuClick(this)" onmousemove="mouseOver(this)" onmouseout="mouseOut(this)">
+                    <img src="images/menunotice.png" onerror="this.src='images/user.png'" width="30" height="30">&nbsp
+                    공지사항
+                  </a>
+                  <a href=/userpg id="aUser" class="logo menulist" onclick="menuClick(this)" onmousemove="mouseOver(this)" onmouseout="mouseOut(this)">
+                    <img src="images/menuuser.png" onerror="this.src='images/user.png'" width="30" height="30">&nbsp
+                    유저
+                  </a>
+                </div>
+              </div>
+            </center>
+          </div>
+        </div>
+        <%# 콘텐츠 notice %>
+        <div class="contentwrapper">
+          <div class="contentrow1">
+            <center><div class="logo textcenter adminmaintitle" style="color: black;">🪖부대 별 인원 현황</div></center>
+            <div class="contentcol1" style="overflow: auto;">
+              <table width="100%" height="auto" cellspacing="5">
+                <thead>
+                  <tr align="center" bgcolor="white">
+                    <th>Rank</th>
+                    <th>부대 코드</th>
+                    <th>인원</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <% for(var i = 0; i < members.length; i++){ %>
+                  <% if(i === 0){ %>
+                    <tr align="center" bgcolor="red">
+                      <th>🥇등</th>
+                      <td><%= members[i].uunitcode %></td>
+                      <td><%= members[i].members%></td>
+                    </tr>
+                  <% }else if(i === 1){ %>
+                    <tr align="center" bgcolor="green">
+                      <th>🥈등</th>
+                      <td><%= members[i].uunitcode %></td>
+                      <td><%= members[i].members%></td>
+                    </tr>
+                  <% }else if(i === 2){ %>
+                    <tr align="center" bgcolor="yellow">
+                      <th>🥉등</th>
+                      <td><%= members[i].uunitcode %></td>
+                      <td><%= members[i].members%></td>
+                    </tr>
+                  <% }else{ %>
+                    <tr align="center" bgcolor="white">
+                      <th><%= i+1 %>등</th>
+                      <td><%= members[i].uunitcode %></td>
+                      <td><%= members[i].members%></td>
+                    </tr>
+                  <% } %>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <center><div class="logo textcenter adminmaintitle" style="color: black;">💯부대 별 점수 현황</div></center>
+            <div class="contentcol1" style="overflow: auto;">
+              <table width="100%" height="auto" cellspacing="5">
+                <thead>
+                  <tr align="center" bgcolor="white">
+                    <th>Rank</th>
+                    <th>부대 코드</th>
+                    <th>점수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(var i = 0; i < ranking.length; i++){ %>
+                    <% if(i === 0){ %>
+                      <tr align="center" bgcolor="red">
+                        <th>🥇등</th>
+                        <td><%= ranking[i].uunitcode %></td>
+                        <td><%= ranking[i].score%></td>
+                      </tr>
+                    <% }else if(i === 1){ %>
+                      <tr align="center" bgcolor="green">
+                        <th>🥈등</th>
+                        <td><%= ranking[i].uunitcode %></td>
+                        <td><%= ranking[i].score%></td>
+                      </tr>
+                    <% }else if(i === 2){ %>
+                      <tr align="center" bgcolor="yellow">
+                        <th>🥉등</th>
+                        <td><%= ranking[i].uunitcode %></td>
+                        <td><%= ranking[i].score%></td>
+                      </tr>
+                    <% }else{ %>
+                      <tr align="center" bgcolor="white">
+                        <th><%= i+1 %>등</th>
+                        <td><%= ranking[i].uunitcode %></td>
+                        <td><%= ranking[i].score%></td>
+                      </tr>
+                    <% } %>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="contentrow2">
+            <center><div class="logo textcenter adminmaintitle" style="color: black;">🏆점수 랭킹</div></center>
+            <div class="contentcol2" style="overflow: auto;">
+              <table width="100%" style="border-collapse: collapse;">
+                <thead>
+                  <tr style="border-bottom: 1px solid #444444;">
+                    <th>Rank</th>
+                    <th>이름</th>
+                    <th>부대 코드</th>
+                    <th>점수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(var i = 0; i < membersrank.length; i++){ %>
+                    <% if(i === 0){ %>
+                      <tr align="center">
+                        <th>🥇등</th>
+                        <td ><%= membersrank[i].uname %></td>
+                        <td ><%= membersrank[i].uunitcode %></td>
+                        <td><%= membersrank[i].uscore%></td>
+                      </tr>
+                    <% }else if(i === 1){ %>
+                      <tr align="center">
+                        <th>🥈등</th>
+                        <td ><%= membersrank[i].uname %></td>
+                        <td><%= membersrank[i].uunitcode %></td>
+                        <td><%= membersrank[i].uscore%></td>
+                      </tr>
+                    <% }else if(i === 2){ %>
+                      <tr align="center">
+                        <th>🥉등</th>
+                        <td ><%= membersrank[i].uname %></td>
+                        <td><%= membersrank[i].uunitcode %></td>
+                        <td><%= membersrank[i].uscore%></td>
+                      </tr>
+                    <% }else{ %>
+                      <tr align="center">
+                        <th><%= i+1 %>등</th>
+                        <td ><%= membersrank[i].uname %></td>
+                        <td><%= membersrank[i].uunitcode %></td>
+                        <td><%= membersrank[i].uscore%></td>
+                      </tr>
+                    <% } %>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <center><div class="logo textcenter adminmaintitle" style="color: black;">🛖부대 추가</div></center>
+            <div class="contentcol2" style="overflow: auto;">
+              <table width="100%" style="border-collapse: collapse;">
+                <thead>
+                  <tr style="border-bottom: 1px solid #444444;">
+                    <th>부대 코드</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr align="center">
+                  </tr>
+                </tbody>
+              </table>
+              <center>
+                <form class="input" action="addunit" method="post">
+                  <div style="display: inline-block;">
+                    <input name="uunitcode" type="number" class="addunitinput" placeholder="부대 코드">
+                  </div>
+                  <div style="display: inline-block;">
+                    <input type="submit" class="addunitinput" type="button" value="등록">
+                  </div>
+                </form>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+    <script>
+      function mouseOver(target){
+        target.style.color = 'green';
+        target.style.cursor= 'pointer';
+      }
+
+      function mouseOut(target){
+        target.style.color = 'white';
+      }
+
+      document.addEventListener('scroll', () => {
+          let y = window.scrollY;
+          if (y > 120) {
+              $('.navbar').addClass('navbar-bg');
+          } else {
+              $('.navbar').removeClass('navbar-bg');
+          }
+      });
+      $('.post').click(function () {
+          $('.post').find('.desc').removeClass('show');
+          $(this).find('.desc').toggleClass('show');
+      })
+    </script>
+</html>
