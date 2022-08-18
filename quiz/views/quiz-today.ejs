@@ -3,7 +3,7 @@
 <html>
 <% include ./head.ejs %>
     <body>
-        <div class="page bg-color-red">
+        <div class="page">
             <div class="page-content">
                 <form action="<% if(quizStates.qid == 4) {'/complete'} else {quizStates.qid} %>" method="post">
                     <div class="col">
@@ -65,7 +65,7 @@
                             <div class="col">
                                 <% if(quizStates.qid !=1) { %>
                                     <button type="button" class="card-btn-c1 bg-color-black"
-                                        onclick="location.href='/quiz/today/<%= quizStates.qid-1 %>'"
+                                        onclick="location.href='/quiz-today/<%= quizStates.qid-1 %>'"
                                         style="float: right">
                                         이전 문제
                                     </button>
