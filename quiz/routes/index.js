@@ -14,6 +14,7 @@ router.use(
         store: sessionStore,
     })
 );
+
 // 메인페이지
 router.get("/", async function (req, res, next) {
     try {
@@ -31,6 +32,7 @@ router.get("/", async function (req, res, next) {
         });
     }
 });
+
 // 마이페이지
 router.get("/mypage", function (req, res, next) {
     try {
@@ -47,6 +49,7 @@ router.get("/mypage", function (req, res, next) {
         return res.render('error');
     }
 });
+
 // 마이페이지 > 이미지 업로드
 router.post("/upload", upload.single("img"), async (req, res) => {
     try {
@@ -58,6 +61,7 @@ router.post("/upload", upload.single("img"), async (req, res) => {
         });
     }
 });
+
 // 로그인페이지
 router.get("/signin", function (req, res, next) {
     try {
@@ -87,6 +91,7 @@ router.get("/signin", function (req, res, next) {
         });
     }
 });
+
 // 로그인페이지 요청
 router.post("/signin", async function (req, res, next) {
     try { 
@@ -147,6 +152,7 @@ router.post("/signin", async function (req, res, next) {
         });
     }
 });
+
 // 회원가입페이지
 router.get("/signup", function (req, res, next) {
     try {
@@ -174,6 +180,7 @@ router.get("/signup", function (req, res, next) {
         });
     }
 });
+
 // 회원가입페이지 요청
 router.post("/signup", async function (req, res, next) {
     try {
@@ -242,6 +249,7 @@ router.post("/signup", async function (req, res, next) {
         });
     }
 });
+
 // 부대랭킹페이지
 router.get("/ranking", async(req, res)=> {
     // const rankUser = await pool.query("select uid, uscore from users order by uscore desc;")
@@ -261,6 +269,7 @@ router.get("/ranking", async(req, res)=> {
         });
     }
 });
+
 // 부대랭킹페이지 검색요청
 router.post("/ranking", async(req, res)=> {
     const {unitcode} = req.body;
@@ -284,6 +293,7 @@ router.post("/ranking", async(req, res)=> {
         });
     }
 });
+
 // 오늘의퀴즈페이지 접속
 router.get("/quiz-today", async (req, res) => {
     var today = new Date();
@@ -291,20 +301,13 @@ router.get("/quiz-today", async (req, res) => {
     var month = today.getMonth() + 1;
     var day = today.getDate();
     var date = year + "-" + month + "-" + day;
-    const que_ans = await pool.query("SELECT * from quiz.quiz_today where date= ?", [date])
-    // quiz_today에서 question하고 answer 정보를 가져온다.
-    // 가지고 온 정보를 토대로 문제 title 하고 정답을 가져온다.
-
-    // req session 에 저장한다.
-
-    if (req.session.uid) {
-        const res1 = await pool.query(
-            "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
-            [req.session.uid, date]
-        );
-
-
-        try {
+    try {
+        const que_ans = await pool.query("SELECT * from quiz.quiz_today where date= ?", [date])
+        if (req.session.uid) {
+            const res1 = await pool.query(
+                "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
+                [req.session.uid, date]
+            );
             if (res1[0].length == 0) {
                 req.session.qid = [0, 0, 0, 0]; //문제를 4개 만들고
                 req.session.aid = [0, 0, 0, 0]; //답도 4개 만든다.
@@ -318,79 +321,74 @@ router.get("/quiz-today", async (req, res) => {
                     "<script>location.href='/'; alert('이미 오늘의 퀴즈를 푸셨습니다..');</script>"
                 );
             }
-        } catch (error) {
-            console.log(error);
+        } else {
+            res.render("signin", {
+                quizStates: quizStates,
+                title: "로그인",
+                signinState: false,
+            });
         }
-    } else {
-        res.render("signin", {
-            quizStates: quizStates,
-            title: "로그인",
-            signinState: false,
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
         });
     }
 });
 
 router.get("/quiz-today/:id", async (req, res) => {
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = "0" + (today.getMonth() + 1)
-    var day = today.getDate();
-    var date = year + "-" + month + "-" + day;
-    console.log(req.session.qid);
-    var quizStates = {
-        qid: parseInt(req.params.id),
-    };
-
-    const problem_number = req.session.qid[parseInt(req.params.id) - 1]
-
-    //세션의 정보를 불러와서 정보 조회
-    const correct_problem = await pool.query('select * from mil2 where rowno= ?', [problem_number])
-
-    // 문제와 정답 뿌려주고
-    const rowno = correct_problem[0][0].rowno
-    const type = correct_problem[0][0].type
-
-    // 나머지 정답 뿌려주고  (제목으로)
-    const incorrect_problem = await pool.query('select title from mil2 where rowno!= ? and type = ? limit  4', [rowno, type])
-    console.log(incorrect_problem[0][0]);
-
-    console.log(incorrect_problem[0][0].title);
-    // ques, answr값 불러와서 정보 조회
-    const quiz_today = await pool.query('select * from quiz_today where date = ?', [date]);
-
-    // .split('.')[0]
-    let ans = []
-    ans.push(quiz_today[0][0].a1)
-    ans.push(quiz_today[0][0].a2)
-    ans.push(quiz_today[0][0].a3)
-    ans.push(quiz_today[0][0].a4)
-
-
-    if (req.session.uid) {
-        res.render("quiz-today", {
-            req: req.session.qid,
-            correct_problem: correct_problem[0][0],
-            incorrect_problem: incorrect_problem[0],
-            quiz_today: quiz_today[0][0],
-            quizStates: quizStates,
-            ans: ans,
-            title: "오늘의 퀴즈",
-            signinState: true,
-        });
-    } else {
-        res.render("signin", {
-            quizStates: quizStates,
-            title: "로그인",
-            signinState: false,
+    try {
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = "0" + (today.getMonth() + 1)
+        var day = today.getDate();
+        var date = year + "-" + month + "-" + day;
+        var quizStates = {
+            qid: parseInt(req.params.id),
+        };
+        const problem_number = req.session.qid[parseInt(req.params.id) - 1]
+        //세션의 정보를 불러와서 정보 조회
+        const correct_problem = await pool.query('select * from mil2 where rowno= ?', [problem_number])
+        // 문제와 정답 뿌려주고
+        const rowno = correct_problem[0][0].rowno
+        const type = correct_problem[0][0].type
+        // 나머지 정답 뿌려주고  (제목으로)
+        const incorrect_problem = await pool.query('select title from mil2 where rowno!= ? and type = ? limit  4', [rowno, type])
+        // ques, answr값 불러와서 정보 조회
+        const quiz_today = await pool.query('select * from quiz_today where date = ?', [date]);
+        let ans = []
+        ans.push(quiz_today[0][0].a1)
+        ans.push(quiz_today[0][0].a2)
+        ans.push(quiz_today[0][0].a3)
+        ans.push(quiz_today[0][0].a4)
+        if (req.session.uid) {
+            res.render("quiz-today", {
+                req: req.session.qid,
+                correct_problem: correct_problem[0][0],
+                incorrect_problem: incorrect_problem[0],
+                quiz_today: quiz_today[0][0],
+                quizStates: quizStates,
+                ans: ans,
+                title: "오늘의 퀴즈",
+                signinState: true,
+            });
+        } else {
+            res.render("signin", {
+                quizStates: quizStates,
+                title: "로그인",
+                signinState: false,
+            });
+        }
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
         });
     }
 });
 
 router.post("/quiz-today/:id", async (req, res) => {
-    // req.session.qid[req.params.id - 1] = req.params.id;
-    // console.log(req.session.qid[req.params.id - 1]); // q_id
     req.session.aid[req.params.id - 1] = req.body.quiz;
-    // console.log(req.session.aid[req.params.id - 1]); // a_id
     if (req.params.id == 4) {
         res.redirect("/quiz-today-complete");
     } else {
@@ -399,25 +397,25 @@ router.post("/quiz-today/:id", async (req, res) => {
 });
 
 router.get("/quiz-today-complete", async (req, res) => {
-    var indexStates = {
-        quizTodayState: false,
-        quizTodayCorrect: 0,
-    };
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth() + 1;
-    var day = today.getDate();
-    var date = year + "-" + month + "-" + day;
-    var uid = req.session.uid;
-    var qid = req.session.qid; // 문제 번호
-    var aid = req.session.aid; // 사용자 답
-    console.log(aid);
-    if (req.session.uid) {
-        const user_res = await pool.query(
-            "INSERT INTO res_quiz_today VALUES (null, ?, ?, ?, ?, ?, ? );",
-            [uid, date, aid[0], aid[1], aid[2], aid[3]]
-        );
-        try {
+    try {
+        var indexStates = {
+            quizTodayState: false,
+            quizTodayCorrect: 0,
+        };
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        var date = year + "-" + month + "-" + day;
+        var uid = req.session.uid;
+        var qid = req.session.qid; // 문제 번호
+        var aid = req.session.aid; // 사용자 답
+        console.log(aid);
+        if (req.session.uid) {
+            const user_res = await pool.query(
+                "INSERT INTO res_quiz_today VALUES (null, ?, ?, ?, ?, ?, ? );",
+                [uid, date, aid[0], aid[1], aid[2], aid[3]]
+            );
             const answer = await pool.query("select a1, a2, a3, a4 from quiz_today where date = ? ", [date])
             const user_response = await pool.query("select r1, r2, r3, r4 from res_quiz_today where date = ? and uid = ?", [date, req.session.uid])
 
@@ -460,11 +458,14 @@ router.get("/quiz-today-complete", async (req, res) => {
                 signinState: true,
                 indexStates: indexStates
             });
-        } catch (error) {
-            console.log(error);
+        } else {
+            res.redirect("/signin");
         }
-    } else {
-        res.redirect("/signin");
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
     }
 });
 
@@ -488,141 +489,183 @@ router.get("/quiz-rank", async function (req, res, next) {
     }
 });
 
-router.get("/test", async function (req, res, next) {
-    const ranking = await pool.query(
-        "SELECT uunitcode, sum(uscore) as score FROM users group by uunitcode order by sum(uscore) desc;"
-    );
-    const members = await pool.query(
-        "SELECT uunitcode, count(uunitcode) as members FROM users group by uunitcode order by count(uunitcode) desc;"
-    );
-    const membersrank = await pool.query(
-        "SELECT uname, uscore, uunitcode FROM users order by uscore desc;"
-    );
-    // console.log(ranking[0]);
-    // console.log(members[0]);
-    return res.render("test", {
-        title: "관리자 페이지",
-        udata: req.session.udata,
-        signinState: req.session.isLogined,
-        ranking: ranking[0],
-        members: members[0],
-        membersrank: membersrank[0]
-    })
-});
-
+// 관리자페이지
 router.get("/admin", async function (req, res, next){
-    const ranking = await pool.query(
-        "SELECT uunitcode, sum(uscore) as score FROM users group by uunitcode order by sum(uscore) desc;"
-    );
-    const members = await pool.query(
-        "SELECT uunitcode, count(uunitcode) as members FROM users group by uunitcode order by count(uunitcode) desc;"
-    );
-    const membersrank = await pool.query(
-        "SELECT uname, uscore, uunitcode FROM users order by uscore desc;"
-    );
-    // console.log(ranking[0]);
-    // console.log(members[0]);
-    return res.render("admin", {
-        title: "관리자 페이지",
-        udata: req.session.udata,
-        signinState: req.session.isLogined,
-        ranking: ranking[0],
-        members: members[0],
-        membersrank: membersrank[0]
-    })
+    try {
+        const adminList = await pool.query(
+            "SELECT utype FROM users WHERE uid = ?;", [req.session.udata.uid]
+        );
+        if(adminList[0][0].utype == 'admin') {
+            const ranking = await pool.query(
+                "SELECT uunitcode, sum(uscore) as score FROM users group by uunitcode order by sum(uscore) desc;"
+            );
+            const members = await pool.query(
+                "SELECT uunitcode, count(uunitcode) as members FROM users group by uunitcode order by count(uunitcode) desc;"
+            );
+            const membersrank = await pool.query(
+                "SELECT uname, uscore, uunitcode FROM users order by uscore desc;"
+            );
+            // console.log(ranking[0]);
+            // console.log(members[0]);
+            return res.render("admin", {
+                title: "관리자 페이지",
+                udata: req.session.udata,
+                signinState: req.session.isLogined,
+                ranking: ranking[0],
+                members: members[0],
+                membersrank: membersrank[0]
+            })
+        } else {
+            return res.redirect('/');
+        }
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
+    }
 })
 
 router.get("/notice", async function (req, res, next){
-    const notice = await pool.query(
-        "select * from notice order by ntype desc, ndate desc;"
-    );
-    return res.render("ap_notice", {
-        title: "관리자 페이지",
-        udata: req.session.udata,
-        signinState: req.session.isLogined,
-        notice: notice[0],
-    })
+    try {
+        const notice = await pool.query(
+            "select * from notice order by ntype desc, ndate desc;"
+        );
+        return res.render("ap_notice", {
+            title: "관리자 페이지",
+            udata: req.session.udata,
+            signinState: req.session.isLogined,
+            notice: notice[0],
+        })
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
+    }
 })
 
 router.get("/userpg", async function (req, res, next){
-    const users = await pool.query(
-        "select * from users;"
-    );
-    return res.render("ap_user", {
-        title: "관리자 페이지",
-        udata: req.session.udata,
-        signinState: req.session.isLogined,
-        users: users[0]
-    })
+    try {
+        const users = await pool.query(
+            "select * from users;"
+        );
+        return res.render("ap_user", {
+            title: "관리자 페이지",
+            udata: req.session.udata,
+            signinState: req.session.isLogined,
+            users: users[0]
+        })
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
+    }
 })
 
 router.post("/adminnoticesave", async function(req, res, next){
-    const context = req.body.hiddentext;
-    const nid = req.body.hiddennid2;
-    const uname = req.session.udata.uname;
-    console.log(nid);
-    const savecon = await pool.query(
-        "UPDATE notice SET ndesc = ?, nauthor = ? WHERE nid = ?",[
-            context,
-            uname,
-            nid
-        ]);
-    return res.send("<script>alert('수정되었습니다.'); history.back();</script>");
+    try {
+        const context = req.body.hiddentext;
+        const nid = req.body.hiddennid2;
+        const uname = req.session.udata.uname;
+        console.log(nid);
+        const savecon = await pool.query(
+            "UPDATE notice SET ndesc = ?, nauthor = ? WHERE nid = ?",[
+                context,
+                uname,
+                nid
+            ]);
+        return res.send("<script>alert('수정되었습니다.'); history.back();</script>");
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
+    }
 })
 
 router.post("/adminnoticedel", async function(req, res, next){
-    const nid = req.body.hiddennid;
-    const delcon = await pool.query(
-        "DELETE FROM notice WHERE nid = ?",[
-            nid
-        ]);
-    return res.send("<script>alert('삭제되었습니다.'); history.back();</script>");
+    try {
+        const nid = req.body.hiddennid;
+        const delcon = await pool.query(
+            "DELETE FROM notice WHERE nid = ?",[
+                nid
+            ]);
+        return res.send("<script>alert('삭제되었습니다.'); history.back();</script>");
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
+    }
 })
 
 router.post("/addadminnotice", async function(req, res, next){
-    const {iorn, title, addcontext} = req.body;
-    const uname = req.session.udata.uname;
-    let state = 1;
-    if(iorn !== 'i'){
-        state = 0;
-    }
-    const addcon = await pool.query(
-        "INSERT INTO notice VALUES (null, ?, ?, ?, ?, '2022-08-17');",[
-            state,
-            title,
-            addcontext,
-            uname
-        ]);
+    try {
+        const {iorn, title, addcontext} = req.body;
+        const uname = req.session.udata.uname;
+        let state = 1;
+        if(iorn !== 'i'){
+            state = 0;
+        }
+        const addcon = await pool.query(
+            "INSERT INTO notice VALUES (null, ?, ?, ?, ?, '2022-08-17');",[
+                state,
+                title,
+                addcontext,
+                uname
+            ]);
         return res.send("<script>alert('추가되었습니다.'); history.back();</script>");
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
+    }
 })
 
 router.post("/adminuserdel", async function(req, res, next){
-    const uid = req.body.hiddenuid;
-    const adminuserdel = await pool.query(
-        "DELETE FROM users WHERE uid = ?;",[
-            uid
-        ]);
+    try {
+        const uid = req.body.hiddenuid;
+        const adminuserdel = await pool.query(
+            "DELETE FROM users WHERE uid = ?;",[
+                uid
+            ]);
         return res.send("<script>alert('삭제되었습니다.'); history.back();</script>");
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
+    }
 })
 
 router.post("/adminuseredit", async function(req, res, next){
-    const uname = req.body.uname;
-    const uunitcode = req.body.uunitcode;
-    const uid = req.body.uid;
-    const upw = req.body.upw;
-    const users = await pool.query(
-        "select * from users;"
-    );
-    for(var i = 0; i < users[0].length; i++){
-        const editall = await pool.query(
-            "update users set uid = ?, upw = ?, uname = ?, uunitcode = ? where uid = ?;",[
-                uid[i],
-                upw[i],
-                uname[i],
-                uunitcode[i],
-                uid[i]
-            ]);
-        }
+    try {
+        const uname = req.body.uname;
+        const uunitcode = req.body.uunitcode;
+        const uid = req.body.uid;
+        const upw = req.body.upw;
+        const users = await pool.query(
+            "select * from users;"
+        );
+        for(var i = 0; i < users[0].length; i++){
+            const editall = await pool.query(
+                "update users set uid = ?, upw = ?, uname = ?, uunitcode = ? where uid = ?;",[
+                    uid[i],
+                    upw[i],
+                    uname[i],
+                    uunitcode[i],
+                    uid[i]
+                ]);
+            }
         return res.send("<script>alert('수정되었습니다.'); history.back();</script>");
+    } catch (error) {
+        return res.render('error', {
+            title: "에러",
+            signinState: req.session.isLogined,
+        });
+    }
 })
 module.exports = router;

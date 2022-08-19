@@ -5,8 +5,8 @@
         <%- include ./nav %>
         <div class="page control">
             <div class="menu">
-                <div class="logo">국방퀴즈 관리자</div>
-                <div class="adminName">0님, 접속 중</div>
+                <div class="logo">관리페이지</div>
+                <div class="adminName"><%=udata.uid%>, 접속 중</div>
                 <div class="menutitle">
                     관리
                 </div>
@@ -19,9 +19,9 @@
             <div class="content">
                 <div class="col">
                     <div class="row">
-                        <div class="textcenter adminmaintitle" style="color: black;">🪖부대 별 인원 현황</div>
+                        <div class="textcenter adminmaintitle" >부대 별 인원 현황</div>
                         <div class="contentBody" style="overflow: auto;">
-                            <table width="100%" cellspacing="5">
+                            <table cellspacing="5">
                                 <thead>
                                     <tr>
                                         <th>Rank</th>
@@ -61,9 +61,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="contentTitle" style="color: black;">💯부대 별 점수 현황</div>
+                        <div class="contentTitle">부대 별 점수 현황</div>
                         <div class="contentBody" style="overflow: auto;">
-                            <table width="100%" cellspacing="5">
+                            <table cellspacing="5">
                                 <thead>
                                     <tr align="center" bgcolor="white">
                                         <th>Rank</th>
@@ -104,11 +104,11 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="contentTitle" style="color: black;">🏆점수 랭킹</div>
+                    <div class="contentTitle">점수 랭킹</div>
                         <div class="contentBody" style="overflow: auto;">
-                            <table width="100%" style="border-collapse: collapse;">
+                            <table>
                                 <thead>
-                                    <tr style="border-bottom: 1px solid #444444;">
+                                    <tr>
                                         <th>Rank</th>
                                         <th>이름</th>
                                         <th>부대 코드</th>
