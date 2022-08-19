@@ -1,3 +1,4 @@
+// Mysql 디비
 const mysql2 = require("mysql2/promise");
 const pool = mysql2.createPool({
   host: "15.165.221.104",
