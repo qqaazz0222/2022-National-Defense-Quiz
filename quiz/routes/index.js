@@ -17,7 +17,7 @@ router.use(
 // 메인페이지
 router.get("/", async function (req, res, next) {
     try {
-        const notice = await pool.query("select * from notice order by nid desc limit 5;")
+        let notice = await pool.query("select * from notice order by nid desc limit 5;")
         return res.render("welcome.ejs", {
             title: "국방퀴즈",
             udata: req.session.udata,

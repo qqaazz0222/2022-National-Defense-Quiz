@@ -5,6 +5,7 @@
     <%-include head.ejs%>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        var delayTime = 10000;
         var socket = io.connect();
         var i, username, j = 0, myscore = 0, otherscore = 0, finalresults, ti, user_id;
         socket.on('updatechat', function (username, data, id) {
@@ -21,7 +22,7 @@
         socket.on('sendQuestions', function (data) {
             $(".intermediate").fadeOut('slow');
             doFunction();
-            i = 0;
+            let i = 0;
             ti = setInterval(function () {
                 $(".rules").fadeOut();
                 $(".started").delay(400).fadeIn('slow');
@@ -76,7 +77,7 @@
                     $(".loading-page").fadeOut();
                     $("#finalresult_show").delay(800).fadeIn('slow');
                 }
-            }, 10000);
+            }, delayTime);
         });
         socket.on('viewresult', function (usr) {
             if (usr == username) {
@@ -145,7 +146,7 @@
             대결 상대를 찾았습니다!
         </div>
         <div class="subTitle">
-            게임이 3초 후에 시작됩니다...
+            게임이 10초 후 시작됩니다...
         </div>
         <div class="panel">
             <h3 class="title">규칙</h3>
