@@ -1,0 +1,83 @@
+<html>
+<% include ./head.ejs %>
+    <body>
+        <div class="page today">
+            <form action="<% if(quizStates.qid == 4) {'/complete'} else {quizStates.qid} %>" method="post">
+                <div class="row">
+                    <div class="title">
+                        <%= quizStates.qid %>. <strong><%=correct_problem.type%></strong> / <%=correct_problem.exp.split('.')[0]%>
+                    </div>
+                </div>
+                <div class="qRow">
+                    <div>
+                        <input type="radio" name="quiz" id="answer<%= quizStates.qid %>-1" class="answer" value="1" />
+                        <label for="answer<%= quizStates.qid %>-1" class="btn-sm btn-light-gray">
+                            <% if(ans[quizStates.qid-1]==1 ){ %>
+                                1. <%=correct_problem.title.split('(')[0]%>
+                            <%} else {%>
+                                1. <%=incorrect_problem[0].title.split('(')[0]%>
+                            <%} %>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="quiz" id="answer<%= quizStates.qid %>-2" class="answer" value="2" />
+                        <label for="answer<%= quizStates.qid %>-2" class="btn-sm btn-light-gray">
+                            <% if(ans[quizStates.qid-1]==2 ){ %>
+                                2. <%=correct_problem.title.split('(')[0]%>
+                            <%} else {%>
+                                2. <%=incorrect_problem[1].title.split('(')[0]%>
+                            <%} %>
+                        </label>
+                    </div>
+                </div>
+                <div class="qRow">
+                    <div>
+                        <input type="radio" name="quiz" id="answer<%= quizStates.qid %>-3" class="answer" value="3" />
+                        <label for="answer<%= quizStates.qid %>-3" class="btn-sm btn-light-gray">
+                            <% if(ans[quizStates.qid-1]==3 ){ %>
+                                3. <%=correct_problem.title.split('(')[0]%>
+                            <%} else {%>
+                                3. <%=incorrect_problem[2].title.split('(')[0]%>
+                            <%} %>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="quiz" id="answer<%= quizStates.qid %>-4" class="answer" value="4" />
+                        <label for="answer<%= quizStates.qid %>-4" class="btn-sm btn-light-gray">
+                            <% if(ans[quizStates.qid-1]==4 ){ %>
+                                4. <%=correct_problem.title.split('(')[0]%>
+                            <%} else {%>
+                                4. <%=incorrect_problem[3].title.split('(')[0]%>
+                            <%} %>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <% if(quizStates.qid !=1) { %>
+                    <div class="col">
+                        <button type="button" class="btn btn-light-gray"
+                            onclick="location.href='/quiz-today/<%= quizStates.qid-1 %>'">
+                            이전 문제
+                        </button>
+                    </div>
+                    <% } %>
+                    <div class="col">
+                        <% if(quizStates.qid !=4) { %>
+                        <button type="submit" class="btn btn-blue">
+                            다음 문제
+                        </button>
+                        <% } %>
+                    </div>
+                    <% if(quizStates.qid==4) { %>
+                    <div class="col">
+                        <button type="submit" class="btn btn-blue" style="float: right">
+                            제출
+                        </button>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script></script>

@@ -1,0 +1,22 @@
+<!-- ejs NAV 컴포넌트 -->
+<div class="navbar">
+    <a class="logo" href="/">국방퀴즈</a>
+    <div class="menu">
+        <a class="tab" href="quiz-today">오늘의 퀴즈<span></span></a>
+        <a class="tab" href="quiz-rank">경쟁전 참가<span></span></a>
+        <a class="tab" href="ranking">부대 랭킹<span></span></a>
+        <a class="tab" href="mypage">마이페이지<span></span></a>
+        <% if(signinState && udata.utype === "admin") { %>
+            <a class="tab" href="admin">관리자페이지<span></span></a>
+        <% } %>
+    </div>
+    <div class="user-menu">
+        <%if(signinState){%>
+            <a href="/mypage"><%=udata.uname%> <img src="uploads/<%=udata.uid%>.png" onerror="this.src='images/user.png'"></a>
+            <a class="btn-sm btn-blue" href="/signin">로그아웃</a>
+        <%}else{%>
+            <a class="btn-sm btn-light-gray" href="/signin">로그인</a>
+            <a class="btn-sm btn-blue" href="/signup">회원가입</a>
+        <%}%>
+    </div>
+</div>

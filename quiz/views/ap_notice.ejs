@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<%- include ./head %>
+    <body>
+        <%- include ./nav %>
+        <div class="page control">
+            <div class="menu">
+                <div class="logo">국방퀴즈 관리자</div>
+                <div class="adminName">0님, 접속 중</div>
+                <div class="menutitle">
+                    관리
+                </div>
+                <div class="menulist">
+                    <a href="/admin" id="aMain" class="item"><span class="ec ec-house"></span>메인</a>
+                    <a href="/notice" id="aMain" class="item"><span class="ec ec-loudspeaker"></span>공지사항</a>
+                    <a href="/userpg" id="aMain" class="item"><span class="ec ec-couple"></span>유저관리</a>
+                </div>
+            </div>
+            <div class="content">
+                <div class="noticeboard" style="overflow: auto;">
+                <div class="logo" style="color: black; font-size: 40px;">📢공지사항</div>
+                <div>
+                    <table width="100%" style="border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #444444;">
+                        <th>게시글번호</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>작성자</th>
+                        <th>작성일자</th>
+                        <th> 🗑 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form method="post" action="/addadminnotice">
+                        <tr align="center">
+                            <td style="width: 150px;">
+                                <input type="radio" name="iorn" value="i">⭐중요
+                                <input type="radio" name="iorn" value="n">🔗일반
+                            </td>
+                            <td><input name="title" type="text" placeholder="제목을 입력하세요."></td>
+                            <td><input name="addcontext" type="text" placeholder="내용을 입력하세요."></td>
+                            <td><input type="submit" value="추가"></td>
+                        </tr>
+                        </form>
+                        <form method="post" action="/adminnoticedel">
+                        <% for(var i = 0; i < notice.length; i++){ %>
+                            <% if(notice[i].ntype === 1){ %>
+                            <tr align="center" id="<%= i %>" onclick="modal(this)">
+                                <td><%= notice[i].nid %>번</td>
+                                <td>⭐<%= notice[i].ntitle %></td>
+                                <td><%= notice[i].ndesc.substr(0,20) %>...</td>
+                                <td><%= notice[i].nauthor %></td>
+                                <td><%= notice[i].ndate.toString().substr(0,16) %></td>
+                                <td><input type="submit" value="삭제"></td>
+                            </tr>
+                            <% } else { %>
+                            <tr align="center" id="<%= i %>" onclick="modal(this)">
+                                <td><%= notice[i].nid %>번</td>
+                                <td><%= notice[i].ntitle %></td>
+                                <td><%= notice[i].ndesc.substr(0,20) %>...</td>
+                                <td><%= notice[i].nauthor %></td>
+                                <td><%= notice[i].ndate.toString().substr(0,16) %></td>
+                                <td><input type="submit" value="삭제"></td>
+                            </tr>
+                            <% } %>
+                            <input type="hidden" id="hidden<%= i %>" value="<%= notice[i].ndesc %>">
+                            <input type="hidden" id="hiddenid<%= i %>" value="<%= notice[i].nid %>">
+                        <% } %>
+                        <input type="hidden" name="hiddennid" id="hiddennid" value="">
+                        </form>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        document.addEventListener('scroll', () => {
+            let y = window.scrollY;
+            if (y > 120) {
+                $('.navbar').addClass('navbar-bg');
+            } else {
+                $('.navbar').removeClass('navbar-bg');
+            }
+        });
+        $('.post').click(function () {
+            $('.post').find('.desc').removeClass('show');
+            $(this).find('.desc').toggleClass('show');
+        })
+    </script>
+
+</html>

@@ -1,0 +1,144 @@
+.title {
+    font-size: 96px;
+    font-weight: bold;
+}
+
+.logo {
+    color: var(--white);
+    font-size: 24px;
+    font-family: 'establishRetrosansOTF';
+}
+
+.btn {
+    margin-right: 8px;
+    padding: 12px 24px;
+    border-radius: 29px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn-sm {
+    margin-right: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-blue {
+    background-color: var(--blue);
+    border: 1px solid var(--blue-light);
+    color: var(--white);
+}
+
+.btn-light-blue {
+    background-color: var(--blue-white);
+    border: 1px solid var(--blue-light);
+    color: var(--blue);
+}
+
+.btn-light-gray {
+    background-color: var(--gray-dark);
+    border: 1px solid var(--gray);
+    color: var(--white);
+}
+
+.btn-blue:hover,
+.btn-light-blue:hover,
+.btn-light-gray:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid var(--white);
+    color: var(--white);
+}
+
+.goHome {
+    display: block;
+    position: fixed;
+    top: 64px;
+    right: 64px;
+    width: 64px;
+    height: 64px;
+}
+
+.goHome:hover {
+    background-color: var(--white);
+    opacity: .5;
+}
+
+.goHome>span:nth-child(1) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 2px;
+    background-color: var(--white);
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.goHome>span:nth-child(2) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    height: 2px;
+    background-color: var(--white);
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.goHome:hover>span {
+    background-color: var(--black);
+    opacity: 1;
+}
+
+.loading {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 48px;
+}
+.loading>span {
+    margin: 4px;
+    width: 8px;
+    height: 32px;
+    background-color: var(--white);
+    border-radius: 4px;
+    animation: loading 1s ease-in-out infinite;
+}
+.loading>span:nth-child(1) {
+    animation-delay: .0s;
+}
+.loading>span:nth-child(2) {
+    animation-delay: .2s;
+}
+.loading>span:nth-child(3) {
+    animation-delay: .4s;
+}
+.loading>span:nth-child(4) {
+    animation-delay: .6s;
+}
+.loading>span:nth-child(5) {
+    animation-delay: .8s;
+}
+.loading>span:nth-child(6) {
+    animation-delay: 1.0s;
+}
+
+@keyframes loading {
+    0% {
+        transform: scale(1,1);
+    }
+    50% {
+        transform: scale(1,.2);
+    }
+    100% {
+        transform: scale(1,1);
+    }
+}
+
+
+.textcenter{
+    text-align: center;
+    margin-top: 5px;
+}
+

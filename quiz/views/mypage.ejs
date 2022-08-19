@@ -1,0 +1,48 @@
+<!-- 마이페이지 ejs -->
+<!DOCTYPE html>
+<html>
+<%- include ./head %>
+    <body>
+    <%- include ./nav %>
+    <div class="page uinfo">
+        <div class="col">
+            <div class="upic">
+                <img src="uploads/<%=udata.uid%>.png" onerror="this.src='images/user.png'">
+                <form class="filebox" action="upload" method="post" enctype="multipart/form-data">
+                    <label class="btn-sm btn-light-gray" for="ex_filename">파일선택</label> 
+                    <input type="file" id="ex_filename" name="img" class="upload-hidden"> 
+                    <input class="btn-sm btn-light-gray" type="submit" 업로드>
+                </form>
+            </div>
+            <div class="data">
+                <div class="header">
+                    <span>이름</span>
+                    <span>아이디</span>
+                    <span>소속부대</span>
+                    <span>포인트</span>
+                </div>
+                <div class="body">
+                    <span><%=udata.uname%></span>
+                    <span><%=udata.uid%></span>
+                    <span><%=udata.uunitcode%></span>
+                    <span><%=udata.uscore%></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+    <script>
+        document.addEventListener('scroll', () => {
+            let y = window.scrollY;
+            if (y > 120) {
+                $('.navbar').addClass('navbar-bg');
+            } else {
+                $('.navbar').removeClass('navbar-bg');
+            }
+        });
+        $('.post').click(function () {
+            $('.post').find('.desc').removeClass('show');
+            $(this).find('.desc').toggleClass('show');
+        })
+    </script>
+</html>

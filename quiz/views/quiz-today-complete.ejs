@@ -1,0 +1,21 @@
+<!-- 오늘의 퀴즈 완료 ejs -->
+<!DOCTYPE html>
+<html>
+<% include ./head.ejs %>
+<body>
+    <div class="page today">
+        <div class="result">
+            <div class="logo">국방퀴즈</div>
+            <div class="title">+<%=indexStates.quizTodayCorrect*2%>포인트</div>
+            <div class="subTitle">
+                총 <%=indexStates.quizTodayCorrect%> 문제를 맞췄습니다.
+            </div><br>
+            </span></h6><br>
+            <button class="btn btn-blue" type="button"
+                onclick="location.href='/'">홈으로</button>
+            </div>
+        </div>
+    </body>
+    <script src="/javascripts/scroll.js"></script>
+
+</html>

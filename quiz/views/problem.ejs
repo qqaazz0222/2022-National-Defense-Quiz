@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- Bootstrap CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 전술 -->
+                <tr>
+                    <th scope="row">문제</th>
+                    <td><%=tactics[0].title%> - <%=tactics[0].rowno%> - <%=tactics[0].type%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random1[0]) == 1) { %>
+                        <p class="text-danger">1</p>
+                        <% }else { %> 1<% }%>
+                    </th>
+                    <td><%=tactics[random1[0]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random1[1]) == 1) { %>
+                        <p class="text-danger">2</p>
+                        <% }else { %> 2<% }%>
+                    </th>
+                    <td><%=tactics[random1[1]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random1[2]) == 1) { %>
+                        <p class="text-danger">3</p>
+                        <% }else { %> 3<% }%>
+                    </th>
+                    <td><%=tactics[random1[2]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random1[3]) == 1) { %>
+                        <p class="text-danger">4</p>
+                        <% }else { %> 4<% }%>
+                    </th>
+                    <td><%=tactics[random1[3]-1].exp%></td>
+                </tr>
+                <td></td>
+                <td></td>
+                <!-- 용어 -->
+                <tr>
+                    <th scope="row">문제</th>
+                    <td><%=concept[0].title%> - <%=concept[0].rowno%> - <%=concept[0].type%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random2[0]) == 1) { %>
+                        <p class="text-danger">1</p>
+                        <% }else { %> 1<% }%>
+                    </th>
+                    <td><%=concept[random2[0]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random2[1]) == 1) { %>
+                        <p class="text-danger">2</p>
+                        <% }else { %> 2<% }%>
+                    </th>
+                    <td><%=concept[random2[1]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random2[2]) == 1) { %>
+                        <p class="text-danger">3</p>
+                        <% }else { %> 3<% }%>
+                    </th>
+                    <td><%=concept[random2[2]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random2[3]) == 1) { %>
+                        <p class="text-danger">4</p>
+                        <% }else { %> 4<% }%>
+                    </th>
+                    <td><%=concept[random2[3]-1].exp%></td>
+                </tr>
+                <td></td>
+                <td></td>
+                <!-- 무기 -->
+                <tr>
+                    <th scope="row">문제</th>
+                    <td><%=weapon[0].title%> - <%=weapon[0].rowno%> - <%=weapon[0].type%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random3[0]) == 1) { %>
+                        <p class="text-danger">1</p>
+                        <% }else { %> 1<% }%>
+                    </th>
+                    <td><%=weapon[random3[0]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random3[1]) == 1) { %>
+                        <p class="text-danger">2</p>
+                        <% }else { %> 2<% }%>
+                    </th>
+                    <td><%=weapon[random3[1]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random3[2]) == 1) { %>
+                        <p class="text-danger">3</p>
+                        <% }else { %> 3<% }%>
+                    </th>
+                    <td><%=weapon[random3[2]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random3[3]) == 1) { %>
+                        <p class="text-danger">4</p>
+                        <% }else { %> 4<% }%>
+                    </th>
+                    <td><%=weapon[random3[3]-1].exp%></td>
+                </tr>
+                <td></td>
+                <td></td>
+                <!-- 사건 -->
+                <tr>
+                    <th scope="row">문제</th>
+                    <td><%=accident[0].title%> - <%=accident[0].rowno%> - <%=accident[0].type%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random4[0]) == 1) { %>
+                        <p class="text-danger">1</p>
+                        <% }else { %> 1<% }%>
+                    </th>
+                    <td><%=accident[random4[0]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random4[1]) == 1) { %>
+                        <p class="text-danger">2</p>
+                        <% }else { %> 2<% }%>
+                    </th>
+                    <td><%=accident[random4[1]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random4[2]) == 1) { %>
+                        <p class="text-danger">3</p>
+                        <% }else { %> 3<% }%>
+                    </th>
+                    <td><%=accident[random4[2]-1].exp%></td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <% if ((random4[3]) == 1) { %>
+                        <p class="text-danger">4</p>
+                        <% }else { %> 4<% }%>
+                    </th>
+                    <td><%=accident[random4[3]-1].exp%></td>
+                </tr>
+                <td></td>
+                <td></td>
+            </tbody>
+        </table>
+    </body>
+</html>

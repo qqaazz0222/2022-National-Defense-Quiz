@@ -1,0 +1,92 @@
+<!-- 부대랭킹 ejs -->
+<!DOCTYPE html>
+<html>
+<%- include ./head %>
+
+    <body>
+        <%- include ./nav %>
+        <div class="page unitrank">
+            <div class="logo">국방퀴즈</div>
+            <div class="title">부대랭킹</div>
+            <form class="search" action="/ranking" method="post">
+                <input class="btn-sm" name="unitcode" type="text" placeholder="부대코드">
+                <input class="btn-sm btn-blue" type="submit" value="검색">
+            </form>
+        </div>
+        <div class="page unitranklist">
+            <%if(res3.length>1) {%>
+            <div class="hof">
+                <div class="row">
+                    <span>
+                        <%= res3[1].score%>점
+                    </span>
+                    <span>
+                        <%= res3[1].uunitcode%>부대
+                    </span>
+                    <div class="r2">
+                        <img src="images/2nd.png" alt="">
+                    </div>
+                </div>
+                <div class="row">
+                    <span>
+                        <%= res3[0].score%>점
+                    </span>
+                    <span>
+                        <%= res3[0].uunitcode%>부대
+                    </span>
+                    <div class="r1">
+                        <img src="images/1st.png" alt="">
+                    </div>
+                </div>
+                <div class="row">
+                    <span>
+                        <%= res3[2].score%>점
+                    </span>
+                    <span>
+                        <%= res3[2].uunitcode%>부대
+                    </span>
+                    <div class="r3">
+                        <img src="images/3rd.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <% } %>
+            <div class="table">
+                <div class="thead">
+                    <div class="th">등수</div>
+                    <div class="th">부대코드</div>
+                    <div class="th">부대 점수</div>
+                    <div class="th">가입자 수</div>
+                </div>
+                <div class="tbody">
+                    <% for(var i=0; i < res3.length; i++){ %>
+                    <div class="trow">
+                        <div class="td">
+                            <span><%= i+1 %> 등</span>
+                        </div>
+                        <div class="td">
+                            <%= res3[i].uunitcode%>부대
+                        </div>
+                        <div class="td">
+                            <%= res3[i].score%> <span>점</span>
+                        </div>
+                        <div class="td">
+                            <%= res3[i].num%> <span>명</span>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        document.addEventListener('scroll', () => {
+            let y = window.scrollY;
+            if (y > 60) {
+                $('.navbar').addClass('navbar-bg');
+            } else {
+                $('.navbar').removeClass('navbar-bg');
+            }
+        });
+    </script>
+</html>
