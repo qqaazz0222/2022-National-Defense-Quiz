@@ -55,14 +55,24 @@
                     <% for(let i=0; i < 5; i++) { %>
                         <div class="post">
                             <div class="title">
-                                <% if(ndata[i].ntype) { %>
-                                    <span>중요</span>
+                                <div class="postTitle">
+                                    <% if(ndata[i].ntype) { %>
+                                        <span>중요</span>
                                     <% } %>
-                                        <%= ndata[i].ntitle %>
+                                    <%= ndata[i].ntitle %>
+                                </div>
+                                <div class="postData">
+                                    <span>작성자</span>
+                                    <%= ndata[i].nauthor %>
+                                    <span>작성일</span>
+                                    <%= Date(ndata[i].ndate).split(' ')[3] %>
+                                    <%= Date(ndata[i].ndate).split(' ')[1] %>
+                                    <%= Date(ndata[i].ndate).split(' ')[2] %>
+                                </div>
                             </div>
                             <% if(i==0) { %>
                                 <div class="desc show">
-                                    <%= ndata[i].ndesc %>
+                                    <span><%= ndata[i].ndesc %></span>
                                 </div>
                                 <% } else {%>
                                     <div class="desc">
@@ -89,6 +99,7 @@
             </div>
     </body>
     <script>
+        
         document.addEventListener('scroll', () => {
             let y = window.scrollY;
             if (y > 120) {

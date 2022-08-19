@@ -269,6 +269,7 @@ body {
 
 .post>.title {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 16px;
     color: var(--semi-black);
@@ -276,13 +277,26 @@ body {
     font-weight: bold;
 }
 
-.post>.title>span {
+.post>.title>.postTitle>span {
     margin-right: 8px;
     padding: 4px 8px;
     background-color: var(--blue-white);
     border-radius: 8px;
     color: var(--blue);
     font-size: 14px;
+    font-weight: bold;
+}
+.post>.title>.postData {
+    float: right;
+    color: var(--gray);
+    font-size: 14px;
+    font-weight: bold;
+}
+.post>.title>.postData>span {
+    margin-left: 8px;
+    padding: 0 4px;
+    color: var(--gray-semi-light);
+    font-size: 12px;
     font-weight: bold;
 }
 
