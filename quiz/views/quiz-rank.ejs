@@ -94,7 +94,7 @@
                     $(".loading-page").fadeOut();
                     $("#finalresult_show").delay(800).fadeIn('slow');
                 }
-            }, 3000);
+            }, 10000);
         });
         socket.on('viewresult', function (usr) {
             if (usr == username) {
