@@ -312,14 +312,14 @@ router.post("/ranking", async(req, res)=> {
 
 // 오늘의퀴즈페이지 접속
 router.get("/quiz-today", async (req, res) => {
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth() + 1;
-    var day = today.getDate();
-    var date = year + "-" + month + "-" + day;
     try {
-        const que_ans = await pool.query("SELECT * from quiz.quiz_today where date= ?", [date])
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        var date = year + "-" + month + "-" + day;
         if (req.session.uid) {
+            const que_ans = await pool.query("SELECT * from quiz.quiz_today where date= ?", [date])
             const res1 = await pool.query(
                 "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
                 [req.session.uid, date]
@@ -354,30 +354,31 @@ router.get("/quiz-today", async (req, res) => {
 
 router.get("/quiz-today/:id", async (req, res) => {
     try {
-        var today = new Date();
-        var year = today.getFullYear();
-        var month = "0" + (today.getMonth() + 1)
-        var day = today.getDate();
-        var date = year + "-" + month + "-" + day;
-        var quizStates = {
-            qid: parseInt(req.params.id),
-        };
-        const problem_number = req.session.qid[parseInt(req.params.id) - 1]
-        //세션의 정보를 불러와서 정보 조회
-        const correct_problem = await pool.query('select * from mil2 where rowno= ?', [problem_number])
-        // 문제와 정답 뿌려주고
-        const rowno = correct_problem[0][0].rowno
-        const type = correct_problem[0][0].type
-        // 나머지 정답 뿌려주고  (제목으로)
-        const incorrect_problem = await pool.query('select title from mil2 where rowno!= ? and type = ? limit  4', [rowno, type])
-        // ques, answr값 불러와서 정보 조회
-        const quiz_today = await pool.query('select * from quiz_today where date = ?', [date]);
-        let ans = []
-        ans.push(quiz_today[0][0].a1)
-        ans.push(quiz_today[0][0].a2)
-        ans.push(quiz_today[0][0].a3)
-        ans.push(quiz_today[0][0].a4)
         if (req.session.uid) {
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = "0" + (today.getMonth() + 1)
+            var day = today.getDate();
+            var date = year + "-" + month + "-" + day;
+            var quizStates = {
+                qid: parseInt(req.params.id),
+            };
+            const problem_number = req.session.qid[parseInt(req.params.id) - 1]
+            //세션의 정보를 불러와서 정보 조회
+            const correct_problem = await pool.query('select * from mil2 where rowno= ?', [problem_number])
+            // 문제와 정답 뿌려주고
+            const rowno = correct_problem[0][0].rowno
+            const type = correct_problem[0][0].type
+            // 나머지 정답 뿌려주고  (제목으로)
+            const incorrect_problem = await pool.query('select title from mil2 where rowno!= ? and type = ? limit  4', [rowno, type])
+            // ques, answr값 불러와서 정보 조회
+            const quiz_today = await pool.query('select * from quiz_today where date = ?', [date]);
+            let ans = []
+            ans.push(quiz_today[0][0].a1)
+            ans.push(quiz_today[0][0].a2)
+            ans.push(quiz_today[0][0].a3)
+            ans.push(quiz_today[0][0].a4)
+            
             res.render("quiz-today", {
                 req: req.session.qid,
                 correct_problem: correct_problem[0][0],
