@@ -5,7 +5,6 @@
     <%-include head.ejs%>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var delayTime = 10000;
         var socket = io.connect();
         var i, username, j = 0, myscore = 0, otherscore = 0, finalresults, ti, user_id;
         socket.on('updatechat', function (username, data, id) {
@@ -20,14 +19,17 @@
             $(".rules").delay(600).fadeIn();
         }
         socket.on('sendQuestions', function (data) {
+            console.log("checkPoint1");
             $(".intermediate").fadeOut('slow');
             doFunction();
-            let i = 0;
+            i = 0;
+            console.log("checkPoint2");
             ti = setInterval(function () {
                 $(".rules").fadeOut();
                 $(".started").delay(400).fadeIn('slow');
                 $(".loading-page").delay(400).fadeIn('slow');
                 $("#realresults").delay(400).fadeIn('slow');
+                console.log("checkPoint3");
                 if (i < 10) {
                     j = 0; j++;
                     $('#qst').text(data.questions[i].question);
@@ -35,6 +37,7 @@
                     $('#btn2').attr('value', 1).text(data.questions[i].choices[1]);
                     $('#btn3').attr('value', 2).text(data.questions[i].choices[2]);
                     $('#btn4').attr('value', 3).text(data.questions[i].choices[3]);
+                    console.log("checkPoint4");
                     $(document).ready(function () {
                         var counter = 0;
                         var c = 1;
@@ -48,6 +51,7 @@
                             }
                         }, 1000);
                     });
+                    console.log("checkPoint5");
                     $("#realtime button").removeClass("btn disabled");
                     $("#realtime button").prop('disabled', false);
                     $("#realtime button").click(function () {
@@ -59,25 +63,38 @@
                         if (response) {
                             if (j == 1) {
                                 socket.emit('result', username, user_id);
-                                console.log("correct ans");
-                                console.log(username);
-                                console.log("value of inner j: " + j)
                                 $('.current_res_c').fadeIn().delay(800).fadeOut(); j++;
+                                console.log("checkPoint6-1");
                             }
                         } else {
                             if (j == 1) {
                                 $('.current_res_w').fadeIn().delay(800).fadeOut(); j++;
+                                console.log("checkPoint6-2");
                             }
                         }
                     });
+                    console.log(i);
                 } i++;
-                if (i == 10) {
+                if (i == 11) {
+                    console.log("checkPoint7");
+                    if (myscore > otherscore) {
+                        $("#finalresult").text("승리");
+                        $("#finalresult").css("color", "rgb(207, 221, 252)")
+                        socket.emit('addPoint', username, myscore + 5);
+                    } else if (myscore < otherscore) {
+                        $("#finalresult").text("패배");
+                        $("#finalresult").css("color", "rgb(252, 207, 207)")
+                    } else {
+                        $("#finalresult").text("무승부");
+                        $("#finalresult").css("color", "rgb(238, 242, 246)")
+                        socket.emit('addPoint', username, myscore);
+                    }
                     clearInterval(ti);
                     $(".started").fadeOut('slow');
                     $(".loading-page").fadeOut();
                     $("#finalresult_show").delay(800).fadeIn('slow');
                 }
-            }, delayTime);
+            }, 3000);
         });
         socket.on('viewresult', function (usr) {
             if (usr == username) {
@@ -87,20 +104,6 @@
             else {
                 otherscore += 1;
                 $("#otherresult").text(otherscore);
-            }
-            if (myscore > otherscore) {
-                $("#finalresult").text("승리");
-                $("#finalresult").css("color", "rgb(207, 221, 252)")
-                socket.emit('addPoint', username, myscore + 5);
-            } else if (myscore < otherscore) {
-                $("#finalresult").text("패배");
-                $("#finalresult").css("color", "rgb(252, 207, 207)")
-                socket.emit('addClient', username);
-            } else {
-                $("#finalresult").text("무승부");
-                $("#finalresult").css("color", "rgb(238, 242, 246)")
-                socket.emit('addClient', username);
-                socket.emit('addPoint', username, myscore);
             }
         });
         $(document).ready(function () {
@@ -112,7 +115,7 @@
                     socket.emit('addClient', username);
                 } else {
                     alert("USERNAME PLEASE!");
-                    window.location = "http://localhost:4444";
+                    window.location = "/";
                 }
             });
         });
@@ -217,14 +220,4 @@
     </div>
     <div id="view_result" style="display: none;"></div>
 </body>
-<script>
-    document.addEventListener('scroll', () => {
-        let y = window.scrollY;
-        if (y > 120) {
-            $('.goHome').css("background-color", "rgba(21,21,22,.5)");
-        } else {
-            $('.goHome').css("background-color", "rgba(0,0,0,0)");
-        }
-    });
-</script>
 </html>

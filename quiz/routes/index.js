@@ -313,12 +313,12 @@ router.post("/ranking", async(req, res)=> {
 // 오늘의퀴즈페이지 접속
 router.get("/quiz-today", async (req, res) => {
     try {
-        var today = new Date();
-        var year = today.getFullYear();
-        var month = today.getMonth() + 1;
-        var day = today.getDate();
-        var date = year + "-" + month + "-" + day;
         if (req.session.uid) {
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = today.getMonth() + 1;
+            var day = today.getDate();
+            var date = year + "-" + month + "-" + day;
             const que_ans = await pool.query("SELECT * from quiz.quiz_today where date= ?", [date])
             const res1 = await pool.query(
                 "SELECT date FROM res_quiz_today WHERE uid = ? AND date = ?;",
@@ -338,15 +338,13 @@ router.get("/quiz-today", async (req, res) => {
                 );
             }
         } else {
-            res.render("signin", {
-                quizStates: quizStates,
-                title: "로그인",
-                signinState: false,
-            });
+            res.redirect('signin')
         }
     } catch (error) {
+        console.log(error);
         return res.render('error', {
             title: "에러",
+            error: error,
             signinState: req.session.isLogined,
         });
     }
