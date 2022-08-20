@@ -3,81 +3,142 @@
 <%- include ./head %>
     <body>
         <%- include ./nav %>
-        <div class="page control">
+        <div class="page monitoring">
+
             <div class="menu">
-                <div class="logo">국방퀴즈 관리자</div>
-                <div class="adminName">0님, 접속 중</div>
-                <div class="menutitle">
-                    관리
+                <label for="pg-state" class="tab">현황<span></span></label>
+                <label for="pg-notice" class="tab">공지사항<span></span></label>
+                <label for="pg-user" class="tab">유저관리<span></span></label>
+                <input type="radio" name="page" id="pg-state" checked>
+                <input type="radio" name="page" id="pg-notice">
+                <input type="radio" name="page" id="pg-user">
+            </div>
+            <div class="wrap">
+                <div class="user">
+                    <div class="title">
+                        부대별 인원 현황
+                    </div>
+                    <div class="table">
+                        <table>
+                            <thead>
+                                <th>No.</th>
+                                <th>부대코드</th>
+                                <th>인원</th>
+                                <th>소속유저</th>
+                            </thead>
+                            <tbody>
+                                <%for(let i=0; i<10; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=i%></td>
+                                    <td><%=i%></td>
+                                    <td><%=i%></td>
+                                </tr>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="menulist">
-                    <a href="/admin" id="aMain" class="item"><span class="ec ec-house"></span>메인</a>
-                    <a href="/notice" id="aMain" class="item"><span class="ec ec-loudspeaker"></span>공지사항</a>
-                    <a href="/userpg" id="aMain" class="item"><span class="ec ec-couple"></span>유저관리</a>
+                <div class="socre">
+                    <div class="title">
+                        부대별 점수 현황
+                    </div>
+                    <div class="table">
+                        <table>
+                            <thead>
+                                <th>No.</th>
+                                <th>부대코드</th>
+                                <th>점수</th>
+                            </thead>
+                            <tbody>
+                                <%for(let i=0; i<10; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=i%></td>
+                                    <td><%=i%></td>
+                                </tr>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="content">
-                <div class="noticeboard" style="overflow: auto;">
-                    <div class="logo" style="color: black; font-size: 40px;">👥사용자 관리</div>
-                    <form method="post" action="/adminuseredit">
-                      <input style="float: right;" type="submit" value="✍저장">
-                        <table width="100%" style="border-collapse: collapse;">
-                          <thead>
-                            <tr style="border-bottom: 1px solid #444444;">
-                              <th>이름</th>
-                              <th>부대 코드</th>
-                              <th>점수</th>
-                              <th>아이디</th>
-                              <th>비밀번호</th>
-                              <th> 🗑 </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <% for(var i = 0; i < users.length; i++){ %>
-                              <tr align="center">
-                                <td><input class = "adminUserInput" name="uname" value="<%= users[i].uname %>" type="text"></td>
-                                <td><input class = "adminUserInput" name="uunitcode" type="text" value="<%= users[i].uunitcode %>"></td>
-                                <td><input class = "adminUserInput" name="uscore" type="text" value="<%= users[i].uscore %>"></td>
-                                <td><input class = "adminUserInput" name="uid" type="text" value="<%= users[i].uid %>"></td>
-                                <td><input class = "adminUserInput" name="upw" type="text" value="<%= users[i].upw %>"></td>
-                                <td><button id="<%= i %>" onclick="javascript: form.action='/adminuserdel'; takeuid(this);">삭제</button></td>
-                                <input type="hidden" id="hiddenuid<%= i %>" value="<%= users[i].uid %>">
-                              </tr>
-                            <% } %>
-                            <input type="hidden" id="hiddenuid" name="hiddenuid" value="">
-                          </tbody>
+            <div class="wrap">
+                <div class="notice">
+                    <div class="title">
+                        공지사항
+                    </div>
+                    <div class="table">
+                        <table>
+                            <thead>
+                                <th>No.</th>
+                                <th>제목</th>
+                                <th>내용</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <%for(let i=0; i<10; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td>육군 추가모집 공지</td>
+                                    <td>ㅁㅇ느미ㅡㅁㅇ나말너ㅣㅏㅁ러ㅣㄴ아ㅣㅓㅁㄴㅇ리언ㅁㄹㅇ미ㅏㄴ</td>
+                                    <td>관리자</td>
+                                    <td>ㅁㄴㅇㅁㄴ리adsasddasㅣ</td>
+                                    <td><button class="btn-sm btn-blue">삭제</button></td>
+                                </tr>
+                                <%}%>
+                            </tbody>
                         </table>
-                    </form>
-                  </div>
+                    </div>
+                </div>     
+            </div>
+            <div class="wrap">
+                <div class="noticeList">
+                    <div class="title">
+                        유저관리
+                    </div>
+                    <div class="table">
+                        <table>
+                            <thead>
+                                <th>No.</th>
+                                <th>제목</th>
+                                <th>내용</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <%for(let i=0; i<10; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=i%></td>
+                                    <td><%=i%></td>
+                                    <td><%=i%></td>
+                                    <td><%=i%></td>
+                                    <td><button class="btn-sm btn-blue">삭제</button></td>
+                                </tr>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>     
             </div>
         </div>
     </body>
     <script>
-        function mouseOver(target){
-          target.style.color = 'green';
-          target.style.cursor= 'pointer';
-        }
-  
-        function mouseOut(target){
-          target.style.color = 'white';
-        }
-  
-        document.addEventListener('scroll', () => {
-            let y = window.scrollY;
-            if (y > 120) {
-                $('.navbar').addClass('navbar-bg');
-            } else {
-                $('.navbar').removeClass('navbar-bg');
+        $('#b').hide();
+        $('input:radio[name="page"]').change(function() {
+            if($('#pg-state').is(":checked")){
+                $('.notice').hide();
+                $('.perunit').show();
+            } else if($('#pg-notice').is(":checked")){
+                $('.perunit').hide();
+                $('.notice').show();
+            } else if($('#pg-user').is(":checked")){
+                $('.perunit').hide();
             }
         });
-        $('.post').click(function () {
-            $('.post').find('.desc').removeClass('show');
-            $(this).find('.desc').toggleClass('show');
-        })
-  
-        function takeuid(target){
-          let uid = document.getElementById("hiddenuid"+target.id).value;
-          document.getElementById("hiddenuid").value = uid;
-        }
-      </script>
+    </script>
 </html>

@@ -3,26 +3,26 @@
 <%- include ./head %>
     <body>
         <%- include ./nav %>
-        <div class="page control">
-            <div class="menu">
-                <div class="logo">관리페이지</div>
-                <div class="adminName"><%=udata.uid%>, 접속 중</div>
-                <div class="menutitle">
-                    관리
-                </div>
-                <div class="menulist">
-                    <a href="/admin" id="aMain" class="item"><span class="ec ec-house"></span>메인</a>
-                    <a href="/notice" id="aMain" class="item"><span class="ec ec-loudspeaker"></span>공지사항</a>
-                    <a href="/userpg" id="aMain" class="item"><span class="ec ec-couple"></span>유저관리</a>
-                </div>
+        <div class="page controlpage">
+            <div class="logo">국방퀴즈</div>
+            <div class="title">
+                관리페이지
             </div>
+            <div class="menu">
+                <a href="admin" class="tab sel">현황<span></span></a>
+                <a href="notice" class="tab">공지사항<span></span></a>
+                <a href="userpg" class="tab">유저관리<span></span></a>
+            </div>
+        </div>
+        <div class="page control">
             <div class="content">
                 <div class="col">
                     <div class="row">
-                        <div class="textcenter adminmaintitle" >부대 별 인원 현황</div>
-                        <div class="contentBody" style="overflow: auto;">
-                            <table cellspacing="5">
-                                <thead>
+                        <div class="col">
+                            <div class="contnetTitle" >부대 별 인원 현황</div>
+                            <div class="contentBody">
+                                <table cellspacing="5">
+                                    <thead>
                                     <tr>
                                         <th>Rank</th>
                                         <th>부대 코드</th>
@@ -30,124 +30,66 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <% for(var i=0; i < members.length; i++){ %>
-                                    <% if(i===0){ %>
-                                    <tr>
-                                        <th>🥇등</th>
-                                        <td><%= members[i].uunitcode %></td>
-                                        <td><%= members[i].members%></td>
-                                    </tr>
-                                    <% }else if(i===1){ %>
-                                    <tr>
-                                        <th>🥈등</th>
-                                        <td><%= members[i].uunitcode %></td>
-                                        <td><%= members[i].members%></td>
-                                    </tr>
-                                    <% }else if(i===2){ %>
-                                    <tr>
-                                        <th>🥉등</th>
-                                        <td><%= members[i].uunitcode %></td>
-                                        <td><%= members[i].members%></td>
-                                    </tr>
-                                    <% }else{ %>
-                                    <tr>
-                                        <th><%= i+1 %>등</th>
-                                        <td><%= members[i].uunitcode %></td>
-                                        <td><%= members[i].members%></td>
-                                    </tr>
-                                    <% } } %>
-                                </tbody>
-                            </table>
+                                    <% for(var i=0; i < members.length; i++){ %>
+                                        <tr>
+                                            <td><%= i+1 %>등</td>
+                                            <td><%= members[i].uunitcode %></td>
+                                            <td><%= members[i].members%></td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="contnetTitle">부대 별 점수 현황</div>
+                            <div class="contentBody">
+                                <table cellspacing="5">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>부대 코드</th>
+                                            <th>점수</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% for(var i=0; i < ranking.length; i++){ %>
+                                        <tr>
+                                            <td><%= i+1 %>등</td>
+                                            <td><%= ranking[i].uunitcode %></td>
+                                            <td><%= ranking[i].score%></td>
+                                        </tr>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="contentTitle">부대 별 점수 현황</div>
-                        <div class="contentBody" style="overflow: auto;">
-                            <table cellspacing="5">
-                                <thead>
-                                    <tr align="center" bgcolor="white">
-                                        <th>Rank</th>
-                                        <th>부대 코드</th>
-                                        <th>점수</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% for(var i=0; i < ranking.length; i++){ %>
-                                        <% if(i===0){ %>
-                                        <tr align="center" bgcolor="red">
-                                            <th>🥇등</th>
-                                            <td><%= ranking[i].uunitcode %></td>
-                                            <td><%= ranking[i].score%></td>
+                        <div class="col">
+                            <div class="contnetTitle">유저별 점수 현황</div>
+                            <div class="contentBody">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>이름</th>
+                                            <th>부대 코드</th>
+                                            <th>점수</th>
                                         </tr>
-                                        <% }else if(i===1){ %>
-                                        <tr align="center" bgcolor="green">
-                                            <th>🥈등</th>
-                                            <td><%= ranking[i].uunitcode %></td>
-                                            <td><%= ranking[i].score%></td>
-                                        </tr>
-                                        <% }else if(i===2){ %>
-                                        <tr align="center" bgcolor="yellow">
-                                            <th>🥉등</th>
-                                            <td><%= ranking[i].uunitcode %></td>
-                                            <td><%= ranking[i].score%></td>
-                                        </tr>
-                                        <% }else{ %>
-                                        <tr align="center" bgcolor="white">
-                                            <th><%= i+1 %>등</th>
-                                            <td><%= ranking[i].uunitcode %></td>
-                                            <td><%= ranking[i].score%></td>
-                                        </tr>
-                                <% } } %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="contentTitle">점수 랭킹</div>
-                        <div class="contentBody" style="overflow: auto;">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Rank</th>
-                                        <th>이름</th>
-                                        <th>부대 코드</th>
-                                        <th>점수</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     <% for(var i=0; i < membersrank.length; i++){ %>
-                                        <% if(i===0){ %>
-                                        <tr align="center">
-                                            <th>🥇등</th>
+                                        <tr>
+                                            <td><%= i+1 %>등</td>
                                             <td><%= membersrank[i].uname %></td>
                                             <td><%= membersrank[i].uunitcode %></td>
                                             <td><%= membersrank[i].uscore%></td>
                                         </tr>
-                                        <% }else if(i===1){ %>
-                                        <tr align="center">
-                                            <th>🥈등</th>
-                                            <td><%= membersrank[i].uname %></td>
-                                            <td><%= membersrank[i].uunitcode %></td>
-                                            <td><%= membersrank[i].uscore%></td>
-                                        </tr>
-                                        <% }else if(i===2){ %>
-                                        <tr align="center">
-                                            <th>🥉등</th>
-                                            <td><%= membersrank[i].uname %></td>
-                                            <td><%= membersrank[i].uunitcode %></td>
-                                            <td><%= membersrank[i].uscore%></td>
-                                        </tr>
-                                        <% }else{ %>
-                                        <tr align="center">
-                                            <th><%= i+1 %>등</th>
-                                            <td><%= membersrank[i].uname %></td>
-                                            <td><%= membersrank[i].uunitcode %></td>
-                                            <td><%= membersrank[i].uscore%></td>
-                                        </tr>
-                                        <% } } %>
-                                </tbody>
-                            </table>
+                                    <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

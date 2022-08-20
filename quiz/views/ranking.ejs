@@ -62,16 +62,16 @@
                     <% for(var i=0; i < res3.length; i++){ %>
                     <div class="trow">
                         <div class="td">
-                            <span><%= i+1 %> 등</span>
+                            <span class="ranknum"><%= i+1 %> 등</span>
                         </div>
                         <div class="td">
                             <%= res3[i].uunitcode%>부대
                         </div>
                         <div class="td">
-                            <%= res3[i].score%> <span>점</span>
+                            <span class="material-icons">savings</span><%= res3[i].score%> 
                         </div>
                         <div class="td">
-                            <%= res3[i].num%> <span>명</span>
+                            <span class="material-icons">people_alt</span><%= res3[i].num%>
                         </div>
                     </div>
                     <% } %>

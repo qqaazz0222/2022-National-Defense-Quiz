@@ -15,6 +15,22 @@ router.use(
     })
 );
 
+router.get("/test", function (req, res, next) {
+    try {
+        if(req.session.uid) {
+            return res.render("test.ejs", {
+            title: "마이페이지",
+                udata: req.session.udata,
+                signinState: req.session.isLogined,
+            });
+        } else {
+            return res.redirect('/signin');
+        }
+    } catch (error) {
+        return res.render('error');
+    }
+});
+
 // 메인페이지
 router.get("/", async function (req, res, next) {
     try {
@@ -497,13 +513,13 @@ router.get("/admin", async function (req, res, next){
         );
         if(adminList[0][0].utype == 'admin') {
             const ranking = await pool.query(
-                "SELECT uunitcode, sum(uscore) as score FROM users group by uunitcode order by sum(uscore) desc;"
+                "SELECT uunitcode, sum(uscore) as score FROM users where utype = 'user' group by uunitcode order by sum(uscore) desc;"
             );
             const members = await pool.query(
-                "SELECT uunitcode, count(uunitcode) as members FROM users group by uunitcode order by count(uunitcode) desc;"
+                "SELECT uunitcode, count(uunitcode) as members FROM users where utype = 'user' group by uunitcode order by count(uunitcode) desc;"
             );
             const membersrank = await pool.query(
-                "SELECT uname, uscore, uunitcode FROM users order by uscore desc;"
+                "SELECT uname, uscore, uunitcode FROM users where utype = 'user' order by uscore desc;"
             );
             // console.log(ranking[0]);
             // console.log(members[0]);

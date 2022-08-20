@@ -3,44 +3,41 @@
 <%- include ./head %>
     <body>
         <%- include ./nav %>
-        <div class="page control">
-            <div class="menu">
-                <div class="logo">국방퀴즈 관리자</div>
-                <div class="adminName">0님, 접속 중</div>
-                <div class="menutitle">
-                    관리
-                </div>
-                <div class="menulist">
-                    <a href="/admin" id="aMain" class="item"><span class="ec ec-house"></span>메인</a>
-                    <a href="/notice" id="aMain" class="item"><span class="ec ec-loudspeaker"></span>공지사항</a>
-                    <a href="/userpg" id="aMain" class="item"><span class="ec ec-couple"></span>유저관리</a>
-                </div>
+        <div class="page controlpage">
+            <div class="logo">국방퀴즈</div>
+            <div class="title">
+                관리페이지
             </div>
+            <div class="menu">
+                <a href="admin" class="tab">현황<span></span></a>
+                <a href="notice" class="tab">공지사항<span></span></a>
+                <a href="userpg" class="tab sel">유저관리<span></span></a>
+            </div>
+        </div>
+        <div class="page control">
             <div class="content">
-                <div class="noticeboard" style="overflow: auto;">
-                    <div class="logo" style="color: black; font-size: 40px;">👥사용자 관리</div>
+                <div class="noticeboard">
                     <form method="post" action="/adminuseredit">
-                      <input style="float: right;" type="submit" value="✍저장">
-                        <table width="100%" style="border-collapse: collapse;">
+                        <table>
                           <thead>
-                            <tr style="border-bottom: 1px solid #444444;">
+                            <tr>
                               <th>이름</th>
                               <th>부대 코드</th>
                               <th>점수</th>
                               <th>아이디</th>
                               <th>비밀번호</th>
-                              <th> 🗑 </th>
+                              <td style="border-bottom: 1px solid var(--gray);"><input class="btn-sm btn-blue" type="submit" value="저장" style="margin: 0;"></td>
                             </tr>
                           </thead>
                           <tbody>
                             <% for(var i = 0; i < users.length; i++){ %>
-                              <tr align="center">
+                              <tr>
                                 <td><input class = "adminUserInput" name="uname" value="<%= users[i].uname %>" type="text"></td>
                                 <td><input class = "adminUserInput" name="uunitcode" type="text" value="<%= users[i].uunitcode %>"></td>
                                 <td><input class = "adminUserInput" name="uscore" type="text" value="<%= users[i].uscore %>"></td>
                                 <td><input class = "adminUserInput" name="uid" type="text" value="<%= users[i].uid %>" readonly></td>
                                 <td><input class = "adminUserInput" name="upw" type="text" value="<%= users[i].upw %>"></td>
-                                <td><button id="<%= i %>" onclick="javascript: form.action='/adminuserdel'; takeuid(this);">삭제</button></td>
+                                <td><button class="btn-sm btn-light-gray" id="<%= i %>" onclick="javascript: form.action='/adminuserdel'; takeuid(this);">삭제</button></td>
                                 <input type="hidden" id="hiddenuid<%= i %>" value="<%= users[i].uid %>">
                               </tr>
                             <% } %>

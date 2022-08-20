@@ -3,65 +3,63 @@
 <%- include ./head %>
     <body>
         <%- include ./nav %>
-        <div class="page control">
-            <div class="menu">
-                <div class="logo">국방퀴즈 관리자</div>
-                <div class="adminName">0님, 접속 중</div>
-                <div class="menutitle">
-                    관리
-                </div>
-                <div class="menulist">
-                    <a href="/admin" id="aMain" class="item"><span class="ec ec-house"></span>메인</a>
-                    <a href="/notice" id="aMain" class="item"><span class="ec ec-loudspeaker"></span>공지사항</a>
-                    <a href="/userpg" id="aMain" class="item"><span class="ec ec-couple"></span>유저관리</a>
-                </div>
+        <div class="page controlpage">
+            <div class="logo">국방퀴즈</div>
+            <div class="title">
+                관리페이지
             </div>
+            <div class="menu">
+                <a href="admin" class="tab">현황<span></span></a>
+                <a href="notice" class="tab sel">공지사항<span></span></a>
+                <a href="userpg" class="tab">유저관리<span></span></a>
+            </div>
+        </div>
+        <div class="page control">
             <div class="content">
-                <div class="noticeboard" style="overflow: auto;">
-                <div class="logo" style="color: black; font-size: 40px;">📢공지사항</div>
+                <div class="noticeboard">
+                    <form class="noticeinsert" method="post" action="/addadminnotice">
+                        <div class="input">
+                            <input type="radio" id="ntypeI" name="iorn" value="i">
+                            <label class="btn-sm btn-light-gray" for="ntypeI">중요</label> 
+                            <input type="radio" id="ntypeN" name="iorn" value="n" checked>
+                            <label class="btn-sm btn-light-gray"  for="ntypeN">일반</label> 
+                            <input id="ntitle" name="title" type="text" placeholder="제목을 입력하세요.">
+                            <input class="btn-sm btn-blue" type="submit" value="추가">
+                        </div>
+                        <input id="ndesc" name="addcontext" type="text" placeholder="내용을 입력하세요.">
+                    </form>
                 <div>
-                    <table width="100%" style="border-collapse: collapse;">
+                <table>
                     <thead>
-                        <tr style="border-bottom: 1px solid #444444;">
-                        <th>게시글번호</th>
-                        <th>제목</th>
-                        <th>내용</th>
-                        <th>작성자</th>
-                        <th>작성일자</th>
-                        <th> 🗑 </th>
+                        <tr>
+                            <th>게시글번호</th>
+                            <th>제목</th>
+                            <th>내용</th>
+                            <th>작성자</th>
+                            <th>작성일자</th>
+                            <th> </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <form method="post" action="/addadminnotice">
-                        <tr align="center">
-                            <td style="width: 150px;">
-                                <input type="radio" name="iorn" value="i">⭐중요
-                                <input type="radio" name="iorn" value="n">🔗일반
-                            </td>
-                            <td><input name="title" type="text" placeholder="제목을 입력하세요."></td>
-                            <td><input name="addcontext" type="text" placeholder="내용을 입력하세요."></td>
-                            <td><input type="submit" value="추가"></td>
-                        </tr>
-                        </form>
                         <form method="post" action="/adminnoticedel">
                         <% for(var i = 0; i < notice.length; i++){ %>
                             <% if(notice[i].ntype === 1){ %>
-                            <tr align="center" id="<%= i %>" onclick="modal(this)">
+                            <tr id="<%= i %>" onclick="modal(this)">
                                 <td><%= notice[i].nid %>번</td>
-                                <td>⭐<%= notice[i].ntitle %></td>
-                                <td><%= notice[i].ndesc.substr(0,20) %>...</td>
+                                <td style="text-align: left; padding-left: 8px;"><span class="btn-sm btn-blue">중요</span><%= notice[i].ntitle %></td>
+                                <td style="text-align: left; padding-left: 8px;"><%= notice[i].ndesc.substr(0,20) %>...</td>
                                 <td><%= notice[i].nauthor %></td>
                                 <td><%= notice[i].ndate.toString().substr(0,16) %></td>
-                                <td><input type="submit" value="삭제"></td>
+                                <td><input class="btn-sm btn-light-gray" type="submit" value="삭제" style="margin: 0;"></td>
                             </tr>
                             <% } else { %>
-                            <tr align="center" id="<%= i %>" onclick="modal(this)">
+                            <tr id="<%= i %>" onclick="modal(this)">
                                 <td><%= notice[i].nid %>번</td>
-                                <td><%= notice[i].ntitle %></td>
-                                <td><%= notice[i].ndesc.substr(0,20) %>...</td>
+                                <td style="text-align: left; padding-left: 8px;"><%= notice[i].ntitle %></td>
+                                <td style="text-align: left; padding-left: 8px;"><%= notice[i].ndesc.substr(0,20) %>...</td>
                                 <td><%= notice[i].nauthor %></td>
                                 <td><%= notice[i].ndate.toString().substr(0,16) %></td>
-                                <td><input type="submit" value="삭제"></td>
+                                <td><input class="btn-sm btn-light-gray" type="submit" value="삭제" style="margin: 0;"></td>
                             </tr>
                             <% } %>
                             <input type="hidden" id="hidden<%= i %>" value="<%= notice[i].ndesc %>">
